@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
-// Multi-page build: existing HTML pages are entries.
 const pages = [
   'index.html',
   'magaza.html',
@@ -17,12 +16,13 @@ const pages = [
 export default defineConfig({
   base: './',
   build: {
+    target: 'esnext',
+    cssTarget: 'esnext',
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
       input: Object.fromEntries(pages.map(p => [p.replace('.html',''), resolve(__dirname, p)])),
       output: {
-        // cache-safe hashed file names
         entryFileNames: 'assets/js/[name]-[hash].js',
         chunkFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: ({ name }) => {
