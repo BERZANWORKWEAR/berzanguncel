@@ -1,5 +1,9 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const pages = [
   'index.html',
@@ -13,34 +17,31 @@ const pages = [
   'uzman/index.html',
 ];
 
-const input = Object.fromEntries(
-  pages.map((p) => [
-    p === 'index.html' ? 'index' : p.replace('/index.html', ''),
-    resolve(__dirname, p),
-  ])
-);
-
 export default defineConfig({
-  base: '/',
+  base: '/', // custom domain için doğru
   build: {
     target: 'esnext',
     cssTarget: 'esnext',
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
-      input,
+      input: Object.fromEntries(
+        pages.map((p) => [
+          p === 'index.html' ? 'index' : p.replace('/index.html', ''),
+          resolve(__dirname, p),
+        ])
+      ),
       output: {
         entryFileNames: 'assets/js/[name]-[hash].js',
         chunkFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: ({ name }) => {
           if (!name) return 'assets/[name]-[hash][extname]';
           if (name.endsWith('.css')) return 'assets/css/[name]-[hash][extname]';
-          if (/(png|jpe?g|webp|svg|gif)$/i.test(name)) return 'assets/img/[name]-[hash][extname]';
-          if (/(woff2?|ttf|otf|eot)$/i.test(name)) return 'assets/fonts/[name]-[hash][extname]';
+          if (/\.(png|jpe?g|webp|svg|gif)$/i.test(name)) return 'assets/img/[name]-[hash][extname]';
+          if (/\.(woff2?|ttf|otf|eot)$/i.test(name)) return 'assets/fonts/[name]-[hash][extname]';
           return 'assets/[name]-[hash][extname]';
         },
       },
     },
   },
-  server: { open: true },
 });
