@@ -13,6 +13,13 @@ const pages = [
   'uzman/index.html',
 ];
 
+const input = Object.fromEntries(
+  pages.map((p) => [
+    p === 'index.html' ? 'index' : p.replace('/index.html', ''),
+    resolve(__dirname, p),
+  ])
+);
+
 export default defineConfig({
   base: '/',
   build: {
@@ -21,12 +28,7 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
-      input: Object.fromEntries(
-  pages.map((p) => [
-    p === 'index.html' ? 'index' : p.replace('/index.html', ''),
-    resolve(__dirname, p)
-  ])
-)
+      input,
       output: {
         entryFileNames: 'assets/js/[name]-[hash].js',
         chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -36,9 +38,9 @@ export default defineConfig({
           if (/(png|jpe?g|webp|svg|gif)$/i.test(name)) return 'assets/img/[name]-[hash][extname]';
           if (/(woff2?|ttf|otf|eot)$/i.test(name)) return 'assets/fonts/[name]-[hash][extname]';
           return 'assets/[name]-[hash][extname]';
-        }
-      }
-    }
+        },
+      },
+    },
   },
-  server: { open: true }
+  server: { open: true },
 });
