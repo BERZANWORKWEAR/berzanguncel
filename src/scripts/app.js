@@ -4,7 +4,7 @@ function removeProductExampleNavLink(){
     document.querySelectorAll('.nav-links a').forEach(a=>{
       const t=(a.textContent||'').trim().toLowerCase();
       const h=(a.getAttribute('href')||'').toLowerCase();
-      if (t.includes('ürün örneği') || h.endsWith('/urun.html') || h.includes('urun.html')){
+      if (t.includes('ürün örneği') || h.includes('/urun') || h.includes('/urun/')){
         a.remove();
       }
     });
@@ -340,7 +340,7 @@ input?.addEventListener('keydown', (e) => {
   if ((document.body.classList.contains('magaza-page') || document.body.classList.contains('urunler-page'))) {
     window.dispatchEvent(new CustomEvent('berzan:search', { detail: { q } }));
   } else {
-    location.href = './magaza.html?q=' + encodeURIComponent(q);
+    location.href = '/magaza/?q=' + encodeURIComponent(q);
   }
 });
 
@@ -513,7 +513,7 @@ let drawer = document.getElementById('cartDrawer');
           Ödeme altyapısı (iyzico vb.) yakında. Şimdilik sepetteki listeyi <b>talep</b> olarak gönderiyoruz.
         </div>
         <div class="cart-actions">
-          <a class="btn primary" id="cartRequest" href="./uzman.html">Talep gönder</a>
+          <a class="btn primary" id="cartRequest" href="/uzman/">Talep gönder</a>
         </div>
       </div>
     `;
@@ -892,7 +892,7 @@ function matchQuery(p){
     const list = sortItems(items.slice());
     grid.innerHTML = list.map(p => `
       <div class="shop-card">
-        <a class="shop-link" href="./urun.html?urun=${encodeURIComponent(p.id)}">
+        <a class="shop-link" href="/urun/?urun=${encodeURIComponent(p.id)}">
           <div class="shop-media">${(()=>{const img=berzanImgFor(p); return img ? `<img class=\"shop-img\" src=\"${img}\" alt=\"${p.name}\" loading=\"lazy\" decoding=\"async\">` : `<div class=\"shop-ph\">${(p.cat||'').toUpperCase()}</div>`;})()}</div>
           <div class="shop-body">
             <div class="shop-name">${p.name}</div>
@@ -1304,7 +1304,7 @@ initUzmanPrefill();
         <div class="cookie-content">
           <div class="cookie-text">
             Deneyimi geliştirmek için çerezler kullanıyoruz. İstatistik amaçlı çerezler yalnızca izin verirsen aktif olur.
-            <a href="./cerez-politikasi.html" class="cookie-link">Detaylar</a>
+            <a href="/cerez-politikasi/" class="cookie-link">Detaylar</a>
           </div>
           <div class="cookie-actions">
             <button class="btn cookie-btn-ghost" type="button" id="cookieReject">Reddet</button>

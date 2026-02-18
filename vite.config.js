@@ -3,18 +3,18 @@ import { resolve } from 'path';
 
 const pages = [
   'index.html',
-  'magaza.html',
-  'urun.html',
-  'uzman.html',
-  'iletisim.html',
-  'tesekkurler.html',
-  'kvkk.html',
-  'cerez-politikasi.html',
-  'urunler.html',
+  'magaza/index.html',
+  'urun/index.html',
+  'urunler/index.html',
+  'uzman/index.html',
+  'iletisim/index.html',
+  'tesekkurler/index.html',
+  'kvkk/index.html',
+  'cerez-politikasi/index.html',
 ];
 
 export default defineConfig({
-  base: './',
+  base: '/',
   build: {
     target: 'esnext',
     cssTarget: 'esnext',
