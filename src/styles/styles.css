@@ -365,15 +365,14 @@ strong, .btn, .nav, .icon-btn{ font-weight: 600; }
   box-shadow:0 24px 80px rgba(0,0,0,.18);
   border:1px solid rgba(255,255,255,.08);
   background:#0b0f14;
+  background-image: var(--hero-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   /* keep it big but not insane on desktop */
   height: clamp(360px, 28vw, 560px);
   max-height: 560px;
-
-  background-image: url('../assets/img/mainpg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 
@@ -389,9 +388,7 @@ strong, .btn, .nav, .icon-btn{ font-weight: 600; }
   padding: clamp(24px, 5vw, 56px);
   text-align:center;
 }
-.hero-actions{
-  margin-top: clamp(24px, 4vw, 56px);
-  display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-actions{margin-top:clamp(48px,6vw,120px);display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
 /* Hero CTA buttons: keep the old premium vibe (dark primary + light secondary) */
 .hero-actions .btn.primary{
@@ -2731,20 +2728,4 @@ body.urun-page #quoteBtn{display:none !important}
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-
-/* Hero button overrides (premium look) */
-.hero-actions .btn.primary{
-  background:#0b0b0e;
-  color:#fff;
-  border-color:transparent;
-}
-.hero-actions .btn.ghost{
-  background:rgba(255,255,255,.92);
-  color:#0b0b0e;
-  border-color:transparent;
-}
-.hero-actions .btn:hover{
-  transform: translateY(-1px);
 }
