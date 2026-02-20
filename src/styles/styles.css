@@ -15,28 +15,28 @@
 ========================= */
 @font-face{
   font-family:"MiSans";
-  src:url("../assets/fonts/MiSansLatin-Regular.woff2") format("woff2");
+  src:url("/fonts/MiSansLatin-Regular.woff2") format("woff2");
   font-weight:400;
   font-style:normal;
   font-display:swap;
 }
 @font-face{
   font-family:"MiSans";
-  src:url("../assets/fonts/MiSansLatin-Medium.woff2") format("woff2");
+  src:url("/fonts/MiSansLatin-Medium.woff2") format("woff2");
   font-weight:500;
   font-style:normal;
   font-display:swap;
 }
 @font-face{
   font-family:"MiSans";
-  src:url("../assets/fonts/MiSansLatin-Semibold.woff2") format("woff2");
+  src:url("/fonts/MiSansLatin-Semibold.woff2") format("woff2");
   font-weight:600;
   font-style:normal;
   font-display:swap;
 }
 @font-face{
   font-family:"MiSans";
-  src:url("../assets/fonts/MiSansLatin-Bold.woff2") format("woff2");
+  src:url("/fonts/MiSansLatin-Bold.woff2") format("woff2");
   font-weight:700;
   font-style:normal;
   font-display:swap;
@@ -2739,4 +2739,21 @@ body.urun-page #quoteBtn{display:none !important}
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* =========================================================
+   HOTFIX — ANA SAYFA HERO GÖRSELİNİ KORU (gold override'ı ez)
+   Not: .hero-dark ve .hero-photo aynı elementte olduğu için,
+   alttaki .hero-dark background override'ları hero görselini siliyordu.
+========================================================= */
+.hero-dark.hero-photo{
+  background: #0b0f14 var(--hero-bg) center / cover no-repeat !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.hero-dark.hero-photo::before{
+  content: none !important;
+  display: none !important;
 }
