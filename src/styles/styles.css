@@ -2757,3 +2757,84 @@ body.urun-page #quoteBtn{display:none !important}
   content: none !important;
   display: none !important;
 }
+/* =========================================
+   FULL-WIDTH LAYOUT OVERRIDES (SAFE)
+   Vanilla yapıyı bozmadan sadece genişlik override
+========================================= */
+
+/* Genel container'ı ekran kenarına yaklaştır */
+.container{
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: clamp(12px, 2vw, 28px) !important;
+  padding-right: clamp(12px, 2vw, 28px) !important;
+}
+
+/* Anasayfa showcase/wide kart alanları full-width hissi */
+.showcase .container,
+.wide-wrap{
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: clamp(12px, 2vw, 28px) !important;
+  padding-right: clamp(12px, 2vw, 28px) !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Grid blokları da container içinde sıkışmasın */
+.home-cards,
+.cards,
+.cards-wrap,
+.cards-grid,
+.grid,
+.product-grid,
+.products-grid,
+.section-grid{
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Mağaza sayfası ürün alanı full-width */
+body.magaza-page .store-grid{
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Mağaza ürün gridi ekranı daha iyi kullansın */
+body.magaza-page .shop-grid{
+  width: 100% !important;
+  max-width: 100% !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: clamp(12px, 1.2vw, 18px) !important;
+}
+
+/* Büyük ekranlarda 5 kolon opsiyonu (istersen 4 bırakırız) */
+@media (min-width: 1600px){
+  body.magaza-page .shop-grid{
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1180px){
+  body.magaza-page .shop-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Mobil */
+@media (max-width: 720px){
+  body.magaza-page .shop-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 520px){
+  body.magaza-page .shop-grid{
+    grid-template-columns: 1fr !important;
+  }
+}
