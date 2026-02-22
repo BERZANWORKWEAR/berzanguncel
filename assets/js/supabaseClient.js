@@ -1,14 +1,22 @@
-// assets/js/supabaseClient.js
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "@supabase/supabase-js";
 
-const cfg = window.__SUPABASE__ || {};
-const url = cfg.url;
-const anonKey = cfg.anonKey;
+const envUrl = (import.meta.env && import.meta.env.VITE_SUPABASE_URL) || "";
+const envKey = (import.meta.env && import.meta.env.VITE_SUPABASE_ANON_KEY) || "";
+const cfg = (typeof window !== "undefined" && window.__SUPABASE__) ? window.__SUPABASE__ : {};
 
-if (!url || !anonKey || String(url).includes("PASTE_") || String(anonKey).includes("PASTE_")) {
-  console.warn("[Supabase] config.js içine URL ve ANON KEY girmen lazım. window.__SUPABASE__ boş.");
+const supabaseUrl = envUrl || cfg.url || "";
+const supabaseAnonKey = envKey || cfg.anonKey || "";
+
+let supabase = null;
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+} else {
+  console.warn('[Supabase] Missing VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY (or window.__SUPABASE__)');
 }
 
-export const supabase = createClient(url, anonKey, {
-  auth: { persistSession: false }
-});
+if (typeof window !== "undefined") window.sb = supabase;
+
+export { supabase };
+export default supabase;

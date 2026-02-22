@@ -188,20 +188,7 @@
   </div>
   <!-- app.js sadece 1 kere -->
   <script src="/config.js"></script>
-
-  <!-- Supabase (opsiyonel): config.js içinde window.__SUPABASE__ { url, anonKey } varsa mağaza canlı ürünleri çeker -->
-  <script type="module">
-   try {
-     const cfg = window.__SUPABASE__ || {};
-     if (cfg.url && cfg.anonKey) {
-       const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
-       window.sb = createClient(cfg.url, cfg.anonKey, { auth: { persistSession: false } });
-     }
-   } catch (e) {
-     console.warn('[Supabase] init failed', e);
-   }
-  </script>
-
+  <script type="module" src="/assets/js/supabaseClient.js"></script>
   <script type="module" src="/src/scripts/app.js"></script>
  </body>
 </html>
