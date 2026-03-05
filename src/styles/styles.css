@@ -246,7 +246,7 @@ strong, .btn, .nav, .icon-btn{ font-weight: 600; }
   width:auto;
   max-height:24px;
   max-width:140px;
-  object-fit:contain;
+  object-fit: var(--media-fit, contain);
 }
 @media (max-width:640px){
   .brand-logo{
@@ -663,7 +663,7 @@ strong, .btn, .nav, .icon-btn{ font-weight: 600; }
 .showcase .tile-media img{
   max-width:100%;
   max-height:100%;
-  object-fit:contain;
+  object-fit: var(--media-fit, contain);
   pointer-events:none;
 
   /* per-tile fine-tune (premium kadraj kontrolü) */
@@ -671,6 +671,47 @@ strong, .btn, .nav, .icon-btn{ font-weight: 600; }
   transform-origin: center center;
   will-change: transform;
 }
+
+/* media tiles: image as background + readable text */
+.tile.has-media{ overflow:hidden; }
+
+.tile.has-media:not(.tile-black):not(.tile-white-hero){
+  background:#0b0b0e;
+  color:#fff;
+  border-color: rgba(255,255,255,.10);
+}
+
+.tile.has-media:not(.tile-black):not(.tile-white-hero)::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.72) 100%);
+}
+
+.tile.has-media .tile-copy,
+.tile.has-media .tile-cta,
+.tile.has-media .tile-head{
+  position:relative;
+  z-index:2;
+}
+
+.tile.has-media:not(.tile-black):not(.tile-white-hero) .tile-kicker,
+.tile.has-media:not(.tile-black):not(.tile-white-hero) .tile-sub{
+  color: rgba(255,255,255,.78);
+}
+
+.tile.has-media:not(.tile-black):not(.tile-white-hero) .tile-cta{
+  color:#fff;
+  border-color: rgba(255,255,255,.25);
+  background: rgba(255,255,255,.08);
+}
+
+.tile.has-media:not(.tile-black):not(.tile-white-hero) .tile-cta:hover{
+  background: rgba(255,255,255,.12);
+}
+
 
 /* ensure copy above */
 .showcase .tile-copy,
@@ -960,7 +1001,7 @@ strong, .btn, .nav, .icon-btn{ font-weight: 600; }
 .product-img{
   width:100%;
   height:100%;
-  object-fit:contain;
+  object-fit: var(--media-fit, contain);
   padding: calc(28px * var(--scale));
   position: relative;
   z-index: 2;
