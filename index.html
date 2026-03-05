@@ -61,7 +61,7 @@
 <script type="application/ld+json">
    {"@context": "https://schema.org", "@type": "WebSite", "name": "BERZAN", "url": "https://berzan.com.tr/"}
   </script>
-</head>
+<link as="image" fetchpriority="high" href="/img/mainpg.webp" rel="preload" type="image/webp"/><link as="image" href="/img/kkd.webp" rel="preload" type="image/webp"/><link as="image" href="/img/toplu-alim.webp" rel="preload" type="image/webp"/><link as="image" href="/img/sektor-sec.webp" rel="preload" type="image/webp"/><link as="image" href="/img/home-product.webp" rel="preload" type="image/webp"/></head>
 <body>
 <header class="nav">
 <div class="container nav-inner">
@@ -79,7 +79,7 @@
 </div>
 </div>
 </header>
-<section class="hero-dark hero-photo" style="--hero-bg:url('/img/mainpg.png')">
+<section class="hero-dark hero-photo" style="--hero-bg:url('/img/mainpg.webp')">
 <div class="container hero-dark-inner">
 <div class="hero-copy">
 <h1 class="reveal">
@@ -106,8 +106,8 @@
 <!-- ORTA GÖRSELLER -->
 <div class="home-help-visual">
 <picture>
-<source srcset="/img/parka.webp" type="image/webp"/>
-<img alt="BERZAN Parka" class="brand-grade" decoding="async" fetchpriority="auto" height="2000" loading="lazy" src="/img/parka.webp" width="1999"/>
+<source srcset="/img/home-product.webp" type="image/webp"/>
+<img alt="BERZAN Ürün" class="brand-grade" decoding="async" fetchpriority="high" height="2000" loading="eager" src="/img/home-product.webp" width="1999"/>
 </picture>
 </div>
 <!-- ALT METİN (inline style yok) -->
@@ -174,7 +174,7 @@
 <div class="tile-media">
 <picture>
 <source srcset="/img/kkd.webp" type="image/webp"/>
-<img alt="KKD" class="brand-grade" decoding="async" loading="lazy" src="/img/kkd.webp"/>
+<img alt="KKD" class="brand-grade" decoding="async" fetchpriority="high" loading="eager" src="/img/kkd.webp"/>
 </picture>
 </div>
 <div class="tile-copy">
@@ -196,7 +196,7 @@
 <div class="tile-media">
 <picture>
 <source srcset="/img/toplu-alim.webp" type="image/webp"/>
-<img alt="Toplu alım" class="brand-grade" decoding="async" loading="lazy" src="/img/toplu-alim.webp"/>
+<img alt="Toplu alım" class="brand-grade" decoding="async" fetchpriority="high" loading="eager" src="/img/toplu-alim.webp"/>
 </picture>
 </div>
 <div class="tile-copy">
@@ -219,7 +219,7 @@
 <div class="tile-media">
 <picture>
 <source srcset="/img/sektor-sec.webp" type="image/webp"/>
-<img alt="Sektör seç" class="brand-grade" decoding="async" loading="lazy" src="/img/sektor-sec.webp"/>
+<img alt="Sektör seç" class="brand-grade" decoding="async" fetchpriority="auto" loading="eager" src="/img/sektor-sec.webp"/>
 </picture>
 </div>
 <div class="tile-copy">
@@ -256,7 +256,7 @@
 </div>
 </footer>
 <script src="/config.js"></script>
-<script type="module" src="/assets/js/supabaseClient.js"></script>
-  <script type="module" src="/src/scripts/app.js"></script>
+<script src="/assets/js/supabaseClient.js" type="module"></script>
+<script src="/src/scripts/app.js" type="module"></script>
 </body>
 </html>

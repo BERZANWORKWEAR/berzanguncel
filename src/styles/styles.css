@@ -830,6 +830,8 @@ strong, .btn, .nav, .icon-btn{ font-weight: 600; }
   background: #f1f2f4; /* net gri */
   border-color: rgba(0,0,0,.08);
 
+  border-radius: 24px; /* home kart tam, oval değil */
+
   min-height: 540px;
   padding-top: var(--homehelp-top-safe);
   padding-bottom: var(--homehelp-bottom-safe);
