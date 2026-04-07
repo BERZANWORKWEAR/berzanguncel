@@ -1,194 +1,269 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
- <head>
+<head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>
-   Mağaza — BERZAN
-  </title>
-  <link href="/src/styles/styles.css" rel="stylesheet"/>
-  <meta content="BERZAN ürünleri: mont, parka, yelek, tulum ve KKD. Saha koşullarına uygun, premium dayanım ve görünürlük." name="description"/>
-  <meta content="index,follow" name="robots"/>
-  <meta content="#131D2E" name="theme-color"/>
-  <meta content="light dark" name="color-scheme"/>
-  <link href="https://berzan.com.tr/" rel="canonical"/>
-  <link href="/images/favicon.ico" rel="icon" sizes="any"/>
-  <link href="/img/logo.svg" rel="icon" type="image/svg+xml"/>
-  <link href="/images/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
-  <link href="/images/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/>
-  <link href="/images/apple-touch-icon.png" rel="apple-touch-icon"/>
-  <link href="/site.webmanifest" rel="manifest"/>
-  <link as="font" crossorigin="" href="/fonts/MiSansLatin-Regular.woff2" rel="preload" type="font/woff2"/>
-  <link as="font" crossorigin="" href="/fonts/MiSansLatin-Semibold.woff2" rel="preload" type="font/woff2"/>
-  <meta content="tr_TR" property="og:locale"/>
-  <meta content="website" property="og:type"/>
-  <meta content="BERZAN" property="og:site_name"/>
-  <meta content="Mağaza — BERZAN" property="og:title"/>
-  <meta content="BERZAN ürünleri: mont, parka, yelek, tulum ve KKD. Saha koşullarına uygun, premium dayanım ve görünürlük." property="og:description"/>
-  <meta content="https://berzan.com.tr/magaza/" property="og:url"/>
-  <meta content="https://berzan.com.tr/images/og-berzan.jpg" property="og:image"/>
-  <meta content="1200" property="og:image:width"/>
-  <meta content="630" property="og:image:height"/>
-  <meta content="summary_large_image" name="twitter:card"/>
-  <meta content="Mağaza — BERZAN" name="twitter:title"/>
-  <meta content="BERZAN ürünleri: mont, parka, yelek, tulum ve KKD. Saha koşullarına uygun, premium dayanım ve görünürlük." name="twitter:description"/>
-  <meta content="https://berzan.com.tr/images/og-berzan.jpg" name="twitter:image"/>
- </head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Mağaza — BERZAN İş Giyim | Profesyonel İş Güvenliği Ekipmanları</title>
+  <meta name="description" content="BERZAN iş giyim mağazası — EN/CE sertifikalı montlar, KKD ekipmanları, tulumlar ve iş ayakkabıları. Sektörünüze özel filtrelerle kolayca bulun."/>
+  <meta name="theme-color" content="#0b0f14"/>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml"/>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+  <!-- Global reset -->
+  <link rel="stylesheet" href="/src/styles/styles.css"/>
+  <!-- Premium store styles -->
+  <link rel="stylesheet" href="/src/styles/magaza.css"/>
+</head>
 <body class="magaza-page">
- <header class="nav">
-  <div class="container nav-inner">
-   <a aria-label="BERZAN" class="brand" href="/">
-    <img alt="BERZAN" class="brand-logo" decoding="async" src="/img/logo.svg"/>
-   </a>
-   <nav class="nav-links">
-    <a href="/">Ana Sayfa</a>
-    <a class="active" href="/">Mağaza</a>
-   </nav>
-   <div class="nav-actions">
-    <button class="icon-btn" id="openSearch" type="button" aria-label="Ara">Ara</button>
-   </div>
+
+
+
+<!-- ═══ NAVBAR ═══ -->
+<header class="bz-nav" id="bzNav">
+  <div class="bz-nav-inner">
+    <a href="/" class="bz-brand" aria-label="BERZAN Ana Sayfa">
+      <img src="/img/logoberzan.png" alt="BERZAN Logo" class="bz-brand-logo" />
+    </a>
+
+    <div class="bz-nav-center">
+      <p class="bz-pro-msg">İlk kez mi bizimle çalışıyorsunuz? <a href="/uzman/">Profesyonelden destek alın</a></p>
+    </div>
+
+    <div class="bz-nav-actions">
+      <a href="/kurumsal" class="bz-nav-link">Hakkımızda</a>
+      <input type="text" placeholder="Ürün ara…" readonly id="openSearch" class="bz-search-trigger"/>
+      <!-- Cart injected by app.js -->
+    </div>
   </div>
- </header>
+</header>
 
- <section class="section page-fill store-section">
-  <div class="container">
-   <div class="catbar-wrap reveal">
-    <div class="catbar" aria-label="Kategoriler">
-     <button class="cat-item is-active" data-cat="mont" type="button">
-      <span class="cat-ico" aria-hidden="true">
-       <svg viewBox="0 0 24 24" fill="none"><path d="M7 8c.4-2.5 2.6-4 5-4s4.6 1.5 5 4l1 7c.2 1.8-1.2 3-3 3H9c-1.8 0-3.2-1.2-3-3l1-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 10v10M15 10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
-      <span class="cat-txt">Mont</span>
-     </button>
+<!-- ═══ MAIN STORE LAYOUT ═══ -->
+<div class="mg-layout">
 
-     <button class="cat-item" data-cat="ust" type="button">
-      <span class="cat-ico" aria-hidden="true">
-       <svg viewBox="0 0 24 24" fill="none"><path d="M8 8 12 5l4 3 2 2-2 3v8H8v-8L6 10l2-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 21v-8h4v8" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="cat-txt">Üst</span>
-     </button>
+  <!-- ════ SIDEBAR ════ -->
+  <aside class="mg-sidebar" id="mgSidebar" aria-label="Ürün filtreleri">
 
-     <button class="cat-item" data-cat="pantolon" type="button">
-      <span class="cat-ico" aria-hidden="true">
-       <svg viewBox="0 0 24 24" fill="none"><path d="M8 4h8l-1 16-3-3-3 3L8 4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="cat-txt">Pantolon</span>
-     </button>
-
-     <button class="cat-item" data-cat="yelek" type="button">
-      <span class="cat-ico" aria-hidden="true">
-       <svg viewBox="0 0 24 24" fill="none"><path d="M9 4h6l2 5-2 12H9L7 9l2-5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 4v17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
-      <span class="cat-txt">Yelek</span>
-     </button>
-
-     <button class="cat-item" data-cat="tulum" type="button">
-      <span class="cat-ico" aria-hidden="true">
-       <svg viewBox="0 0 24 24" fill="none"><path d="M9 4h6l1 6v11h-4v-6h-2v6H8V10l1-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="cat-txt">Tulum</span>
-     </button>
-
-     <button class="cat-item" data-cat="ayakkabi" type="button">
-      <span class="cat-ico" aria-hidden="true">
-       <svg viewBox="0 0 24 24" fill="none"><path d="M4 16c4 0 6-4 8-4 2 0 3 2 5 2 2 0 3-1 3-1v4H4v-1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l-2-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
-      <span class="cat-txt">Ayakkabı</span>
-     </button>
-
-     <button class="cat-item" data-cat="kkd" type="button">
-      <span class="cat-ico" aria-hidden="true">
-       <svg viewBox="0 0 24 24" fill="none"><path d="M7 9c0-3 2-5 5-5s5 2 5 5v3c0 3-2 8-5 8s-5-5-5-8V9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7 10h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
-      <span class="cat-txt">KKD</span>
-     </button>
-
-     <button class="cat-item" data-cat="aksesuar" type="button">
-      <span class="cat-ico" aria-hidden="true">
-       <svg viewBox="0 0 24 24" fill="none"><path d="M7 10a5 5 0 1 1 10 0v5a3 3 0 0 1-3 3H10a3 3 0 0 1-3-3v-5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 8h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
-      <span class="cat-txt">Aksesuar</span>
-     </button>
-    </div>
-   </div>
-
-   <div class="season-wrap reveal">
-    <div class="season-tabs" id="seasonTabs">
-     <div aria-hidden="true" class="season-indicator" id="seasonIndicator"></div>
-     <button class="season-tab" data-season="" type="button">Tümü</button>
-     <button class="season-tab" data-season="yazlik" type="button">Yazlık</button>
-     <button class="season-tab" data-season="kislik" type="button">Kışlık</button>
-     <button class="season-tab" data-season="sezonluk" type="button">Sezonluk</button>
-    </div>
-   </div>
-
-   <div class="store-head reveal">
-     <div class="store-head-left"></div>
-     </div>
-
-   <div class="products-filters reveal" id="productsFilters" style="display:none;"></div>
-
-   <div class="products-grid shop-grid store-grid reveal" id="productsGrid"></div>
-
-   <div class="empty-state" id="emptyState" style="display:none;">
-    <div class="empty-title">Bu kombinasyonda ürün görünmüyor.</div>
-    <div class="empty-sub">Filtreleri değiştir veya farklı kategori dene.</div>
-    <div class="empty-actions">
-     <a class="btn primary" href="/">Tümü</a>
-     <a class="btn" href="/uzman/">Uzmanla Görüş</a>
-    </div>
-   </div>
-
-   <!-- SEKTÖR SEÇİMİ (opsiyonel) -->
- <div class="backdrop" id="sectorBackdrop" aria-hidden="true"></div>
- <div class="sector-modal" id="sectorModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Sektör seçimi">
-  <div class="sector-modal-inner">
-   <div class="sector-modal-top">
-    <div class="sector-modal-title">Sana en uygun ürünü bulalım mı?</div>
-    <div class="sector-modal-sub">İstersen sektör seçerek ürünleri filtreleriz. İstemiyorsan devam et — özgürsün.</div>
-   </div>
-   <div class="sector-pills" id="sectorPills"></div>
-   <div class="sector-modal-actions">
-    <button class="btn" id="sectorSkip" type="button">Şimdilik geç</button>
-    <button class="btn primary" id="sectorAll" type="button">Tüm ürünler</button>
-   </div>
-  </div>
- </div>
-
-
-<footer class="footer">
-   <div class="container">
-    <p>
-     © 2026 BERZAN
-    </p>
-    <p style="margin-top:8px;opacity:.85">
-     <a href="/kvkk/">
-      KVKK
-     </a>
-     •
-     <a href="/cerez-politikasi/">
-      Çerez Politikası
-     </a>
-    </p>
-   </div>
-  </footer>
-  <!-- SEARCH -->
-  <div class="backdrop" id="searchBackdrop">
-  </div>
-  <div aria-hidden="true" class="search-sheet" id="searchSheet">
-   <div class="search-row">
-    <div class="search-input">
-     <input id="siteSearchInput" placeholder="Ara: mont, pantolon, yelek…"/>
-    </div>
-    <button class="btn" id="closeSearch" type="button">
-     Kapat
+    <!-- Mobile toggle -->
+    <button class="mg-sidebar-toggle" id="sidebarToggle" type="button" aria-expanded="false">
+      <span>Filtreler &amp; Kategoriler</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
-   </div>
+
+    <!-- Sidebar content -->
+    <div class="mg-sidebar-content" id="sidebarContent">
+
+      <!-- KATEGORİLER -->
+      <div class="mg-sidebar-title">Kategoriler</div>
+
+      <button class="cat-item is-active" type="button" data-cat="tümü">
+        <span class="cat-item-label">Tüm Ürünler</span>
+      </button>
+      <button class="cat-item" type="button" data-cat="mont">
+        <span class="cat-item-label">Mont &amp; Dış Giyim</span>
+      </button>
+      <button class="cat-item" type="button" data-cat="ust">
+        <span class="cat-item-label">Üst Giyim</span>
+      </button>
+      <button class="cat-item" type="button" data-cat="pantolon">
+        <span class="cat-item-label">Alt Giyim</span>
+      </button>
+      <button class="cat-item" type="button" data-cat="yelek">
+        <span class="cat-item-label">Yelek &amp; Görünürlük</span>
+      </button>
+      <button class="cat-item" type="button" data-cat="tulum">
+        <span class="cat-item-label">Tulum</span>
+      </button>
+      <button class="cat-item" type="button" data-cat="kkd">
+        <span class="cat-item-label">KKD / Ekipman</span>
+      </button>
+      <button class="cat-item" type="button" data-cat="ayakkabi">
+        <span class="cat-item-label">İş Ayakkabısı</span>
+      </button>
+      <button class="cat-item" type="button" data-cat="aksesuar">
+        <span class="cat-item-label">Aksesuar</span>
+      </button>
+
+      <div class="mg-sidebar-divider"></div>
+
+
+
+      <!-- KURUMSAL CTA -->
+      <a href="/uzman/" style="
+        display:block; margin:4px 14px; padding:14px 16px;
+        border-radius:14px;
+        background:linear-gradient(135deg,#0b0f14,#1a2535);
+        color:#fff; text-decoration:none;
+        border:1px solid rgba(255,255,255,0.07);
+        transition:transform 0.2s;
+      " onmouseenter="this.style.transform='translateY(-2px)'" onmouseleave="this.style.transform=''">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,215,0,0.8);margin-bottom:6px;">Kurumsal</div>
+        <div style="font-size:14px;font-weight:700;line-height:1.3;">Toplu alımda<br>%15'e varan indirim</div>
+        <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.5);">Teklif al →</div>
+      </a>
+
+    </div><!-- /sidebar-content -->
+  </aside>
+
+  <!-- ════ MAIN ════ -->
+  <main class="mg-main" id="mgMain">
+
+    <!-- Top bar: search + sort + season -->
+    <div class="mg-topbar">
+      <div class="mg-search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="shopSearchInput" placeholder="Ürün, kategori, sektör ara…" autocomplete="off" spellcheck="false"/>
+      </div>
+
+      <div class="mg-season-wrap">
+        <div id="seasonTabs" role="tablist">
+          <div id="seasonIndicator"></div>
+          <button class="season-tab is-active" role="tab" type="button" data-season="" aria-selected="true">Tümü</button>
+          <button class="season-tab" role="tab" type="button" data-season="yazlik" aria-selected="false">Yazlık</button>
+          <button class="season-tab" role="tab" type="button" data-season="sezonluk" aria-selected="false">Sezonluk</button>
+          <button class="season-tab" role="tab" type="button" data-season="kislik" aria-selected="false">Kışlık</button>
+        </div>
+      </div>
+
+      <select id="shopSort" aria-label="Sıralama">
+        <option value="pop">Önerilen</option>
+        <option value="price-asc">Fiyat: Düşük → Yüksek</option>
+        <option value="price-desc">Fiyat: Yüksek → Düşük</option>
+        <option value="name">İsme Göre (A-Z)</option>
+      </select>
+    </div>
+
+    <!-- Active filter chips -->
+    <div id="productsFilters" style="display:none;">
+      <span class="filter-chip" id="sectorChip" style="display:none;" title="Sektör filtresini kaldır">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </span>
+      <span class="filter-chip" id="seasonChip" style="display:none;" title="Sezon filtresini kaldır">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </span>
+      <span class="filter-chip" id="queryChip" style="display:none;" title="Aramayı temizle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </span>
+      <button class="filter-clear-all" id="clearAllFilters" type="button">Tümünü temizle</button>
+    </div>
+
+    <!-- Result header -->
+    <div class="mg-result-bar">
+      <h1 id="rightTitle">Mont &amp; Dış Giyim</h1>
+      <span id="rightNote">Detay için karta tıkla →</span>
+    </div>
+
+    <!-- Product grid (JS inject) -->
+    <div id="productsGrid"></div>
+
+    <!-- Empty state -->
+    <div id="emptyState" style="display:none;">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title">Ürün bulunamadı</div>
+      <div class="empty-sub">Farklı bir kategori veya arama terimi deneyin.</div>
+    </div>
+
+  </main>
+
+</div><!-- /mg-layout -->
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="mg-footer">
+  <div class="mg-footer-inner">
+    <div class="mg-footer-brand">
+      <div class="bz-brand-mark">B</div>
+      <span>BERZAN</span>
+    </div>
+    <nav class="mg-footer-links">
+      <a href="/magaza/">Mağaza</a>
+      <a href="/uzman/">Kurumsal</a>
+      <a href="/kvkk/">KVKK</a>
+      <a href="/cerez-politikasi/">Çerez Politikası</a>
+    </nav>
+    <div class="mg-footer-copy">© 2026 BERZAN İş Giyim. Tüm hakları saklıdır.</div>
   </div>
-  <!-- app.js sadece 1 kere -->
-  <script src="/config.js"></script>
-  <script type="module" src="/assets/js/supabaseClient.js"></script>
-  <script type="module" src="/src/scripts/app.js"></script>
- </body>
+</footer>
+
+<!-- ═══ SECTOR MODAL ═══ -->
+<div id="sectorBackdrop" aria-hidden="true">
+  <div id="sectorModal" role="dialog" aria-modal="true" aria-label="Sektör seçimi" aria-hidden="true">
+    <div class="sector-modal-title">Sektörünüzü Seçin</div>
+    <p class="sector-modal-sub">Size en uygun ürünleri ön plana çıkaralım.</p>
+    <div id="sectorPills"></div>
+    <div class="sector-modal-actions">
+      <button id="sectorAll" type="button">Tümünü Gör</button>
+      <button id="sectorSkip" type="button">Atla</button>
+    </div>
+  </div>
+</div>
+
+<script src="/config.js"></script>
+<script type="module" src="/assets/js/supabaseClient.js"></script>
+<script type="module" src="/src/scripts/app.js"></script>
+
+<script>
+/* ─── Sidebar mobile toggle ─── */
+document.getElementById('sidebarToggle')?.addEventListener('click', function(){
+  const content = document.getElementById('sidebarContent');
+  const isOpen = content.classList.toggle('is-open');
+  this.setAttribute('aria-expanded', String(isOpen));
+  this.querySelector('svg').style.transform = isOpen ? 'rotate(180deg)' : '';
+});
+
+/* ─── Sidebar sector buttons → sync with app.js ─── */
+document.querySelectorAll('.mg-sector-btn').forEach(btn => {
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.mg-sector-btn').forEach(b => b.classList.remove('is-active'));
+    this.classList.add('is-active');
+    const sector = this.dataset.sector || '';
+    const url = new URL(location.href);
+    if (sector) url.searchParams.set('sektor', sector);
+    else url.searchParams.delete('sektor');
+    history.replaceState({}, '', url.toString());
+    // Trigger app.js re-render via URL change simulation
+    window.dispatchEvent(new CustomEvent('berzan:sector-change', { detail: { sector } }));
+    // Also update location.search for initShopPage re-read
+    // app.js reads sectorParam at init; we re-dispatch a custom event it listens to:
+    window.dispatchEvent(new Event('popstate'));
+  });
+});
+
+/* ─── Clear all filters button ─── */
+document.getElementById('clearAllFilters')?.addEventListener('click', () => {
+  const url = new URL(location.href);
+  url.searchParams.delete('sektor');
+  url.searchParams.delete('q');
+  history.replaceState({}, '', url.toString());
+  const shopSearch = document.getElementById('shopSearchInput');
+  if (shopSearch) { shopSearch.value = ''; shopSearch.dispatchEvent(new Event('input')); }
+  document.querySelectorAll('.mg-sector-btn').forEach(b => b.classList.remove('is-active'));
+  document.querySelector('.mg-sector-btn[data-sector=""]')?.classList.add('is-active');
+});
+
+/* ─── Season tab active class (app.js manages indicator) ─── */
+document.querySelectorAll('.season-tab').forEach(btn => {
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.season-tab').forEach(b => {
+      b.classList.remove('is-active');
+      b.setAttribute('aria-selected','false');
+    });
+    this.classList.add('is-active');
+    this.setAttribute('aria-selected','true');
+  });
+});
+
+/* ─── Navbar compact ─── */
+const nav = document.getElementById('bzNav');
+if(nav){
+  const onScroll = () => nav.classList.toggle('is-compact', window.scrollY > 10);
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+}
+</script>
+
+</body>
 </html>

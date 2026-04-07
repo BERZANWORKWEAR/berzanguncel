@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Yönetimi — BERZAN Admin</title>
+    <link href="/src/styles/styles.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --primary: #ff6700;
+            --dark: #131d2e;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+            --border: #e9ecef;
+            --text: #333;
+            --text-light: #6c757d;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Authentication Check Overlay */
+        #authCheck {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--dark);
+            color: white;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo .mark {
+            background: var(--primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .logout {
+            margin-top: auto;
+            color: #ff4d4f;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 40px;
+            box-sizing: border-box;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 { margin: 0; font-size: 28px; color: var(--dark); }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid var(--border);
+        }
+
+        .stat-label { color: var(--text-light); font-size: 13px; margin-bottom: 8px; }
+        .stat-value { font-size: 24px; font-weight: 700; color: var(--dark); }
+
+        /* Table Area */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 { margin: 0; font-size: 18px; }
+
+        .btn-add {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-add:hover { background: #e55c00; transform: translateY(-2px); }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 16px 24px; background: #fcfcfd; font-size: 13px; color: var(--text-light); font-weight: 600; }
+        td { padding: 16px 24px; border-top: 1px solid var(--border); font-size: 14px; vertical-align: middle; }
+
+        .prod-img { width: 40px; height: 40px; border-radius: 8px; background: #f5f5f5; object-fit: contain; }
+        .prod-name { font-weight: 600; color: var(--dark); }
+        .prod-price { color: var(--primary); font-weight: 600; }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-active { background: #e6fffa; color: #047481; }
+        .status-inactive { background: #fff5f5; color: #c53030; }
+
+        .actions { display: flex; gap: 12px; }
+        .btn-icon {
+            background: none; border: none; cursor: pointer; padding: 4px; color: var(--text-light); transition: color 0.2s;
+        }
+        .btn-icon:hover { color: var(--dark); }
+        .btn-delete:hover { color: #ff4d4f; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; z-index: 1000;
+            align-items: center; justify-content: center; backdrop-filter: blur(4px);
+        }
+        .modal {
+            background: white; width: 100%; max-width: 500px; border-radius: 20px;
+            padding: 32px; box-sizing: border-box;
+            animation: modalIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .form-row { margin-bottom: 20px; }
+        .form-row label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        .form-row input, .form-row select, .form-row textarea {
+            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box;
+            font-family: inherit; font-size: 14px;
+        }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 32px; }
+        .btn-ghost { background: none; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+
+        /* Overlay loader */
+        #loadingOverlay {
+          position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8);
+          z-index:2000; display:flex; align-items:center; justify-content:center; flex-direction:column;
+          visibility:hidden; opacity:0; transition:all 0.3s;
+        }
+        #loadingOverlay.visible { visibility:visible; opacity:1; }
+
+    </style>
+</head>
+<body>
+
+<div id="authCheck">Giriş yapılıyor...</div>
+
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <div class="mark">B</div>
+        <span>BERZAN Admin</span>
+    </div>
+
+    <a href="/admin/" class="nav-item active">
+        <span>📦</span> Ürünler
+    </a>
+    <a href="/magaza/" class="nav-item" target="_blank">
+        <span>🏪</span> Mağaza Görünümü
+    </a>
+
+    <div class="nav-item logout" id="logoutBtn">
+        <span>🚪</span> Çıkış Yap
+    </div>
+</aside>
+
+<main class="main">
+    <div class="header">
+        <h1>Ürün Yönetimi</h1>
+        <div id="welcomeUser" style="color: var(--text-light); font-size: 14px;"></div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Toplam Ürün</div>
+            <div class="stat-value" id="statTotal">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Aktif Satış</div>
+            <div class="stat-value" id="statActive">0</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Tüm Ürünler</h2>
+            <button class="btn-add" id="openAddModal">
+                <span>+</span> Yeni Ürün Ekle
+            </button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ürün</th>
+                    <th>Fiyat</th>
+                    <th>Kategori</th>
+                    <th>Durum</th>
+                    <th style="text-align:right;">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody">
+                <!-- Products will be injected here -->
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" id="productModalOverlay">
+    <div class="modal">
+        <h2 id="modalTitle">Yeni Ürün Ekle</h2>
+        <form id="productForm">
+            <input type="hidden" id="editId">
+            <div class="form-row">
+                <label>Ürün Adı</label>
+                <input type="text" id="prodName" required placeholder="Örn: High Visibility Mont">
+            </div>
+            <div class="form-row">
+                <label>Fiyat (₺)</label>
+                <input type="number" id="prodPrice" required placeholder="Örn: 1990">
+            </div>
+            <div class="form-row">
+                <label>Kategori</label>
+                <select id="prodCategory">
+                    <!-- Categories will be injected here -->
+                </select>
+            </div>
+            <div class="form-row">
+                <label>Kısa Açıklama</label>
+                <textarea id="prodShortDesc" rows="2" placeholder="Saha koşulları için dayanıklı..."></textarea>
+            </div>
+            <div class="form-row">
+                <label>Görsel URL</label>
+                <input type="text" id="prodCover" placeholder="/img/product.webp">
+            </div>
+            <div class="form-row" style="display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" id="prodActive" checked style="width:auto;">
+                <label style="margin:0;">Aktif Satışta</label>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-ghost" id="closeModal">İptal</button>
+                <button type="submit" class="btn-add" id="saveBtn">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="loadingOverlay">
+  <div style="font-size:20px; font-weight:600; margin-bottom:10px;">İşleniyor...</div>
+  <div style="width:40px; height:40px; border:4px solid var(--border); border-top-color:var(--primary); border-radius:50%; animation: spin 1s linear infinite;"></div>
+</div>
+
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+<script src="/config.js"></script>
+<script type="module" src="/assets/js/supabaseClient.js"></script>
+<script type="module" src="/admin/admin.js"></script>
+
+</body>
+</html>

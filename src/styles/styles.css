@@ -1586,9 +1586,11 @@ body.cart-open{
   bottom: 10px;
   width: min(440px, calc(100vw - 20px));
   border-radius: 28px;
-  border: 1px solid rgba(0,0,0,.10);
-  background: rgba(255,255,255,.82);
-  box-shadow: var(--shadow-lg);  
+  border: 1px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(32px) saturate(1.4);
+  -webkit-backdrop-filter: blur(32px) saturate(1.4);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.3);
   transform: translateX(110%);
   transition: transform .28s cubic-bezier(.2,.8,.2,1);
   z-index: 910;
@@ -1867,10 +1869,12 @@ body.search-open{ overflow:hidden; }
   width:min(860px, calc(100% - 24px));
   z-index:999;
 
-  background: rgba(255,255,255,.86);
-  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.6);
   border-radius: 22px;
-  box-shadow: 0 22px 80px rgba(0,0,0,.14);  
+  box-shadow: 0 22px 80px rgba(0,0,0,.14), inset 0 0 0 1px rgba(255,255,255,0.3);  
   padding: 14px;
 
   opacity:0;
@@ -1892,8 +1896,9 @@ body.search-open{ overflow:hidden; }
   display:flex;
   align-items:center;
   gap:10px;
-  background:#fff;
-  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.6);
   border-radius: 999px;
   padding: 10px 14px;
 }
@@ -2881,3 +2886,269 @@ body.magaza-page .shop-grid{
     grid-template-columns: 1fr !important;
   }
 }
+/* Hero/üst kart: köşeler düz */
+.hero,
+.hero .hero-media,
+.hero .hero-inner,
+.wide,
+.wide-card,
+.home-hero,
+.home-hero *{
+  border-radius: 0 !important;
+}
+/* =========================================================
+   APPLE STYLE REDESIGN (Bento Grid, Glassmorphism, 100svh Hero)
+========================================================= */
+
+body.apple-home {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  background-color: #f5f5f7; /* Apple's signature off-white */
+  color: #1d1d1f;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Glassmorphism Nav */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.glass-nav.is-compact {
+  background: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04) !important;
+}
+
+/* HERO SECTION */
+.hero-apple {
+  position: relative;
+  height: 100svh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  background: #000;
+  margin-bottom: 40px;
+}
+
+.hero-bg-media {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+}
+.hero-bg-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transform: scale(1.05); /* Slight scale for parallax or smooth feel */
+}
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  padding: 0 32px;
+}
+.hero-content h1 {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+  text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.hero-content p {
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 40px;
+}
+
+/* Apple Buttons */
+.apple-btn {
+  background: #fff !important;
+  color: #1d1d1f !important;
+  border-radius: 980px !important;
+  font-weight: 600 !important;
+  padding: 14px 28px !important;
+  font-size: 16px !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+.apple-btn:hover {
+  transform: scale(1.03) !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3) !important;
+}
+
+.apple-btn-outline {
+  background: rgba(255,255,255,0.1) !important;
+  color: #fff !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.4) !important;
+  border-radius: 980px !important;
+  padding: 14px 28px !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  transition: all 0.3s ease !important;
+}
+.apple-btn-outline:hover {
+  background: rgba(255,255,255,0.2) !important;
+  transform: scale(1.03) !important;
+}
+
+.inline-link {
+  color: #06c;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.inline-link:hover { text-decoration: underline; }
+
+/* BENTO GRID */
+.bento-section { padding: 40px 0 100px; }
+.bento-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 24px;
+}
+.bento-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.mt-bento { margin-top: 24px; }
+
+@media (max-width: 900px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .bento-grid-2 { grid-template-columns: 1fr; }
+}
+
+.bento-tile {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s;
+  cursor: pointer;
+}
+.bento-tile:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+.bento-tile:hover .img-zoom {
+  transform: scale(1.05);
+}
+.img-zoom {
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.bento-large {
+  grid-row: span 2;
+  min-height: 600px;
+}
+.bento-medium { min-height: 350px; }
+.bento-small { min-height: 250px; }
+
+/* Themes */
+.bento-dark { background: #000; color: #fff; }
+.bento-light { background: #fbfbfb; color: #1d1d1f; }
+.bento-solid { background: #ffffff; color: #1d1d1f; }
+
+/* Text placement */
+.bento-copy {
+  padding: 40px;
+  z-index: 3;
+  position: relative;
+}
+.bento-title {
+  font-size: clamp(24px, 2vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+.bento-large .bento-title { font-size: clamp(32px, 3vw, 48px); }
+
+.bento-sub {
+  font-size: 16px;
+  color: #86868b;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  max-width: 80%;
+}
+.bento-dark .bento-sub { color: #a1a1a6; }
+.text-white { color: #fff !important; }
+.text-white-70 { color: rgba(255,255,255,0.7) !important; }
+.max-w-sub { max-width: 100% !important; margin-bottom: 0px;}
+.centered { text-align: center; }
+.centered .bento-sub { margin-left: auto; margin-right: auto; }
+.centered-v { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+
+.bento-actions { display: flex; gap: 12px; }
+.btn-sm { padding: 8px 16px; font-size: 14px; border-radius: 980px; }
+.btn-white { background: #fff; color: #000; border: none; font-weight: 600; }
+.btn-glass { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+.btn-glass-dark { background: rgba(0,0,0,0.05); color: #1d1d1f; border: 1px solid rgba(0,0,0,0.1); }
+.white-ghost { border-color: rgba(255,255,255,0.4) !important; color: #fff !important; }
+
+/* Media */
+.bento-media {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px 20px;
+  position: relative;
+  z-index: 1;
+}
+.bento-large .bento-media img { max-height: 480px; object-fit: contain; }
+.md-media img { max-height: 250px; }
+
+/* Cover Tiles */
+.bento-media-cover { position: relative; display: flex; align-items: flex-start; }
+.bento-media-cover .bento-copy.centered {
+   width: 100%; padding-top: 50px;
+}
+.bento-bg {
+  position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; z-index: 1;
+}
+.bento-fade-overlay {
+  position: absolute; top:0; left:0; width:100%; height:100%; z-index:2;
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%);
+}
+.bento-strong-overlay { background: rgba(0,0,0,0.4); }
+.abs-logo { position: absolute; right: 0; bottom: -20px; z-index:0; align-items:flex-end; pointer-events: none;}
+
+/* Reveal Animations */
+.reveal-apple {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--delay, 0ms);
+}
+.reveal-apple.is-visible { opacity: 1; transform: translate(0, 0) scale(1); }
+
+.fade-in { transform: translateY(0); }
+.fade-up { transform: translateY(40px); }
+.scale-up { transform: scale(0.95) translateY(20px); }
+
+/* Custom Overrides for general site to match Apple style */
+.apple-footer { background: #f5f5f7; border-top: 1px solid #d2d2d7; }

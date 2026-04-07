@@ -88,6 +88,22 @@
        <div class="pdp-swatches" id="pdpSwatches"></div>
       </div>
 
+      <!-- BEDEN SEÇİMİ (Yeni Eklenen) -->
+      <div class="pdp-variant" style="margin-top: 24px;">
+       <div class="pdp-variant-head">
+        <div class="pdp-variant-label">Beden</div>
+        <div class="pdp-variant-value" id="pdpSizeLabel">M Seçili</div>
+        <button type="button" class="btn" id="openSizeChartBtn" style="font-size: 12px; padding: 4px 8px; margin-left:auto; background:transparent; border:1px solid #ddd; text-decoration:none;">📏 Beden Tablosu</button>
+       </div>
+       <div class="pdp-sizes" id="pdpSizes" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;">
+           <button type="button" class="size-btn">S</button>
+           <button type="button" class="size-btn is-active">M</button>
+           <button type="button" class="size-btn">L</button>
+           <button type="button" class="size-btn">XL</button>
+           <button type="button" class="size-btn">2XL</button>
+       </div>
+      </div>
+
       <div class="pdp-actions">
        <button class="btn primary" id="addToCartBtn" type="button">Sepete ekle</button>
        <button class="btn" id="quoteBtn" type="button">Teklif al</button>
@@ -149,6 +165,91 @@
     </button>
    </div>
   </div>
+
+  <!-- BEDEN TABLOSU MODAL (Yeni Eklenen) -->
+  <div aria-hidden="true" class="backdrop" id="sizeChartBackdrop" style="display:none; background:rgba(0,0,0,0.6); z-index:9998;"></div>
+  <div aria-hidden="true" class="size-chart-modal" id="sizeChartModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:32px; border-radius:16px; z-index:9999; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 600px; width: 90%;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
+      <h3 style="margin:0; font-size:24px;">Beden Tablosu</h3>
+      <button class="btn" id="closeSizeChartBtn" type="button" style="padding: 6px 12px;">Kapat</button>
+    </div>
+    <table style="width: 100%; border-collapse: collapse; text-align:left;">
+      <thead>
+        <tr style="border-bottom: 2px solid #ccc;">
+          <th style="padding: 12px 8px;">Beden</th>
+          <th style="padding: 12px 8px;">Göğüs (cm)</th>
+          <th style="padding: 12px 8px;">Bel (cm)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 12px 8px; font-weight: 600;">S</td>
+          <td style="padding: 12px 8px;">92 - 96</td>
+          <td style="padding: 12px 8px;">80 - 84</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 12px 8px; font-weight: 600;">M</td>
+          <td style="padding: 12px 8px;">96 - 100</td>
+          <td style="padding: 12px 8px;">84 - 88</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 12px 8px; font-weight: 600;">L</td>
+          <td style="padding: 12px 8px;">100 - 104</td>
+          <td style="padding: 12px 8px;">88 - 92</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 12px 8px; font-weight: 600;">XL</td>
+          <td style="padding: 12px 8px;">104 - 108</td>
+          <td style="padding: 12px 8px;">92 - 96</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 8px; font-weight: 600;">2XL</td>
+          <td style="padding: 12px 8px;">108 - 112</td>
+          <td style="padding: 12px 8px;">96 - 100</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Beden Seçimi Butonları
+      const sizeBtns = document.querySelectorAll('.size-btn');
+      const sizeLabel = document.getElementById('pdpSizeLabel');
+      
+      sizeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          sizeBtns.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          if(sizeLabel) sizeLabel.textContent = btn.textContent + ' Seçili';
+        });
+      });
+
+      // Beden Tablosu Modal
+      const openChart = document.getElementById('openSizeChartBtn');
+      const closeChart = document.getElementById('closeSizeChartBtn');
+      const chartModal = document.getElementById('sizeChartModal');
+      const chartBackdrop = document.getElementById('sizeChartBackdrop');
+
+      const toggleChart = (show) => {
+        if(chartModal && chartBackdrop) {
+          chartModal.style.display = show ? 'block' : 'none';
+          chartBackdrop.style.display = show ? 'block' : 'none';
+        }
+      };
+
+      if(openChart) openChart.addEventListener('click', () => toggleChart(true));
+      if(closeChart) closeChart.addEventListener('click', () => toggleChart(false));
+      if(chartBackdrop) chartBackdrop.addEventListener('click', () => toggleChart(false));
+    });
+  </script>
+  <style>
+    .size-btn {
+      background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px 16px;
+      font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .size-btn:hover { border-color: #999; }
+    .size-btn.is-active { background: #131d2e; color: #fff; border-color: #131d2e; }
+  </style>
   <script src="/config.js"></script>
 <script type="module" src="/assets/js/supabaseClient.js"></script>
   <script type="module" src="/src/scripts/app.js"></script>

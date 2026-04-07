@@ -1,0 +1,25 @@
+/* =========================================================
+   BERZAN — Legacy Layout (eski x-* sınıflar için fallback)
+   Bu dosya artık aktif olarak yüklenmiyor.
+   Referans amaçlı saklanıyor.
+   ========================================================= */
+
+/* Tüm x-* eski sınıflar gizli */
+.x-topbar,
+.x-header-wrap,
+.x-header,
+.x-logo,
+.x-nav,
+.x-search,
+.x-hero,
+.x-hero-menu,
+.x-main,
+.x-title-row,
+.x-promo-row,
+.x-grid,
+.x-card,
+.x-grid-promo,
+.x-footer,
+.x-footer-inner {
+  display: none !important;
+}

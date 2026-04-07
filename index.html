@@ -1,262 +1,547 @@
 <!DOCTYPE html>
-
 <html lang="tr">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>
-   BERZAN — Premium İş Giyim
-  </title>
-<link href="/src/styles/styles.css" rel="stylesheet"/>
-<!-- Hero: full-bleed background image override (no inner image card) -->
-<style>
-   /* Force hero section to be the full background image */
-   .hero-photo{
-     background-image: var(--hero-bg) !important;
-     background-size: cover !important;
-     background-position: center !important;
-     background-repeat: no-repeat !important;
-   }
-   /* Kill any decorative pseudo "image well" layers from older CSS */
-   .hero-photo::before,
-   .hero-photo::after,
-   .hero-dark-inner::before,
-   .hero-dark-inner::after,
-   .hero-copy::before,
-   .hero-copy::after{
-     content: none !important;
-     display: none !important;
-   }
-  </style>
-<meta content="BERZAN; zorlu saha koşulları için yüksek görünürlüklü, dayanıklı iş giyim ürünleri. Mont, parka, yelek ve ekipman çözümleri." name="description"/>
-<meta content="index,follow" name="robots"/>
-<meta content="#131D2E" name="theme-color"/>
-<meta content="light dark" name="color-scheme"/>
-<link href="https://berzan.com.tr/" rel="canonical"/>
-<link href="/images/favicon.ico" rel="icon" sizes="any"/>
-<link href="/img/logo.svg" rel="icon" type="image/svg+xml"/>
-<link href="/images/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
-<link href="/images/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/>
-<link href="/images/apple-touch-icon.png" rel="apple-touch-icon"/>
-<link href="/site.webmanifest" rel="manifest"/>
-<link as="font" crossorigin="" href="/fonts/MiSansLatin-Regular.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="/fonts/MiSansLatin-Semibold.woff2" rel="preload" type="font/woff2"/>
-<link as="image" fetchpriority="high" href="/img/monthero.webp" rel="preload" type="image/webp"/>
-<meta content="tr_TR" property="og:locale"/>
-<meta content="website" property="og:type"/>
-<meta content="BERZAN" property="og:site_name"/>
-<meta content="BERZAN — Premium İş Giyim" property="og:title"/>
-<meta content="BERZAN; zorlu saha koşulları için yüksek görünürlüklü, dayanıklı iş giyim ürünleri. Mont, parka, yelek ve ekipman çözümleri." property="og:description"/>
-<meta content="https://berzan.com.tr/" property="og:url"/>
-<meta content="https://berzan.com.tr/images/og-berzan.jpg" property="og:image"/>
-<meta content="1200" property="og:image:width"/>
-<meta content="630" property="og:image:height"/>
-<meta content="summary_large_image" name="twitter:card"/>
-<meta content="BERZAN — Premium İş Giyim" name="twitter:title"/>
-<meta content="BERZAN; zorlu saha koşulları için yüksek görünürlüklü, dayanıklı iş giyim ürünleri. Mont, parka, yelek ve ekipman çözümleri." name="twitter:description"/>
-<meta content="https://berzan.com.tr/images/og-berzan.jpg" name="twitter:image"/>
-<script type="application/ld+json">
-   {"@context": "https://schema.org", "@type": "Organization", "name": "BERZAN", "url": "https://berzan.com.tr/", "logo": "https://berzan.com.tr/images/logo.svg"}
-  </script>
-<script type="application/ld+json">
-   {"@context": "https://schema.org", "@type": "WebSite", "name": "BERZAN", "url": "https://berzan.com.tr/"}
-  </script>
-<link as="image" fetchpriority="high" href="/img/mainpg.webp" rel="preload" type="image/webp"/><link as="image" href="/img/kkd.webp" rel="preload" type="image/webp"/><link as="image" href="/img/toplu-alim.webp" rel="preload" type="image/webp"/><link as="image" href="/img/sektor-sec.webp" rel="preload" type="image/webp"/><link as="image" href="/img/home-product.webp" rel="preload" type="image/webp"/></head>
-<body>
-<header class="nav">
-<div class="container nav-inner">
-<a aria-label="BERZAN" class="brand" href="/">
-<img alt="BERZAN" class="brand-logo" decoding="async" src="/img/logo.svg"/>
-</a>
-<nav class="nav-links">
-<a class="active" href="/">
-      Ana Sayfa
-     </a>
-<a href="/magaza/">Mağaza</a>
-</nav>
-<div class="nav-actions">
-<button aria-label="Ara" class="icon-btn" id="openSearch" type="button">Ara</button>
-</div>
-</div>
-</header>
-<section class="hero-dark hero-photo" style="--hero-bg:url('/img/mainpg.webp')">
-<div class="container hero-dark-inner">
-<div class="hero-copy">
-<h1 class="reveal">
-      Geri dönüşüm, çevre duyarlılığı.
-     </h1>
-<p class="reveal">
-      Sürdürülebilir üretimle daha az atık, daha çok değer.
-     </p>
-<div class="hero-actions reveal">
-<a class="btn primary" href="/magaza/">Ürünleri Keşfet</a>
-<a class="btn" href="./#marka">Markayı Tanı</a>
-</div>
-</div>
-</div>
-</section>
-<section class="showcase">
-<div class="container is-fluid">
-<!-- HOME HELP CARD -->
-<div class="tile tile-wide tile-help reveal home-help">
-<!-- ÜST BAŞLIK (inline style yok) -->
-<div class="tile-title">
-      Doğru ürünü seçmek için profesyonelden destek alın
-     </div>
-<!-- ORTA GÖRSELLER -->
-<div class="home-help-visual">
-<picture>
-<source srcset="/img/home-product.webp" type="image/webp"/>
-<img alt="BERZAN Ürün" class="brand-grade" decoding="async" fetchpriority="high" height="2000" loading="eager" src="/img/home-product.webp" width="1999"/>
-</picture>
-</div>
-<!-- ALT METİN (inline style yok) -->
-<div class="tile-sub">
-      Her saha, her iş ve her koşul farklıdır. İhtiyacınıza göre en doğru ürünü birlikte netleştirelim.
-     </div>
-<!-- BUTONLAR (standart class) -->
-<div class="tile-actions">
-<a class="btn primary" href="/uzman/">
-       Uzmanla Görüş
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>BERZAN İş Giyim | Profesyonel İş Güvenliği Ekipmanları</title>
+  <meta name="description"
+    content="BERZAN İş Giyim — EN/CE sertifikalı montlar, KKD ekipmanları, tulumlar ve iş ayakkabıları. Sahada güven, stilde fark." />
+  <!-- Global Reset -->
+  <link href="/src/styles/styles.css" rel="stylesheet" />
+  <!-- Homepage E-Shop -->
+  <link href="/src/styles/homepage.css" rel="stylesheet" />
+  <meta content="#0b0f14" name="theme-color" />
+  <link href="/img/logo.svg" rel="icon" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body class="berzan-home">
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <header class="bz-nav" id="bzNav">
+    <div class="bz-nav-inner">
+      <a href="/" class="bz-brand" aria-label="BERZAN Ana Sayfa">
+        <img src="/img/logoberzan.png" alt="BERZAN Logo" class="bz-brand-logo" />
       </a>
-<a class="btn" href="/magaza/">
-       Ürünleri İncele
-      </a>
-</div>
-</div>
-<!-- DİĞER KARTLAR (AYNEN) -->
-<div class="tile-grid">
-<a class="tile tile-rect tile-black reveal" href="./urun.html?urun=mont" style="--media-scale:.84;--media-y:14px">
-<div class="tile-media">
-<picture>
-<source srcset="/img/home-product.webp" type="image/webp"/>
-<img alt="High Visibility Mont" class="brand-grade" decoding="async" fetchpriority="auto" height="1600" loading="eager" src="/img/home-product.webp" width="1311"/>
-</picture>
-</div>
-<div class="tile-head">
-       High Visibility Mont
+
+      <div class="bz-nav-center">
+        <p class="bz-pro-msg">İlk kez mi bizimle çalışıyorsunuz? <a href="/uzman/">Profesyonelden destek alın</a></p>
       </div>
-<div class="tile-copy">
-<div class="tile-kicker">
-        Ürün
-       </div>
-<div class="tile-sub">
-        Gece ve düşük ışık için.
-       </div>
-</div>
-<div class="tile-cta">
-       İncele
+
+      <div class="bz-nav-actions nav-actions">
+        <a href="/kurumsal" class="bz-nav-link">Hakkımızda</a>
+        <input type="text" placeholder="Ürün ara…" readonly id="openSearch" class="bz-search-trigger" />
+        <!-- Cart injected by app.js -->
       </div>
-</a>
-<a class="tile tile-rect reveal tile-white-hero" href="./urun.html?urun=mont">
-<div class="tile-head">
-       Heavy Duty Mont
+    </div>
+  </header>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="bz-hero" id="heroSection">
+    <div class="bz-hero-bg">
+      <img src="/img/mainpg.webp" alt="BERZAN İş Giyim Koleksiyonu" class="bz-hero-img" />
+      <div class="bz-hero-overlay"></div>
+    </div>
+    <div class="bz-hero-content">
+      <span class="bz-hero-badge">2026 Yeni Sezon</span>
+      <h1 class="bz-hero-title">Sahada Güven.<br><span class="bz-hero-accent">Stilde Fark.</span></h1>
+      <p class="bz-hero-sub">EN/CE sertifikalı iş giyim ve güvenlik ekipmanları. İnşaattan fabrikaya, lojistikten
+        denizcilik sektörüne — profesyonel koruma.</p>
+      <div class="bz-hero-actions">
+        <a href="/magaza/" class="bz-btn bz-btn-primary">Mağazayı Keşfet</a>
+        <a href="/uzman/" class="bz-btn bz-btn-glass">Teklif Al</a>
       </div>
-<div class="tile-media">
-<picture>
-<source srcset="/img/monthero.webp" type="image/webp"/>
-<img alt="Heavy Duty Mont" class="brand-grade" decoding="async" fetchpriority="high" height="1600" loading="eager" src="/img/monthero.webp" width="1600"/>
-</picture>
-</div>
-<div class="tile-copy">
-<div class="tile-kicker">
-        Ürün
-       </div>
-<div class="tile-sub">
-        Zorlu hava koşulları için.
-       </div>
-</div>
-<div class="tile-cta">
-       İncele
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="bz-hero-scroll">
+      <div class="bz-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CATEGORY STRIP ═══════════════ -->
+  <section class="bz-categories">
+    <div class="bz-container">
+      <div class="bz-cat-grid">
+        <a href="/magaza/?q=mont" class="bz-cat-item">
+          <div class="bz-cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
+            </svg>
+          </div>
+          <span>Montlar</span>
+        </a>
+        <a href="/magaza/?q=kkd" class="bz-cat-item">
+          <div class="bz-cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <span>KKD / Ekipman</span>
+        </a>
+        <a href="/magaza/?q=tulum" class="bz-cat-item">
+          <div class="bz-cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 10V4a1 1 0 0 1 1-1h1"/>
+              <path d="M16 10V4a1 1 0 0 0-1-1h-1"/>
+              <path d="M6 10h12v12h-4v-8h-4v8H6z" />
+              <rect x="9" y="12" width="6" height="4" rx="0.5"/>
+            </svg>
+          </div>
+          <span>Tulumlar</span>
+        </a>
+        <a href="/magaza/?q=ayakkabi" class="bz-cat-item">
+          <div class="bz-cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a3 3 0 0 0-3-3h-2V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v13H4v2h13z" />
+              <path d="M4 19h13" />
+            </svg>
+          </div>
+          <span>Ayakkabılar</span>
+        </a>
+        <a href="/magaza/?q=yelek" class="bz-cat-item">
+          <div class="bz-cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 4h3v6l-1 2v8H7v-8l-1-2V4h3l3 5 3-5z" />
+              <line x1="12" y1="9" x2="12" y2="20" />
+              <line x1="7" y1="14" x2="17" y2="14" />
+              <line x1="7" y1="17" x2="17" y2="17" />
+            </svg>
+          </div>
+          <span>Yelekler</span>
+        </a>
+        <a href="/magaza/?q=aksesuar" class="bz-cat-item">
+          <div class="bz-cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="8" width="8" height="6" rx="2"/>
+              <rect x="14" y="8" width="8" height="6" rx="2"/>
+              <path d="M10 11h4"/>
+              <path d="M4 8l-2-4"/>
+              <path d="M20 8l2-4"/>
+            </svg>
+          </div>
+          <span>Aksesuarlar</span>
+        </a>
       </div>
-</a>
-<a class="tile tile-rect reveal has-media" href="/magaza/" style="--media-fit:cover;--media-scale:1.06">
-<div class="tile-media">
-<picture>
-<source srcset="/img/kkd.webp" type="image/webp"/>
-<img alt="KKD" class="brand-grade" decoding="async" fetchpriority="high" loading="eager" src="/img/kkd.webp"/>
-</picture>
-</div>
-<div class="tile-copy">
-<div class="tile-kicker">
-        Ekipman
-       </div>
-<div class="tile-title">
-        KKD
-       </div>
-<div class="tile-sub">
-        Baret, eldiven, gözlük.
-       </div>
-</div>
-<div class="tile-cta">
-       İncele
+    </div>
+  </section>
+
+  <!-- ═══════════════ FEATURED PRODUCTS ═══════════════ -->
+  <section class="bz-section">
+    <div class="bz-container">
+      <div class="bz-section-head">
+        <div>
+          <h2 class="bz-section-title">Öne Çıkan Ürünler</h2>
+          <p class="bz-section-sub">En çok tercih edilen iş giyim ve ekipmanları</p>
+        </div>
+        <a href="/magaza/" class="bz-link-arrow">Tümünü Gör <span>→</span></a>
       </div>
-</a>
-<a class="tile tile-rect reveal has-media" href="/magaza/" style="--media-fit:cover;--media-scale:1.06">
-<div class="tile-media">
-<picture>
-<source srcset="/img/toplu-alim.webp" type="image/webp"/>
-<img alt="Toplu alım" class="brand-grade" decoding="async" fetchpriority="high" loading="eager" src="/img/toplu-alim.webp"/>
-</picture>
-</div>
-<div class="tile-copy">
-<div class="tile-kicker">
-        Kurumsal
-       </div>
-<div class="tile-title">
-        Toplu Alım
-       </div>
-<div class="tile-sub">
-        Teklif + standartlaşma.
-       </div>
-</div>
-<div class="tile-cta">
-       Teklif
+
+      <div class="bz-product-grid" id="featuredGrid">
+        <!-- Product Card 1 -->
+        <div class="bz-product-card" onclick="window.location.href='/urun/?urun=mont'">
+          <div class="bz-product-media">
+            <img src="/img/home-product.webp" alt="High Visibility Mont" class="bz-product-img" />
+            <div class="bz-product-badges">
+              <span class="bz-badge">EN/CE</span>
+              <span class="bz-badge bz-badge-accent">Çok Satan</span>
+            </div>
+          </div>
+          <div class="bz-product-body">
+            <h3 class="bz-product-name">High Visibility Mont</h3>
+            <p class="bz-product-desc">Gece ve düşük ışıkta mükemmel koruma. Reflektör bantlı.</p>
+            <div class="bz-product-footer">
+              <div class="bz-product-price">
+                <span class="bz-price-main">₺ 1.990</span>
+                <span class="bz-price-sub">Kurumsal: ₺ 1.890</span>
+              </div>
+              <button class="bz-btn bz-btn-cart" data-add-to-cart="mont" onclick="event.stopPropagation()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="bz-product-card" onclick="window.location.href='/urun/?urun=heavy-duty-mont'">
+          <div class="bz-product-media">
+            <img src="/img/monthero.webp" alt="Heavy Duty Mont" class="bz-product-img" />
+            <div class="bz-product-badges">
+              <span class="bz-badge">Dayanım</span>
+            </div>
+          </div>
+          <div class="bz-product-body">
+            <h3 class="bz-product-name">Heavy Duty Mont</h3>
+            <p class="bz-product-desc">En zorlu hava koşullarına özel. Güçlendirilmiş yapı.</p>
+            <div class="bz-product-footer">
+              <div class="bz-product-price">
+                <span class="bz-price-main">₺ 2.190</span>
+                <span class="bz-price-sub">Kurumsal: ₺ 2.050</span>
+              </div>
+              <button class="bz-btn bz-btn-cart" data-add-to-cart="heavy-duty-mont" onclick="event.stopPropagation()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="bz-product-card" onclick="window.location.href='/urun/?urun=parka-pro'">
+          <div class="bz-product-media">
+            <img src="/img/sektor-sec.webp" alt="Parka Pro" class="bz-product-img" />
+            <div class="bz-product-badges">
+              <span class="bz-badge">Isı</span>
+              <span class="bz-badge">Su İtici</span>
+            </div>
+          </div>
+          <div class="bz-product-body">
+            <h3 class="bz-product-name">Parka Pro</h3>
+            <p class="bz-product-desc">Soğuk + rüzgar için premium koruma. Kışlık.</p>
+            <div class="bz-product-footer">
+              <div class="bz-product-price">
+                <span class="bz-price-main">₺ 2.790</span>
+                <span class="bz-price-sub">Kurumsal: ₺ 2.590</span>
+              </div>
+              <button class="bz-btn bz-btn-cart" data-add-to-cart="parka-pro" onclick="event.stopPropagation()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 4 -->
+        <div class="bz-product-card" onclick="window.location.href='/urun/?urun=softshell-flex'">
+          <div class="bz-product-media">
+            <img src="/img/kkd.webp" alt="Softshell Flex" class="bz-product-img" />
+            <div class="bz-product-badges">
+              <span class="bz-badge">Esnek</span>
+              <span class="bz-badge">Konfor</span>
+            </div>
+          </div>
+          <div class="bz-product-body">
+            <h3 class="bz-product-name">Softshell Flex</h3>
+            <p class="bz-product-desc">Hareket alanı geniş, günlük vardiya dostu.</p>
+            <div class="bz-product-footer">
+              <div class="bz-product-price">
+                <span class="bz-price-main">₺ 1.890</span>
+                <span class="bz-price-sub">Kurumsal: ₺ 1.750</span>
+              </div>
+              <button class="bz-btn bz-btn-cart" data-add-to-cart="softshell-flex" onclick="event.stopPropagation()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-</a>
-</div>
-<a class="tile tile-wide reveal wide-glow has-media" href="/magaza/" style="--media-fit:cover;--media-scale:1.02">
-<div class="tile-media">
-<picture>
-<source srcset="/img/sektor-sec.webp" type="image/webp"/>
-<img alt="Sektör seç" class="brand-grade" decoding="async" fetchpriority="auto" loading="eager" src="/img/sektor-sec.webp"/>
-</picture>
-</div>
-<div class="tile-copy">
-<div class="tile-kicker">
-       Başlangıç
+    </div>
+  </section>
+
+  <!-- ═══════════════ PROMO BANNER (SPLIT) ═══════════════ -->
+  <section class="bz-section bz-promo-split">
+    <div class="bz-container">
+      <div class="bz-split-grid">
+        <!-- Left: KKD promo -->
+        <a href="/magaza/?q=kkd" class="bz-split-card bz-split-dark">
+          <div class="bz-split-bg">
+            <img src="/img/kkd.webp" alt="KKD Ekipmanları" />
+          </div>
+          <div class="bz-split-overlay"></div>
+          <div class="bz-split-content">
+            <span class="bz-split-kicker">Kişisel Koruyucu Donanım</span>
+            <h3 class="bz-split-title">KKD Koleksiyonu</h3>
+            <p class="bz-split-sub">Baret, gözlük, eldiven, maske — tam koruma seti.</p>
+            <span class="bz-split-link">Keşfet →</span>
+          </div>
+        </a>
+
+        <!-- Right: Corporate/bulk promo -->
+        <a href="/uzman/" class="bz-split-card bz-split-accent">
+          <div class="bz-split-content">
+            <span class="bz-split-kicker">Kurumsal Çözümler</span>
+            <h3 class="bz-split-title">Toplu Alım Avantajı</h3>
+            <p class="bz-split-sub">Firmanıza özel renk, logo ve teklif. %15'e varan indirimler.</p>
+            <span class="bz-split-link">Teklif Al →</span>
+          </div>
+          <div class="bz-split-graphic">
+            <div class="bz-graphic-circle"></div>
+            <div class="bz-graphic-circle bz-gc-2"></div>
+          </div>
+        </a>
       </div>
-<div class="tile-title">
-       Sektör Seç
+    </div>
+  </section>
+
+  <!-- ═══════════════ BEST SELLERS CAROUSEL ═══════════════ -->
+  <section class="bz-section">
+    <div class="bz-container">
+      <div class="bz-section-head">
+        <div>
+          <h2 class="bz-section-title">Çok Satanlar</h2>
+          <p class="bz-section-sub">Saha profesyonellerinin favorileri</p>
+        </div>
+        <a href="/magaza/" class="bz-link-arrow">Tümünü Gör <span>→</span></a>
       </div>
-<div class="tile-sub">
-       En doğru ürün yolunu aç.
+
+      <div class="bz-product-grid bz-grid-3" id="bestsellersGrid">
+        <!-- Card 1 -->
+        <div class="bz-product-card" onclick="window.location.href='/urun/?urun=is-pantolonu'">
+          <div class="bz-product-media">
+            <div class="bz-product-ph">İş Pantolonu</div>
+            <div class="bz-product-badges">
+              <span class="bz-badge">Ergonomi</span>
+            </div>
+          </div>
+          <div class="bz-product-body">
+            <h3 class="bz-product-name">İş Pantolonu</h3>
+            <p class="bz-product-desc">Gün boyu rahat kesim + güçlendirilmiş bölgeler.</p>
+            <div class="bz-product-footer">
+              <div class="bz-product-price">
+                <span class="bz-price-main">₺ 1.190</span>
+              </div>
+              <button class="bz-btn bz-btn-cart" data-add-to-cart="is-pantolonu" onclick="event.stopPropagation()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bz-product-card" onclick="window.location.href='/urun/?urun=reflektor-yelek'">
+          <div class="bz-product-media">
+            <div class="bz-product-ph">Reflektör Yelek</div>
+            <div class="bz-product-badges">
+              <span class="bz-badge">EN/CE</span>
+              <span class="bz-badge bz-badge-accent">Popüler</span>
+            </div>
+          </div>
+          <div class="bz-product-body">
+            <h3 class="bz-product-name">Yüksek Görünürlüklü Yelek</h3>
+            <p class="bz-product-desc">Görünürlük odaklı, hızlı giy-çık. Reflektör bantlı.</p>
+            <div class="bz-product-footer">
+              <div class="bz-product-price">
+                <span class="bz-price-main">₺ 590</span>
+              </div>
+              <button class="bz-btn bz-btn-cart" data-add-to-cart="reflektor-yelek" onclick="event.stopPropagation()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bz-product-card" onclick="window.location.href='/urun/?urun=ayakkabi-s3'">
+          <div class="bz-product-media">
+            <div class="bz-product-ph">İş Ayakkabısı S3</div>
+            <div class="bz-product-badges">
+              <span class="bz-badge">S3</span>
+              <span class="bz-badge">Çelik Burun</span>
+            </div>
+          </div>
+          <div class="bz-product-body">
+            <h3 class="bz-product-name">İş Ayakkabısı S3</h3>
+            <p class="bz-product-desc">Sahada güven + konfor. Çelik burunlu, S3 sınıfı.</p>
+            <div class="bz-product-footer">
+              <div class="bz-product-price">
+                <span class="bz-price-main">₺ 2.290</span>
+              </div>
+              <button class="bz-btn bz-btn-cart" data-add-to-cart="ayakkabi-s3" onclick="event.stopPropagation()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-</div>
-<div class="tile-cta">
-      Başla
-     </div>
-</a>
-</div>
-</section>
-<footer class="footer">
-<div class="container">
-<p>
-     © 2026 BERZAN — İş Kıyafetleri &amp; İş Güvenliği Ekipmanları
-    </p>
-<p style="margin-top:8px">
-<a href="/kvkk/">
-      KVKK
-     </a>
-     ·
-     <a href="/cerez-politikasi/">
-      Çerez Politikası
-     </a>
-</p>
-</div>
-</footer>
-<script src="/config.js"></script>
-<script src="/assets/js/supabaseClient.js" type="module"></script>
-<script src="/src/scripts/app.js" type="module"></script>
+    </div>
+  </section>
+
+  <!-- ═══════════════ TRUST STRIP ═══════════════ -->
+  <section class="bz-trust">
+    <div class="bz-container">
+      <div class="bz-trust-grid">
+        <div class="bz-trust-item">
+          <div class="bz-trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <div>
+            <strong>EN/CE Sertifikalı</strong>
+            <span>Tüm ürünler standartlara uygun</span>
+          </div>
+        </div>
+        <div class="bz-trust-item">
+          <div class="bz-trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="1" y="3" width="15" height="13" />
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+              <circle cx="5.5" cy="18.5" r="2.5" />
+              <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+          </div>
+          <div>
+            <strong>Hızlı Kargo</strong>
+            <span>Türkiye geneli 2-4 iş günü</span>
+          </div>
+        </div>
+        <div class="bz-trust-item">
+          <div class="bz-trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+            </svg>
+          </div>
+          <div>
+            <strong>7/24 Destek</strong>
+            <span>WhatsApp ile anında iletişim</span>
+          </div>
+        </div>
+        <div class="bz-trust-item">
+          <div class="bz-trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="20 12 20 22 4 22 4 12" />
+              <rect x="2" y="7" width="20" height="5" />
+              <line x1="12" y1="22" x2="12" y2="7" />
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+            </svg>
+          </div>
+          <div>
+            <strong>Toplu İndirim</strong>
+            <span>50+ adet siparişlerde özel fiyat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECTOR SHOWCASE ═══════════════ -->
+  <section class="bz-section bz-sectors-section">
+    <div class="bz-container">
+      <div class="bz-section-head bz-center">
+        <div>
+          <h2 class="bz-section-title">Sektöre Özel Çözümler</h2>
+          <p class="bz-section-sub">Her sektörün ihtiyacına uygun, sertifikalı profesyonel iş giyim</p>
+        </div>
+      </div>
+
+      <div class="bz-sector-grid">
+        <a href="/magaza/?sektor=insaat" class="bz-sector-card">
+          <div class="bz-sector-icon">🏗️</div>
+          <h3>İnşaat</h3>
+          <p>Yüksekte çalışma, baret, reflektör mont</p>
+        </a>
+        <a href="/magaza/?sektor=lojistik" class="bz-sector-card">
+          <div class="bz-sector-icon">🚛</div>
+          <h3>Lojistik</h3>
+          <p>Görünürlük yeleği, dayanıklı pantolon</p>
+        </a>
+        <a href="/magaza/?sektor=fabrika" class="bz-sector-card">
+          <div class="bz-sector-icon">🏭</div>
+          <h3>Fabrika</h3>
+          <p>Tulum, eldiven, kulak koruyucu</p>
+        </a>
+        <a href="/magaza/?sektor=marine" class="bz-sector-card">
+          <div class="bz-sector-icon">⚓</div>
+          <h3>Marine</h3>
+          <p>Su geçirmez çizme, parka, yağmurluk</p>
+        </a>
+        <a href="/magaza/?sektor=isletme" class="bz-sector-card">
+          <div class="bz-sector-icon">🏢</div>
+          <h3>İşletme</h3>
+          <p>Polo, softshell, kurumsal üniforma</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CTA BANNER ═══════════════ -->
+  <section class="bz-cta">
+    <div class="bz-container">
+      <div class="bz-cta-inner">
+        <div class="bz-cta-glow"></div>
+        <h2 class="bz-cta-title">Firmanız için özel çözüm mü arıyorsunuz?</h2>
+        <p class="bz-cta-sub">Logo baskı, özel renk seçimi ve toplu alım avantajları ile profesyonel iş giyim
+          çözümlerini keşfedin.</p>
+        <div class="bz-cta-actions">
+          <a href="/uzman/" class="bz-btn bz-btn-primary">Teklif Al</a>
+          <a href="/magaza/" class="bz-btn bz-btn-outline">Mağazayı Gez</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="bz-footer">
+    <div class="bz-container">
+      <div class="bz-footer-grid">
+        <div class="bz-footer-brand">
+          <div class="bz-footer-logo">
+            <span class="bz-brand-mark">B</span>
+            <span class="bz-brand-text">BERZAN</span>
+          </div>
+          <p class="bz-footer-tagline">Profesyonel İş Giyim & Güvenlik Ekipmanları</p>
+        </div>
+        <div class="bz-footer-col">
+          <h4>Ürünler</h4>
+          <a href="/magaza/?q=mont">Montlar</a>
+          <a href="/magaza/?q=kkd">KKD / Ekipman</a>
+          <a href="/magaza/?q=tulum">Tulumlar</a>
+          <a href="/magaza/?q=ayakkabi">Ayakkabılar</a>
+        </div>
+        <div class="bz-footer-col">
+          <h4>Kurumsal</h4>
+          <a href="/uzman/">Teklif Al</a>
+          <a href="/uzman/">Hakkımızda</a>
+          <a href="/uzman/">İletişim</a>
+        </div>
+        <div class="bz-footer-col">
+          <h4>Yasal</h4>
+          <a href="/kvkk/">KVKK</a>
+          <a href="/cerez-politikasi/">Çerez Politikası</a>
+        </div>
+      </div>
+      <div class="bz-footer-bottom">
+        <p>© 2026 BERZAN İş Giyim. Tüm hakları saklıdır.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/config.js"></script>
+  <script src="/assets/js/supabaseClient.js" type="module"></script>
+  <script src="/src/scripts/app.js" type="module"></script>
+
 </body>
+
 </html>
