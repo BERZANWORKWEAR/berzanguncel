@@ -1,339 +1,609 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ürün Yönetimi — BERZAN Admin</title>
-    <link href="/src/styles/styles.css" rel="stylesheet"/>
-    <style>
-        :root {
-            --primary: #ff6700;
-            --dark: #131d2e;
-            --bg: #f8f9fa;
-            --white: #ffffff;
-            --border: #e9ecef;
-            --text: #333;
-            --text-light: #6c757d;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Authentication Check Overlay */
-        #authCheck {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; z-index: 9999; display: flex; align-items: center; justify-content: center;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background: var(--dark);
-            color: white;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-        }
-
-        .sidebar-logo {
-            font-size: 20px;
-            font-weight: 800;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-logo .mark {
-            background: var(--primary);
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .nav-item {
-            padding: 12px 16px;
-            border-radius: 8px;
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            margin-bottom: 8px;
-            transition: all 0.2s;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-item.active, .nav-item:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
-        }
-
-        .logout {
-            margin-top: auto;
-            color: #ff4d4f;
-            cursor: pointer;
-        }
-
-        /* Main Content */
-        .main {
-            flex: 1;
-            padding: 40px;
-            box-sizing: border-box;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .header h1 { margin: 0; font-size: 28px; color: var(--dark); }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 24px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            border: 1px solid var(--border);
-        }
-
-        .stat-label { color: var(--text-light); font-size: 13px; margin-bottom: 8px; }
-        .stat-value { font-size: 24px; font-weight: 700; color: var(--dark); }
-
-        /* Table Area */
-        .card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            margin-bottom: 40px;
-        }
-
-        .card-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-header h2 { margin: 0; font-size: 18px; }
-
-        .btn-add {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .btn-add:hover { background: #e55c00; transform: translateY(-2px); }
-
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 16px 24px; background: #fcfcfd; font-size: 13px; color: var(--text-light); font-weight: 600; }
-        td { padding: 16px 24px; border-top: 1px solid var(--border); font-size: 14px; vertical-align: middle; }
-
-        .prod-img { width: 40px; height: 40px; border-radius: 8px; background: #f5f5f5; object-fit: contain; }
-        .prod-name { font-weight: 600; color: var(--dark); }
-        .prod-price { color: var(--primary); font-weight: 600; }
-
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .status-active { background: #e6fffa; color: #047481; }
-        .status-inactive { background: #fff5f5; color: #c53030; }
-
-        .actions { display: flex; gap: 12px; }
-        .btn-icon {
-            background: none; border: none; cursor: pointer; padding: 4px; color: var(--text-light); transition: color 0.2s;
-        }
-        .btn-icon:hover { color: var(--dark); }
-        .btn-delete:hover { color: #ff4d4f; }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); display: none; z-index: 1000;
-            align-items: center; justify-content: center; backdrop-filter: blur(4px);
-        }
-        .modal {
-            background: white; width: 100%; max-width: 500px; border-radius: 20px;
-            padding: 32px; box-sizing: border-box;
-            animation: modalIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .form-row { margin-bottom: 20px; }
-        .form-row label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-        .form-row input, .form-row select, .form-row textarea {
-            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box;
-            font-family: inherit; font-size: 14px;
-        }
-        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 32px; }
-        .btn-ghost { background: none; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-
-        /* Overlay loader */
-        #loadingOverlay {
-          position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8);
-          z-index:2000; display:flex; align-items:center; justify-content:center; flex-direction:column;
-          visibility:hidden; opacity:0; transition:all 0.3s;
-        }
-        #loadingOverlay.visible { visibility:visible; opacity:1; }
-
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BERZAN ERP Panel</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/src/styles/admin.css" />
 </head>
-<body>
-
-<div id="authCheck">Giriş yapılıyor...</div>
-
-<aside class="sidebar">
-    <div class="sidebar-logo">
-        <div class="mark">B</div>
-        <span>BERZAN Admin</span>
+<body class="erp-app">
+  <div class="erp-boot" id="bootState">
+    <div class="erp-boot-card">
+      <div class="erp-boot-mark">B</div>
+      <h1>ERP Panel hazırlanıyor</h1>
+      <p>Katalog, teklifler, operasyon ve stok aynı merkezde yükleniyor.</p>
     </div>
+  </div>
 
-    <a href="/admin/" class="nav-item active">
-        <span>📦</span> Ürünler
-    </a>
-    <a href="/magaza/" class="nav-item" target="_blank">
-        <span>🏪</span> Mağaza Görünümü
-    </a>
-
-    <div class="nav-item logout" id="logoutBtn">
-        <span>🚪</span> Çıkış Yap
-    </div>
-</aside>
-
-<main class="main">
-    <div class="header">
-        <h1>Ürün Yönetimi</h1>
-        <div id="welcomeUser" style="color: var(--text-light); font-size: 14px;"></div>
-    </div>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-label">Toplam Ürün</div>
-            <div class="stat-value" id="statTotal">0</div>
+  <div class="erp-shell">
+    <aside class="erp-sidebar">
+      <div>
+        <div class="erp-brand">
+          <div class="erp-brand-mark">B</div>
+          <div>
+            <strong>BERZAN ERP</strong>
+            <span>Satış + operasyon merkezi</span>
+          </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-label">Aktif Satış</div>
-            <div class="stat-value" id="statActive">0</div>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="card-header">
-            <h2>Tüm Ürünler</h2>
-            <button class="btn-add" id="openAddModal">
-                <span>+</span> Yeni Ürün Ekle
-            </button>
+        <nav class="erp-nav">
+          <button class="erp-nav-btn is-active" data-view="dashboard">Kontrol Merkezi</button>
+          <button class="erp-nav-btn" data-view="catalog">Katalog</button>
+          <button class="erp-nav-btn" data-view="leads">Teklif Havuzu</button>
+          <button class="erp-nav-btn" data-view="customers">Müşteriler</button>
+          <button class="erp-nav-btn" data-view="orders">Siparişler</button>
+          <button class="erp-nav-btn" data-view="inventory">Stok</button>
+          <button class="erp-nav-btn" data-view="finance">Finans</button>
+          <button class="erp-nav-btn" data-view="tasks">Görevler</button>
+          <button class="erp-nav-btn" data-view="settings">Ayarlar</button>
+        </nav>
+      </div>
+
+      <div class="erp-sidebar-foot">
+        <a class="erp-mini-link" href="/magaza/" target="_blank" rel="noreferrer">Mağazayı Aç</a>
+        <button class="erp-ghost-btn" id="logoutBtn" type="button">Çıkış Yap</button>
+      </div>
+    </aside>
+
+    <main class="erp-main">
+      <header class="erp-topbar">
+        <div>
+          <p class="erp-kicker">Canlı operasyon görünümü</p>
+          <h1 id="viewTitle">Kontrol Merkezi</h1>
         </div>
-        <table>
-            <thead>
+        <div class="erp-topbar-actions">
+          <span class="erp-user" id="userBadge">Yükleniyor</span>
+          <button class="erp-primary-btn js-create" data-resource="products" type="button">Yeni Ürün</button>
+          <button class="erp-secondary-btn js-create" data-resource="tasks" type="button">Görev Aç</button>
+          <button class="erp-secondary-btn" id="refreshBtn" type="button">Yenile</button>
+        </div>
+      </header>
+
+      <section class="erp-view is-active" data-view-panel="dashboard">
+        <div class="erp-metrics">
+          <article class="erp-metric-card accent-blue">
+            <span>Açık Teklif</span>
+            <strong id="metricOpenLeads">0</strong>
+            <small>Takip bekleyen sıcak fırsatlar</small>
+          </article>
+          <article class="erp-metric-card accent-gold">
+            <span>Potansiyel Ciro</span>
+            <strong id="metricPotentialRevenue">₺ 0</strong>
+            <small>Aktif pipeline toplamı</small>
+          </article>
+          <article class="erp-metric-card accent-green">
+            <span>Toplam Sipariş</span>
+            <strong id="metricOrders">0</strong>
+            <small>ERP içindeki sipariş sayısı</small>
+          </article>
+          <article class="erp-metric-card accent-coral">
+            <span>Düşük Stok</span>
+            <strong id="metricLowStock">0</strong>
+            <small>Yeniden sipariş eşiği altı ürün</small>
+          </article>
+        </div>
+
+        <div class="erp-grid-two">
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Teklif Hunisi</h2>
+                <p>Web formu ve satış ekibi hareketleri</p>
+              </div>
+            </div>
+            <div class="erp-stage-grid" id="funnelGrid"></div>
+          </section>
+
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Acil Görevler</h2>
+                <p>Bugün ve yarına sarkan işler</p>
+              </div>
+            </div>
+            <div class="erp-list" id="urgentTasksList"></div>
+          </section>
+        </div>
+
+        <div class="erp-grid-two">
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Finans Nabzı</h2>
+                <p>Anlık nakit, borç ve limit görünümü</p>
+              </div>
+            </div>
+            <div class="erp-stage-grid">
+              <article class="erp-stage-card">
+                <span>Anlık Nakit</span>
+                <strong id="metricCashOnHand">₺ 0</strong>
+              </article>
+              <article class="erp-stage-card">
+                <span>Toplam Borç</span>
+                <strong id="metricCurrentDebt">₺ 0</strong>
+              </article>
+              <article class="erp-stage-card">
+                <span>Aylık Gelir</span>
+                <strong id="metricMonthlyIncome">₺ 0</strong>
+              </article>
+              <article class="erp-stage-card">
+                <span>Aylık Gider</span>
+                <strong id="metricMonthlyExpense">₺ 0</strong>
+              </article>
+              <article class="erp-stage-card">
+                <span>Kullanılabilir Limit</span>
+                <strong id="metricAvailableCredit">₺ 0</strong>
+              </article>
+            </div>
+          </section>
+
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Yaklaşan Borçlar</h2>
+                <p>Vadesi yaklaşan yükümlülükler</p>
+              </div>
+            </div>
+            <div class="erp-list" id="upcomingLiabilitiesList"></div>
+          </section>
+        </div>
+
+        <div class="erp-grid-two">
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Son Gelen Talepler</h2>
+                <p>Site ve satış kanalından akan yeni kayıtlar</p>
+              </div>
+            </div>
+            <div class="erp-list" id="recentLeadsList"></div>
+          </section>
+
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Son Finans Hareketleri</h2>
+                <p>Gelir ve gider akışının son kayıtları</p>
+              </div>
+            </div>
+            <div class="erp-list" id="recentFinanceList"></div>
+          </section>
+        </div>
+
+        <div class="erp-card">
+          <div class="erp-card-head">
+            <div>
+              <h2>Stok Alarmı</h2>
+              <p>Operasyon tarafında risk yaratan ürünler</p>
+            </div>
+          </div>
+          <div class="erp-list" id="lowStockList"></div>
+        </div>
+      </section>
+
+      <section class="erp-view" data-view-panel="catalog">
+        <div class="erp-card">
+          <div class="erp-card-head">
+            <div>
+              <h2>Katalog Yönetimi</h2>
+              <p>Mağaza, ürün detayı ve teklif akışını besleyen canlı ürünler</p>
+            </div>
+            <div class="erp-inline-actions">
+              <button class="erp-secondary-btn js-create" data-resource="categories" type="button">Kategori Ekle</button>
+              <button class="erp-primary-btn js-create" data-resource="products" type="button">Ürün Ekle</button>
+            </div>
+          </div>
+          <div class="erp-table-wrap">
+            <table class="erp-table">
+              <thead>
                 <tr>
-                    <th>Ürün</th>
-                    <th>Fiyat</th>
-                    <th>Kategori</th>
-                    <th>Durum</th>
-                    <th style="text-align:right;">İşlemler</th>
+                  <th>Ürün</th>
+                  <th>Kategori</th>
+                  <th>Fiyatlar</th>
+                  <th>Stok</th>
+                  <th>Durum</th>
+                  <th></th>
                 </tr>
-            </thead>
-            <tbody id="productTableBody">
-                <!-- Products will be injected here -->
-            </tbody>
-        </table>
-    </div>
-</main>
+              </thead>
+              <tbody id="productsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-<!-- Add/Edit Modal -->
-<div class="modal-overlay" id="productModalOverlay">
-    <div class="modal">
-        <h2 id="modalTitle">Yeni Ürün Ekle</h2>
-        <form id="productForm">
-            <input type="hidden" id="editId">
-            <div class="form-row">
-                <label>Ürün Adı</label>
-                <input type="text" id="prodName" required placeholder="Örn: High Visibility Mont">
+      <section class="erp-view" data-view-panel="leads">
+        <div class="erp-grid-two">
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Teklif Durumları</h2>
+                <p>Satış pipeline görünümü</p>
+              </div>
+              <button class="erp-primary-btn js-create" data-resource="leads" type="button">Teklif Kaydı Aç</button>
             </div>
-            <div class="form-row">
-                <label>Fiyat (₺)</label>
-                <input type="number" id="prodPrice" required placeholder="Örn: 1990">
+            <div class="erp-stage-grid" id="leadStageGrid"></div>
+          </section>
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Takip Notu</h2>
+                <p>Site formundan gelen kayıtlar otomatik görev üretir</p>
+              </div>
             </div>
-            <div class="form-row">
-                <label>Kategori</label>
-                <select id="prodCategory">
-                    <!-- Categories will be injected here -->
+            <div class="erp-highlight-box">
+              <strong>Canlı entegrasyon</strong>
+              <p>Web sitesindeki uzman formu gönderildiğinde müşteri, teklif ve görev kaydı bu panelde otomatik oluşur.</p>
+            </div>
+          </section>
+        </div>
+
+        <div class="erp-card">
+          <div class="erp-table-wrap">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Teklif</th>
+                  <th>Müşteri</th>
+                  <th>Tutar</th>
+                  <th>Aşama</th>
+                  <th>Öncelik</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="leadsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="erp-view" data-view-panel="customers">
+        <div class="erp-card">
+          <div class="erp-card-head">
+            <div>
+              <h2>Müşteri Portföyü</h2>
+              <p>Son temas, ciro ve sorumlu ekip görünümü</p>
+            </div>
+            <button class="erp-primary-btn js-create" data-resource="customers" type="button">Müşteri Ekle</button>
+          </div>
+          <div class="erp-table-wrap">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Müşteri</th>
+                  <th>Segment</th>
+                  <th>Son Temas</th>
+                  <th>Toplam Ciro</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="customersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="erp-view" data-view-panel="orders">
+        <div class="erp-card">
+          <div class="erp-card-head">
+            <div>
+              <h2>Sipariş Akışı</h2>
+              <p>Tekliften operasyona geçen kayıtlar</p>
+            </div>
+            <button class="erp-primary-btn js-create" data-resource="orders" type="button">Sipariş Ekle</button>
+          </div>
+          <div class="erp-table-wrap">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Sipariş</th>
+                  <th>Müşteri</th>
+                  <th>Tutar</th>
+                  <th>Durum</th>
+                  <th>Ödeme</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="erp-view" data-view-panel="inventory">
+        <div class="erp-grid-two">
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Stok Hareketi</h2>
+                <p>Giriş ve çıkışları tek tıkla işle</p>
+              </div>
+            </div>
+            <form class="erp-form" id="inventoryForm">
+              <label>
+                <span>Ürün</span>
+                <select id="inventoryProduct"></select>
+              </label>
+              <label>
+                <span>İşlem Türü</span>
+                <select id="inventoryType">
+                  <option value="Giris">Giriş</option>
+                  <option value="Cikis">Çıkış</option>
                 </select>
-            </div>
-            <div class="form-row">
-                <label>Kısa Açıklama</label>
-                <textarea id="prodShortDesc" rows="2" placeholder="Saha koşulları için dayanıklı..."></textarea>
-            </div>
-            <div class="form-row">
-                <label>Görsel URL</label>
-                <input type="text" id="prodCover" placeholder="/img/product.webp">
-            </div>
-            <div class="form-row" style="display:flex; align-items:center; gap:8px;">
-                <input type="checkbox" id="prodActive" checked style="width:auto;">
-                <label style="margin:0;">Aktif Satışta</label>
-            </div>
+              </label>
+              <label>
+                <span>Adet</span>
+                <input id="inventoryQty" type="number" min="1" value="1" required />
+              </label>
+              <label>
+                <span>Neden</span>
+                <input id="inventoryReason" type="text" placeholder="Numune, satın alma, sevkiyat..." required />
+              </label>
+              <button class="erp-primary-btn" type="submit">Stok Hareketi İşle</button>
+            </form>
+          </section>
 
-            <div class="modal-actions">
-                <button type="button" class="btn-ghost" id="closeModal">İptal</button>
-                <button type="submit" class="btn-add" id="saveBtn">Kaydet</button>
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Son Hareketler</h2>
+                <p>Depo akışından gelen son kayıtlar</p>
+              </div>
             </div>
-        </form>
+            <div class="erp-list" id="movementList"></div>
+          </section>
+        </div>
+
+        <div class="erp-card">
+          <div class="erp-card-head">
+            <div>
+              <h2>Stok Özeti</h2>
+              <p>Reorder eşiği ve canlı adet görünümü</p>
+            </div>
+          </div>
+          <div class="erp-table-wrap">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Ürün</th>
+                  <th>Kategori</th>
+                  <th>Stok</th>
+                  <th>Reorder</th>
+                  <th>Risk</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="erp-view" data-view-panel="finance">
+        <div class="erp-metrics">
+          <article class="erp-metric-card accent-green">
+            <span>Anlık Nakit</span>
+            <strong id="financeCashOnHand">₺ 0</strong>
+            <small>Kasa + banka toplamı</small>
+          </article>
+          <article class="erp-metric-card accent-coral">
+            <span>Toplam Borç</span>
+            <strong id="financeCurrentDebt">₺ 0</strong>
+            <small>Açık borç ve kredi kullanımı</small>
+          </article>
+          <article class="erp-metric-card accent-blue">
+            <span>Bu Ay Gelir</span>
+            <strong id="financeMonthlyIncome">₺ 0</strong>
+            <small>Gerçekleşen tahsilatlar</small>
+          </article>
+          <article class="erp-metric-card accent-coral">
+            <span>Bu Ay Gider</span>
+            <strong id="financeMonthlyExpense">₺ 0</strong>
+            <small>Gerçekleşen ödemeler</small>
+          </article>
+          <article class="erp-metric-card accent-blue">
+            <span>Toplam Kredi Limiti</span>
+            <strong id="financeTotalCreditLimit">₺ 0</strong>
+            <small>Tanımlı toplam finansman alanı</small>
+          </article>
+          <article class="erp-metric-card accent-gold">
+            <span>Kullanılabilir Limit</span>
+            <strong id="financeAvailableCredit">₺ 0</strong>
+            <small>Kredi kartı + kredi boş alanı</small>
+          </article>
+        </div>
+
+        <div class="erp-grid-two">
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Hesaplar</h2>
+                <p>Kasa, banka ve kredi limitleri</p>
+              </div>
+              <button class="erp-primary-btn js-create" data-resource="financeAccounts" type="button">Hesap Ekle</button>
+            </div>
+            <div class="erp-table-wrap">
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th>Hesap</th>
+                    <th>Tür</th>
+                    <th>Bakiye</th>
+                    <th>Limit</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="financeAccountsTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Borç Takvimi</h2>
+                <p>Vadesi yaklaşan ve açık yükümlülükler</p>
+              </div>
+              <button class="erp-primary-btn js-create" data-resource="financeLiabilities" type="button">Borç Ekle</button>
+            </div>
+            <div class="erp-table-wrap">
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th>Borç</th>
+                    <th>Kurum</th>
+                    <th>Kalan</th>
+                    <th>Vade</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="financeLiabilitiesTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="erp-card">
+          <div class="erp-card-head">
+            <div>
+              <h2>Gelir / Gider Akışı</h2>
+              <p>Manual girip finans kontrolünü anlık izleyebilirsin</p>
+            </div>
+            <button class="erp-primary-btn js-create" data-resource="financeEntries" type="button">Hareket Ekle</button>
+          </div>
+          <div class="erp-table-wrap">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Hareket</th>
+                  <th>Hesap</th>
+                  <th>Tip</th>
+                  <th>Tutar</th>
+                  <th>Tarih</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="financeEntriesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="erp-view" data-view-panel="tasks">
+        <div class="erp-card">
+          <div class="erp-card-head">
+            <div>
+              <h2>Görev Planı</h2>
+              <p>Satış ve operasyon ekibinin günlük takibi</p>
+            </div>
+            <button class="erp-primary-btn js-create" data-resource="tasks" type="button">Görev Ekle</button>
+          </div>
+          <div class="erp-table-wrap">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Görev</th>
+                  <th>Sorumlu</th>
+                  <th>Bitiş</th>
+                  <th>Durum</th>
+                  <th>Öncelik</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tasksTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="erp-view" data-view-panel="settings">
+        <div class="erp-grid-two">
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Site Ayarları</h2>
+                <p>Ana sayfa rozeti, iletişim ve duyuru alanı</p>
+              </div>
+            </div>
+            <form class="erp-form" id="settingsForm">
+              <label>
+                <span>Şirket Adı</span>
+                <input id="settingCompanyName" type="text" required />
+              </label>
+              <label>
+                <span>Destek Telefonu</span>
+                <input id="settingSupportPhone" type="text" />
+              </label>
+              <label>
+                <span>Destek E-postası</span>
+                <input id="settingSupportEmail" type="email" />
+              </label>
+              <label>
+                <span>Hero Rozeti</span>
+                <input id="settingHeroBadge" type="text" />
+              </label>
+              <label class="full">
+                <span>Duyuru Metni</span>
+                <textarea id="settingAnnouncement" rows="4"></textarea>
+              </label>
+              <label>
+                <span>Satış Sorumlusu</span>
+                <input id="settingSalesOwner" type="text" />
+              </label>
+              <button class="erp-primary-btn" type="submit">Ayarları Kaydet</button>
+            </form>
+          </section>
+
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Panel Notları</h2>
+                <p>Kurulum ve çalışma mantığı</p>
+              </div>
+            </div>
+            <div class="erp-note-stack">
+              <div class="erp-note">
+                <strong>Kimlik doğrulama</strong>
+                <p>Panel girişleri backend oturumu ile korunur. Varsayılan kullanıcı bilgileri sunucu `.env` ile değiştirilebilir.</p>
+              </div>
+              <div class="erp-note">
+                <strong>Canlı katalog</strong>
+                <p>Site önce Supabase’i dener, veri yoksa bu ERP API’sindeki ürünleri otomatik kullanır.</p>
+              </div>
+              <div class="erp-note">
+                <strong>Web form entegrasyonu</strong>
+                <p>Uzman formundan gelen her gönderim teklif, müşteri ve görev kaydı olarak CRM akışına düşer.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="erp-modal-backdrop" id="entityModal">
+    <div class="erp-modal-card">
+      <div class="erp-modal-head">
+        <div>
+          <p class="erp-kicker" id="modalKicker">Kayıt</p>
+          <h2 id="modalTitle">Yeni kayıt</h2>
+        </div>
+        <button class="erp-ghost-btn" id="closeModalBtn" type="button">Kapat</button>
+      </div>
+      <form class="erp-form" id="entityForm">
+        <input type="hidden" id="entityResource" />
+        <input type="hidden" id="entityId" />
+        <div class="erp-modal-grid" id="entityFormFields"></div>
+        <div class="erp-modal-actions">
+          <button class="erp-secondary-btn" id="cancelModalBtn" type="button">İptal</button>
+          <button class="erp-primary-btn" type="submit">Kaydet</button>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
 
-<div id="loadingOverlay">
-  <div style="font-size:20px; font-weight:600; margin-bottom:10px;">İşleniyor...</div>
-  <div style="width:40px; height:40px; border:4px solid var(--border); border-top-color:var(--primary); border-radius:50%; animation: spin 1s linear infinite;"></div>
-</div>
+  <div class="erp-toast" id="toast"></div>
 
-<style>
-@keyframes spin { to { transform: rotate(360deg); } }
-</style>
-
-<script src="/config.js"></script>
-<script type="module" src="/assets/js/supabaseClient.js"></script>
-<script type="module" src="/admin/admin.js"></script>
-
+  <script src="/config.js"></script>
+  <script type="module" src="/admin/admin.js"></script>
 </body>
 </html>

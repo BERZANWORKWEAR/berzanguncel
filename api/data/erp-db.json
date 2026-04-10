@@ -1,0 +1,622 @@
+{
+  "meta": {
+    "version": 1,
+    "created_at": "2026-04-10T19:26:18.731Z",
+    "updated_at": "2026-04-10T19:26:40.469Z"
+  },
+  "categories": [
+    {
+      "id": "cat_mont",
+      "slug": "mont",
+      "name": "Mont & Dış Giyim",
+      "description": "Saha ve kış şartları için dış giyim",
+      "active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "cat_ust",
+      "slug": "ust",
+      "name": "Üst Giyim",
+      "description": "Tişört, sweatshirt ve katman ürünleri",
+      "active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "cat_pantolon",
+      "slug": "pantolon",
+      "name": "Alt Giyim",
+      "description": "İş pantolonu ve şortlar",
+      "active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "cat_yelek",
+      "slug": "yelek",
+      "name": "Yelek & Görünürlük",
+      "description": "Reflektif ve hafif yelek çözümleri",
+      "active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "cat_tulum",
+      "slug": "tulum",
+      "name": "Tulum",
+      "description": "Endüstriyel tulum serisi",
+      "active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "cat_kkd",
+      "slug": "kkd",
+      "name": "KKD / Ekipman",
+      "description": "Kişisel koruyucu donanım",
+      "active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "cat_ayakkabi",
+      "slug": "ayakkabi",
+      "name": "İş Ayakkabısı",
+      "description": "S3 ve saha tipi ayakkabılar",
+      "active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "cat_aksesuar",
+      "slug": "aksesuar",
+      "name": "Aksesuar",
+      "description": "Tamamlayıcı saha ekipmanları",
+      "active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prd_mont_hv",
+      "sku": "BZ-MNT-001",
+      "slug": "mont",
+      "name": "High Visibility Mont",
+      "category_id": "cat_mont",
+      "short_desc": "Reflektör bantlı, EN/CE odaklı saha montu.",
+      "description": "Düşük ışık koşullarında görünürlük sağlayan, soğuğa ve yoğun kullanıma uygun premium saha montu.",
+      "cover_image_url": "/img/home-product.webp",
+      "price_try": 1990,
+      "quote_price_try": 1890,
+      "stock": 72,
+      "reorder_point": 18,
+      "badges": [
+        "EN/CE",
+        "Reflektör"
+      ],
+      "sectors": [
+        "insaat",
+        "lojistik",
+        "fabrika",
+        "marine"
+      ],
+      "seasons": [
+        "kislik",
+        "sezonluk"
+      ],
+      "sort": 10,
+      "featured": true,
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "prd_mont_hd",
+      "sku": "BZ-MNT-002",
+      "slug": "heavy-duty-mont",
+      "name": "Heavy Duty Mont",
+      "category_id": "cat_mont",
+      "short_desc": "Yoğun saha kullanımı için güçlendirilmiş mont.",
+      "description": "Ağır hizmet koşulları için tasarlanan güçlendirilmiş dikiş ve kumaş yapısına sahip mont.",
+      "cover_image_url": "/img/monthero.webp",
+      "price_try": 2190,
+      "quote_price_try": 2050,
+      "stock": 31,
+      "reorder_point": 10,
+      "badges": [
+        "Dayanım",
+        "Saha"
+      ],
+      "sectors": [
+        "insaat",
+        "fabrika",
+        "marine"
+      ],
+      "seasons": [
+        "kislik",
+        "sezonluk"
+      ],
+      "sort": 20,
+      "featured": true,
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "prd_softshell",
+      "sku": "BZ-MNT-004",
+      "slug": "softshell-flex",
+      "name": "Softshell Flex",
+      "category_id": "cat_mont",
+      "short_desc": "Esnek ve konforlu günlük vardiya ceketi.",
+      "description": "Yüksek hareket özgürlüğü ve hafiflik sunan, günlük operasyonlar için tasarlanmış softshell ceket.",
+      "cover_image_url": "/img/kkd.webp",
+      "price_try": 1890,
+      "quote_price_try": 1750,
+      "stock": 15,
+      "reorder_point": 14,
+      "badges": [
+        "Esnek",
+        "Konfor"
+      ],
+      "sectors": [
+        "lojistik",
+        "isletme",
+        "insaat"
+      ],
+      "seasons": [
+        "sezonluk",
+        "kislik"
+      ],
+      "sort": 30,
+      "featured": true,
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "prd_polo",
+      "sku": "BZ-UST-001",
+      "slug": "polo-tisort",
+      "name": "Kurumsal Polo Tişört",
+      "category_id": "cat_ust",
+      "short_desc": "Logolu kurumsal görünüme uygun polo tişört.",
+      "description": "Sıcak çalışma ortamlarında nefes alabilen kumaşıyla kurumsal görünüm sunan polo tişört.",
+      "cover_image_url": "/img/sektor-sec.webp",
+      "price_try": 690,
+      "quote_price_try": 620,
+      "stock": 138,
+      "reorder_point": 40,
+      "badges": [
+        "Kurumsal",
+        "Nefes alır"
+      ],
+      "sectors": [
+        "isletme",
+        "lojistik",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "sort": 40,
+      "featured": false,
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "prd_pantolon",
+      "sku": "BZ-PNT-001",
+      "slug": "is-pantolonu",
+      "name": "İş Pantolonu",
+      "category_id": "cat_pantolon",
+      "short_desc": "Gün boyu rahat, güçlendirilmiş saha pantolonu.",
+      "description": "Ergonomik kesimi ve güçlendirilmiş bölgeleriyle uzun vardiyalar için tasarlanmış iş pantolonu.",
+      "cover_image_url": "/img/toplu-alim.webp",
+      "price_try": 1190,
+      "quote_price_try": 1090,
+      "stock": 64,
+      "reorder_point": 20,
+      "badges": [
+        "Ergonomi",
+        "Dayanım"
+      ],
+      "sectors": [
+        "insaat",
+        "lojistik",
+        "isletme",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "sort": 50,
+      "featured": false,
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "prd_yelek",
+      "sku": "BZ-YLK-001",
+      "slug": "reflektor-yelek",
+      "name": "Yüksek Görünürlüklü Yelek",
+      "category_id": "cat_yelek",
+      "short_desc": "Hızlı giy-çık kullanımına uygun reflektif yelek.",
+      "description": "Görünürlüğü artıran hafif yapı ve hızlı kullanım avantajı sunan reflektif yelek.",
+      "cover_image_url": "/img/kkd.webp",
+      "price_try": 590,
+      "quote_price_try": 520,
+      "stock": 210,
+      "reorder_point": 48,
+      "badges": [
+        "Reflektör",
+        "EN/CE"
+      ],
+      "sectors": [
+        "lojistik",
+        "insaat",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "sort": 60,
+      "featured": false,
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "prd_ayakkabi",
+      "sku": "BZ-AYK-001",
+      "slug": "ayakkabi-s3",
+      "name": "İş Ayakkabısı S3",
+      "category_id": "cat_ayakkabi",
+      "short_desc": "S3 sertifikalı saha ayakkabısı.",
+      "description": "Çelik burunlu, kaymaz tabanlı ve uzun vardiya konforuna uygun S3 saha ayakkabısı.",
+      "cover_image_url": "/img/mainpg.webp",
+      "price_try": 2290,
+      "quote_price_try": 2090,
+      "stock": 22,
+      "reorder_point": 16,
+      "badges": [
+        "S3",
+        "Çelik burun"
+      ],
+      "sectors": [
+        "insaat",
+        "lojistik",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "sort": 70,
+      "featured": true,
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "prd_bere",
+      "sku": "BZ-AKS-004",
+      "slug": "bere",
+      "name": "İş Beresi",
+      "category_id": "cat_aksesuar",
+      "short_desc": "Kış vardiyalarında sıcak tutan saha beresi.",
+      "description": "Soğuk hava koşullarında temel sıcaklık katmanı sağlayan dayanıklı iş beresi.",
+      "cover_image_url": "/img/monthero.webp",
+      "price_try": 190,
+      "quote_price_try": 170,
+      "stock": 9,
+      "reorder_point": 12,
+      "badges": [
+        "Sıcak"
+      ],
+      "sectors": [
+        "insaat",
+        "lojistik",
+        "marine",
+        "fabrika"
+      ],
+      "seasons": [
+        "kislik"
+      ],
+      "sort": 80,
+      "featured": false,
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "leads": [
+    {
+      "id": "lead_demo_1",
+      "lead_no": "LD-2026-0001",
+      "customer_id": "cus_berzan_demo_1",
+      "name": "Ayşe Demir",
+      "company": "Demir Lojistik",
+      "phone": "+90 542 400 12 12",
+      "email": "ayse@demirlojistik.com",
+      "note": "50 adet polo tişört ve 30 adet reflektörlü yelek için fiyat bekleniyor.",
+      "items": [
+        {
+          "id": "prd_polo",
+          "name": "Kurumsal Polo Tişört",
+          "qty": 50,
+          "price": 620
+        },
+        {
+          "id": "prd_yelek",
+          "name": "Yüksek Görünürlüklü Yelek",
+          "qty": 30,
+          "price": 520
+        }
+      ],
+      "totals": {
+        "retail": 52200,
+        "quote": 46600
+      },
+      "stage": "Teklif Hazırlanıyor",
+      "priority": "Yüksek",
+      "source": "Web Form",
+      "owner": "Satış Ekibi",
+      "page": "/uzman/",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "customers": [
+    {
+      "id": "cus_berzan_demo_1",
+      "name": "Ayşe Demir",
+      "company": "Demir Lojistik",
+      "phone": "+90 542 400 12 12",
+      "email": "ayse@demirlojistik.com",
+      "city": "İstanbul",
+      "segment": "Kurumsal",
+      "status": "Aktif",
+      "total_spend_try": 18500,
+      "last_contact_at": "2026-04-10T19:26:18.731Z",
+      "last_order_at": "2026-04-10T19:26:18.731Z",
+      "assigned_to": "Satış Ekibi",
+      "notes": "Yaz sezonu için toplu polo ve reflektif yelek talebi var.",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_demo_1",
+      "order_no": "BZ-2026-0001",
+      "customer_id": "cus_berzan_demo_1",
+      "lead_id": "lead_demo_1",
+      "status": "Onay Bekliyor",
+      "payment_status": "Teklif",
+      "total_try": 46600,
+      "channel": "Kurumsal",
+      "due_date": "2026-04-15T19:26:18.733Z",
+      "items": [
+        {
+          "id": "prd_polo",
+          "name": "Kurumsal Polo Tişört",
+          "qty": 50,
+          "price": 620
+        },
+        {
+          "id": "prd_yelek",
+          "name": "Yüksek Görünürlüklü Yelek",
+          "qty": 30,
+          "price": 520
+        }
+      ],
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "tsk_demo_1",
+      "title": "Demir Lojistik teklifini ara",
+      "status": "Açık",
+      "priority": "Yüksek",
+      "assignee": "Satış Ekibi",
+      "due_date": "2026-04-11T19:26:18.733Z",
+      "related_type": "lead",
+      "related_id": "lead_demo_1",
+      "notes": "Sabah vardiya planı çıkmadan önce dönüş bekliyorlar.",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "inventoryMovements": [
+    {
+      "id": "mov_demo_1",
+      "product_id": "prd_softshell",
+      "product_name": "Softshell Flex",
+      "type": "Cikis",
+      "quantity": 8,
+      "reason": "Numune ve sıcak satış",
+      "created_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "mov_demo_2",
+      "product_id": "prd_bere",
+      "product_name": "İş Beresi",
+      "type": "Cikis",
+      "quantity": 12,
+      "reason": "Kış sezonu saha paketi",
+      "created_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "financeAccounts": [
+    {
+      "id": "fin_acc_cash",
+      "name": "Merkez Kasa",
+      "type": "Kasa",
+      "institution": "BERZAN",
+      "currency": "TRY",
+      "current_balance_try": 124500,
+      "credit_limit_try": 0,
+      "due_day": null,
+      "notes": "Günlük nakit ve tahsilat kasası.",
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "fin_acc_bank",
+      "name": "Ticari Vadesiz",
+      "type": "Banka",
+      "institution": "VakıfBank",
+      "currency": "TRY",
+      "current_balance_try": 286000,
+      "credit_limit_try": 0,
+      "due_day": null,
+      "notes": "Tedarikçi ve maaş ödemeleri ana hesap.",
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "fin_acc_card",
+      "name": "Ticari Kredi Kartı",
+      "type": "Kredi Karti",
+      "institution": "Akbank",
+      "currency": "TRY",
+      "current_balance_try": 68500,
+      "credit_limit_try": 180000,
+      "due_day": 12,
+      "notes": "Operasyonel satın alma ve reklam harcamaları.",
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "fin_acc_loan",
+      "name": "İşletme Kredisi",
+      "type": "Kredi",
+      "institution": "QNB",
+      "currency": "TRY",
+      "current_balance_try": 420000,
+      "credit_limit_try": 500000,
+      "due_day": 18,
+      "notes": "Makine ve üretim yatırımı için kullanılan limit.",
+      "is_active": true,
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "financeEntries": [
+    {
+      "id": "fin_ent_1",
+      "account_id": "fin_acc_bank",
+      "title": "Kurumsal sipariş tahsilatı",
+      "type": "Gelir",
+      "category": "Satış",
+      "amount_try": 148000,
+      "status": "Gerçekleşti",
+      "transaction_date": "2026-04-10T19:26:18.731Z",
+      "counterparty": "Demir Lojistik",
+      "notes": "Nisan ayı toplu sipariş tahsilatı.",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "fin_ent_2",
+      "account_id": "fin_acc_card",
+      "title": "Kumaş ve aksesuar alımı",
+      "type": "Gider",
+      "category": "Satın Alma",
+      "amount_try": 37250,
+      "status": "Gerçekleşti",
+      "transaction_date": "2026-04-10T19:26:18.731Z",
+      "counterparty": "Atlas Tekstil",
+      "notes": "Yeni sezon üretim girdisi.",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "fin_ent_3",
+      "account_id": "fin_acc_cash",
+      "title": "Mağaza nakit tahsilatı",
+      "type": "Gelir",
+      "category": "Perakende",
+      "amount_try": 12400,
+      "status": "Gerçekleşti",
+      "transaction_date": "2026-04-10T19:26:18.731Z",
+      "counterparty": "Mağaza Satışı",
+      "notes": "",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "fin_ent_4",
+      "account_id": "fin_acc_bank",
+      "title": "Kira ödemesi",
+      "type": "Gider",
+      "category": "Sabit Gider",
+      "amount_try": 45000,
+      "status": "Gerçekleşti",
+      "transaction_date": "2026-04-10T19:26:18.731Z",
+      "counterparty": "İşyeri Sahibi",
+      "notes": "Aylık depo + showroom gideri.",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "financeLiabilities": [
+    {
+      "id": "fin_debt_1",
+      "title": "Atlas Tekstil açık hesap",
+      "lender": "Atlas Tekstil",
+      "type": "Tedarikçi Borcu",
+      "remaining_try": 96500,
+      "monthly_payment_try": 32000,
+      "due_date": "2026-04-19T19:26:18.733Z",
+      "status": "Açık",
+      "notes": "Vade sonunda ödeme planlandı.",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    },
+    {
+      "id": "fin_debt_2",
+      "title": "Vergi ve SGK yükümlülüğü",
+      "lender": "Gelir İdaresi / SGK",
+      "type": "Vergi",
+      "remaining_try": 118000,
+      "monthly_payment_try": 59000,
+      "due_date": "2026-04-26T19:26:18.733Z",
+      "status": "Açık",
+      "notes": "Bu ay kapanması gereken vergi ve SGK toplamı.",
+      "created_at": "2026-04-10T19:26:18.731Z",
+      "updated_at": "2026-04-10T19:26:18.731Z"
+    }
+  ],
+  "sessions": [
+    {
+      "token": "94531d3b4529025d5e6d9c64ac543bb36d8a507e01066cda",
+      "username": "Qazi",
+      "created_at": "2026-04-10T19:26:40.469Z",
+      "expires_at": "2026-04-11T07:26:40.469Z"
+    }
+  ],
+  "settings": {
+    "companyName": "BERZAN",
+    "supportPhone": "+90 542 100 55 64",
+    "supportEmail": "destek@berzan.com.tr",
+    "heroBadge": "2026 Yeni Sezon",
+    "announcement": "Kurumsal toplu alımlarda aynı gün teklif dönüşü için uzman ekibimize yazın.",
+    "salesOwner": "Satış Ekibi",
+    "updated_at": "2026-04-10T19:26:18.731Z"
+  }
+}

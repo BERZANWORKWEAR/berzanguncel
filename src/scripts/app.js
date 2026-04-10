@@ -15,8 +15,21 @@ function removeProductExampleNavLink(){
 // Runtime config (config.js)
 const BERZAN_CFG = Object.assign({
   notifyWebhook: '',
-  notifyTo: '9054210055649'
+  notifyTo: '9054210055649',
+  apiBaseUrl: ''
 }, window.BERZAN_CFG || {});
+
+function berzanApiUrl(path){
+  const base = String(BERZAN_CFG.apiBaseUrl || '').replace(/\/$/, '');
+  return `${base}${path}`;
+}
+
+async function berzanFetchJson(path, options = {}){
+  const res = await fetch(berzanApiUrl(path), options);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || data.ok === false) throw new Error(data.error || 'İstek başarısız');
+  return data;
+}
 
 function berzanNotifyLead(kind, data){
   const url = (BERZAN_CFG.notifyWebhook || '').trim();
@@ -42,6 +55,24 @@ function berzanNotifyLead(kind, data){
       }).catch(()=>{});
     }
   } catch(e){}
+}
+
+async function berzanApplyRuntimeSettings(){
+  try{
+    const data = await berzanFetchJson('/api/public/settings');
+    const settings = data.settings || {};
+    const heroBadge = document.querySelector('.bz-hero-badge');
+    if (heroBadge && settings.heroBadge) heroBadge.textContent = settings.heroBadge;
+
+    const navMsg = document.querySelector('.bz-pro-msg');
+    if (navMsg && settings.announcement) {
+      navMsg.textContent = `${settings.announcement} `;
+      const link = document.createElement('a');
+      link.href = '/uzman/';
+      link.textContent = 'Uzman ekibe yaz';
+      navMsg.appendChild(link);
+    }
+  }catch(e){}
 }
 
 /* =========================
@@ -165,7 +196,9 @@ const BERZAN_CATALOG = [
 const BERZAN_IMG_MAP = {};
 
 function berzanImgFor(product){
-  return (product && BERZAN_IMG_MAP[product.id]) ? BERZAN_IMG_MAP[product.id] : '';
+  if (!product) return '';
+  if (BERZAN_IMG_MAP[product.id]) return BERZAN_IMG_MAP[product.id];
+  return product.cover || '';
 }
 
 
@@ -177,10 +210,12 @@ function berzanFormatTRY(n){
   }
 }
 function berzanFindProduct(id){
-  return BERZAN_CATALOG.find(p => p.id === id) || null;
+  const live = Array.isArray(window.__LIVE_PRODUCTS__) ? window.__LIVE_PRODUCTS__ : [];
+  return live.find(p => p.id === id || p.slug === id) || BERZAN_CATALOG.find(p => p.id === id) || null;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  berzanApplyRuntimeSettings();
   // JS aktif bayrağı (CSS ile uyumlu)
   document.documentElement.classList.add('js');
 
@@ -394,8 +429,20 @@ function addToCart(id, qty=1){
 
   const items = getCart();
   const idx = items.findIndex(x => x.id === id);
-  if (idx >= 0) items[idx].qty = Math.min(999, Number(items[idx].qty) + qty);
-  else items.push({ id, qty: Math.min(999, qty) });
+  if (idx >= 0) {
+    items[idx].qty = Math.min(999, Number(items[idx].qty) + qty);
+    items[idx].name = p.name;
+    items[idx].retail = p.retail || 0;
+    items[idx].quote = p.quote || p.retail || 0;
+  } else {
+    items.push({
+      id,
+      qty: Math.min(999, qty),
+      name: p.name,
+      retail: p.retail || 0,
+      quote: p.quote || p.retail || 0
+    });
+  }
 
   setCart(items);
 }
@@ -419,7 +466,7 @@ function cartTotals(){
   let retail = 0;
   let quote = 0;
   items.forEach(it => {
-    const p = berzanFindProduct(it.id);
+    const p = berzanFindProduct(it.id) || it;
     if(!p) return;
     retail += (p.retail || 0) * it.qty;
     quote  += (p.quote  || p.retail || 0) * it.qty;
@@ -432,7 +479,7 @@ function cartSummaryText(){
   if(!items.length) return '';
   const lines = [];
   items.forEach(it => {
-    const p = berzanFindProduct(it.id);
+    const p = berzanFindProduct(it.id) || it;
     if(!p) return;
     lines.push(`• ${it.qty} × ${p.name}`);
   });
@@ -563,7 +610,7 @@ let drawer = document.getElementById('cartDrawer');
       `;
     } else {
       itemsEl.innerHTML = items.map(it => {
-        const p = berzanFindProduct(it.id);
+        const p = berzanFindProduct(it.id) || it;
         if (!p) return '';
         return `
           <div class="cart-item">
@@ -680,6 +727,53 @@ async function berzanLoadSupabaseProducts(){
   }));
 }
 
+async function berzanLoadApiProducts(){
+  const data = await berzanFetchJson('/api/public/products');
+  const rows = Array.isArray(data.products) ? data.products : [];
+  return rows.map(r => ({
+    __source: 'erp-api',
+    id: r.id,
+    slug: (r.slug || '').toLowerCase(),
+    name: r.name || 'Ürün',
+    mini: r.short_desc || '',
+    desc: r.description || r.short_desc || '',
+    retail: Number(r.price_try) || 0,
+    quote: Number(r.quote_price_try || r.price_try) || 0,
+    colors: [],
+    cover: r.cover_image_url || '',
+    cat: (r.category_slug || 'mont').toLowerCase(),
+    seasons: Array.isArray(r.seasons) ? r.seasons : [],
+    sectors: Array.isArray(r.sectors) ? r.sectors : [],
+    badges: Array.isArray(r.badges) ? r.badges : [],
+    badge: Array.isArray(r.badges) ? r.badges[0] || null : null,
+    rating: null,
+  }));
+}
+
+async function berzanLoadApiProduct(idOrSlug){
+  const data = await berzanFetchJson(`/api/public/products/${encodeURIComponent(idOrSlug)}`);
+  const r = data.product;
+  if (!r) return null;
+  return {
+    __source: 'erp-api',
+    id: r.id,
+    slug: (r.slug || '').toLowerCase(),
+    name: r.name || 'Ürün',
+    mini: r.short_desc || '',
+    desc: r.description || r.short_desc || '',
+    retail: Number(r.price_try) || 0,
+    quote: Number(r.quote_price_try || r.price_try) || 0,
+    colors: [],
+    cover: r.cover_image_url || '',
+    cat: (r.category_slug || 'mont').toLowerCase(),
+    seasons: Array.isArray(r.seasons) ? r.seasons : [],
+    sectors: Array.isArray(r.sectors) ? r.sectors : [],
+    badges: Array.isArray(r.badges) ? r.badges : [],
+    badge: Array.isArray(r.badges) ? r.badges[0] || null : null,
+    rating: null,
+  };
+}
+
 async function berzanLoadSupabaseProduct(idOrSlug){
   const sb = window.sb;
   if (!sb || !sb.from) return null;
@@ -737,6 +831,17 @@ async function initShopPage(){
     }
   }catch(e){
     console.warn("[Supabase] products load failed", e);
+  }
+  if (PRODUCTS === BERZAN_CATALOG){
+    try{
+      const live = await berzanLoadApiProducts();
+      if (Array.isArray(live) && live.length){
+        PRODUCTS = live;
+        window.__LIVE_PRODUCTS__ = live;
+      }
+    }catch(e){
+      console.warn("[ERP API] products load failed", e);
+    }
   }
 
   const tabs = Array.from(document.querySelectorAll('.season-tab'));
@@ -1022,7 +1127,16 @@ async function initProductPage(){
   const id = (params.get('urun') || 'mont').trim().toLowerCase();
   const colorParam = (params.get('renk') || params.get('color') || '').trim().toLowerCase();
 
-  const p = berzanFindProduct(id) || berzanFindProduct('mont') || BERZAN_CATALOG[0];
+  let p = null;
+  try{
+    p = await berzanLoadSupabaseProduct(id);
+  }catch(e){}
+  if (!p) {
+    try{
+      p = await berzanLoadApiProduct(id);
+    }catch(e){}
+  }
+  p = p || berzanFindProduct(id) || berzanFindProduct('mont') || BERZAN_CATALOG[0];
 
   // --- product text
   document.getElementById('crumb')?.replaceChildren(document.createTextNode(p.name));
@@ -1061,7 +1175,7 @@ async function initProductPage(){
   const PPE = ['baret','gozluk','eldiven','maske','kulaklik','kemer','ayakkabi','aksesuar'];
   const isPPE = PPE.includes(p.cat);
 
-  const colorList = p.colors || (isPPE ? COLORS_HIVIS : COLORS_APPAREL);
+  const colorList = Array.isArray(p.colors) && p.colors.length ? p.colors : (isPPE ? COLORS_HIVIS : COLORS_APPAREL);
   let activeColor = colorParam && colorList.some(c=>c.key===colorParam) ? colorParam : (colorList[0]?.key || '');
 
   const swatches = document.getElementById('pdpSwatches');
@@ -1108,6 +1222,7 @@ async function initProductPage(){
 
   function guessedMedia(){
     const urls = [];
+    if (p.cover) urls.push(p.cover);
     // 1) katalogda tanımlı ise
     if (p.media){
       if (typeof p.media === 'string') urls.push(p.media);
@@ -1236,13 +1351,17 @@ function initUzmanPrefill(){
   if (subj) subj.value = 'BERZAN | Ürün Talebi';
   if (submit) submit.textContent = 'Talebi Gönder';
 
-  
+  let handled = false;
+
   // WHATSAPP/WEBHOOK bildirim (uzman + teklif)
-  form.addEventListener('submit', () => {
+  form.addEventListener('submit', async (e) => {
+    if (handled) return;
     const name  = (form.querySelector('[name="ad_soyad"]')?.value || '').trim();
     const phone = (form.querySelector('[name="telefon"]')?.value || '').trim();
     const email = (form.querySelector('[name="email"]')?.value || '').trim();
     const msg   = (textarea.value || '').trim();
+    const companyMatch = msg.match(/firma[:\s-]+([^\n]+)/i);
+    const company = (companyMatch?.[1] || '').trim();
 
     const items = getCart?.() || [];
     const totals = cartTotals?.() || { retail: 0, quote: 0 };
@@ -1253,8 +1372,51 @@ function initUzmanPrefill(){
       cart: items,
       totals
     });
+
+    e.preventDefault();
+    if (submit) {
+      submit.disabled = true;
+      submit.textContent = 'Kaydediliyor...';
+    }
+
+    try{
+      await berzanFetchJson('/api/public/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          company,
+          note: msg,
+          items: items.map(it => {
+            const product = berzanFindProduct(it.id) || it || {};
+            return {
+              id: it.id,
+              name: product.name || it.id,
+              qty: Number(it.qty || 1),
+              price: Number(product.quote || product.retail || 0),
+            };
+          }),
+          totals,
+          source: 'Web Form',
+          page: location.pathname,
+        })
+      });
+      handled = true;
+      location.href = '/tesekkurler/';
+    }catch(err){
+      handled = true;
+      form.submit();
+    } finally {
+      if (submit) {
+        submit.disabled = false;
+        submit.textContent = 'Talebi Gönder';
+      }
+    }
   }, { capture: true });
-const note = localStorage.getItem(CART_NOTE_KEY) || '';
+
+  const note = localStorage.getItem(CART_NOTE_KEY) || '';
   if (note && textarea.value.trim().length === 0){
     textarea.value = note + '\n\nNot: Ödeme altyapısı yakında (iyzico vb.). Şimdilik talep olarak iletiyorum.';
   }

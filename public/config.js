@@ -5,7 +5,11 @@ window.BERZAN_CFG = window.BERZAN_CFG || {
   notifyWebhook: "https://webhook.site/89823b49-1fde-4dba-a857-c9b74f1dcfb8",
 
   // Bildirim (WhatsApp) hedefi — kendi numaran (başında + yok)
-  notifyTo: "9054210055649"
+  notifyTo: "9054210055649",
+
+  // API ayrı bir domainde koşuyorsa buraya yaz.
+  // Aynı sunucuda ise boş bırakabilirsin.
+  apiBaseUrl: ""
 };
 
 

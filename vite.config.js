@@ -7,6 +7,8 @@ const __dirname = dirname(__filename);
 
 const pages = [
   'index.html',
+  'admin/index.html',
+  'admin/login.html',
   'magaza/index.html',
   'urun/index.html',
   'urunler/index.html',
@@ -19,6 +21,14 @@ const pages = [
 
 export default defineConfig({
   base: '/', // custom domain için doğru
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8787',
+        changeOrigin: true,
+      },
+    },
+  },
   build: {
     target: 'esnext',
     cssTarget: 'esnext',
