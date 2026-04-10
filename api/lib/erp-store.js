@@ -5,8 +5,12 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_DIR = path.resolve(__dirname, "../data");
-const DB_PATH = path.join(DATA_DIR, "erp-db.json");
+const DATA_DIR = process.env.ERP_DATA_DIR
+  ? path.resolve(process.env.ERP_DATA_DIR)
+  : path.resolve(__dirname, "../data");
+const DB_PATH = process.env.ERP_DB_PATH
+  ? path.resolve(process.env.ERP_DB_PATH)
+  : path.join(DATA_DIR, "erp-db.json");
 
 const CATEGORY_SEED = [
   { id: "cat_mont", slug: "mont", name: "Mont & Dış Giyim", description: "Saha ve kış şartları için dış giyim", active: true },

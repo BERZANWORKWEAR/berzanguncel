@@ -27,6 +27,8 @@ const PORT = process.env.PORT || 8787;
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "Qazi";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "2+2=1";
 const ADMIN_BYPASS = String(process.env.ADMIN_BYPASS || "false") === "true";
+const ERP_DATA_DIR = process.env.ERP_DATA_DIR || "";
+const ERP_DB_PATH = process.env.ERP_DB_PATH || "";
 
 app.use(cors());
 app.use(express.json({ limit: "2mb" }));
@@ -338,5 +340,7 @@ app.post("/api/quote/send", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`API running on http://localhost:${PORT}`);
   console.log(`Admin login user: ${ADMIN_USERNAME}`);
+  if (ERP_DB_PATH) console.log(`ERP db path: ${ERP_DB_PATH}`);
+  else if (ERP_DATA_DIR) console.log(`ERP data dir: ${ERP_DATA_DIR}`);
   if (ADMIN_BYPASS) console.log("Admin auth bypass is ACTIVE");
 });
