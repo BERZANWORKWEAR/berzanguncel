@@ -49,9 +49,9 @@
     <nav class="expert-links">
      <a href="/">Ana Sayfa</a>
      <a href="/magaza/">Mağaza</a>
-     <a href="/iletisim/">Destek</a>
+     <a href="#destek-kanallari">Destek Kanalları</a>
     </nav>
-    <a class="expert-nav-pill" href="/magaza/">Ürünleri İncele</a>
+    <a class="expert-nav-pill" href="#uzman-formu">Uzman Formu</a>
    </div>
   </header>
 
@@ -98,11 +98,11 @@
        <p>Ürün aramak yerine doğrudan sana uygun çözüm yönlendirilir.</p>
       </article>
      </div>
-     <a class="expert-side-link" href="/iletisim/">Diğer destek kanallarını gör</a>
+     <a class="expert-side-link" href="#destek-kanallari">Destek kanallarını gör</a>
     </aside>
    </section>
 
-   <section class="expert-form-section">
+   <section class="expert-form-section" id="uzman-formu">
     <div class="expert-form-grid">
      <div class="expert-form-copy glass-expert">
       <span class="expert-chip muted">Bilgi Akışı</span>
@@ -142,6 +142,45 @@
      </div>
     </div>
    </section>
+
+   <section class="expert-support-section" id="destek-kanallari">
+    <div class="expert-support-head">
+     <span class="expert-chip muted">Destek Kanalları</span>
+     <h2>Teklif dışında doğrudan iletişime geçmek istersen tüm kanallar burada.</h2>
+    </div>
+
+    <div class="expert-support-grid">
+     <article class="expert-support-main glass-expert">
+      <div class="expert-support-top">
+       <div>
+        <span class="expert-mini-kicker">Telefon Hattı</span>
+        <h3 id="supportPhoneDisplay">+90 542 100 55 64</h3>
+       </div>
+       <a class="expert-support-btn" href="tel:+9054210055649" id="supportPhoneButton">Ara</a>
+      </div>
+      <p>Stok teyidi, hızlı satın alma kararı ve ürün uygunluğu için en direkt kanal.</p>
+      <ul class="expert-support-list">
+       <li>Acil ihtiyaçlarda hızlı yönlendirme</li>
+       <li>Sektöre uygun ürün seçimi</li>
+       <li>Kurumsal satın alma ön görüşmesi</li>
+      </ul>
+     </article>
+
+     <article class="expert-support-card glass-expert">
+      <span class="expert-mini-kicker">E-Posta</span>
+      <h3 id="supportEmailDisplay">destek@berzan.com.tr</h3>
+      <p>Excel liste, ürün kodları veya özel talep dosyalarını doğrudan ilet.</p>
+      <a class="expert-support-link" href="mailto:destek@berzan.com.tr" id="supportEmailButton">Mail Gönder</a>
+     </article>
+
+     <article class="expert-support-card glass-expert">
+      <span class="expert-mini-kicker">Mağaza</span>
+      <h3>Önce ürünleri incele</h3>
+      <p>Ürünleri gör, sepete at, sonra bu sayfadan uzman desteğine bağlan.</p>
+      <a class="expert-support-link" href="/magaza/">Mağazayı Aç</a>
+     </article>
+    </div>
+   </section>
   </main>
 
   <footer class="expert-footer">
@@ -164,6 +203,42 @@
        btn.textContent = 'Gönderiliyor…';
      });
    }
+  </script>
+  <script type="module">
+   import { getLocalPublicSettings } from "/src/scripts/erp-browser-store.js";
+
+   async function loadSupportSettings() {
+     try {
+       const base = String((window.BERZAN_CFG || {}).apiBaseUrl || "").replace(/\/$/, "");
+       if (base) {
+         const response = await fetch(`${base}/api/public/settings`);
+         const data = await response.json().catch(() => ({}));
+         if (response.ok && data?.settings) return data.settings;
+       }
+     } catch {}
+     return getLocalPublicSettings();
+   }
+
+   function normalizePhone(phone) {
+     return String(phone || "").replace(/[^\d+]/g, "");
+   }
+
+   function applySupportSettings(settings) {
+     const phone = settings.supportPhone || "+90 542 100 55 64";
+     const email = settings.supportEmail || "destek@berzan.com.tr";
+     const phoneHref = `tel:${normalizePhone(phone)}`;
+     const emailHref = `mailto:${email}`;
+     const phoneDisplay = document.getElementById("supportPhoneDisplay");
+     const phoneButton = document.getElementById("supportPhoneButton");
+     const emailDisplay = document.getElementById("supportEmailDisplay");
+     const emailButton = document.getElementById("supportEmailButton");
+     if (phoneDisplay) phoneDisplay.textContent = phone;
+     if (phoneButton) phoneButton.href = phoneHref;
+     if (emailDisplay) emailDisplay.textContent = email;
+     if (emailButton) emailButton.href = emailHref;
+    }
+
+    loadSupportSettings().then(applySupportSettings);
   </script>
   <script src="/config.js"></script>
   <script type="module" src="/src/scripts/app.js"></script>
