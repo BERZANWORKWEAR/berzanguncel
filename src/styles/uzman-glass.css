@@ -1,0 +1,402 @@
+body.expert-page {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(255, 214, 92, 0.28), transparent 26%),
+    radial-gradient(circle at 92% 14%, rgba(103, 177, 255, 0.2), transparent 28%),
+    linear-gradient(180deg, #08111f 0%, #0d1b31 42%, #132845 100%);
+  color: #f7fbff;
+}
+
+.expert-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.expert-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(30px);
+  opacity: 0.78;
+}
+
+.orb-a {
+  top: 2rem;
+  left: -7rem;
+  width: 26rem;
+  height: 26rem;
+  background: radial-gradient(circle, rgba(255, 220, 116, 0.8), rgba(255, 220, 116, 0));
+}
+
+.orb-b {
+  top: 6rem;
+  right: -10rem;
+  width: 34rem;
+  height: 34rem;
+  background: radial-gradient(circle, rgba(107, 183, 255, 0.58), rgba(107, 183, 255, 0));
+}
+
+.orb-c {
+  bottom: 3rem;
+  left: 32%;
+  width: 20rem;
+  height: 20rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+}
+
+.expert-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent 90%);
+}
+
+.expert-nav,
+.expert-shell,
+.expert-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.expert-nav {
+  padding: 24px 28px 0;
+}
+
+.expert-nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 18px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(9, 18, 33, 0.5);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.expert-brand-logo {
+  height: 28px;
+  width: auto;
+}
+
+.expert-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.expert-links a {
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: rgba(248, 251, 255, 0.82);
+  font-size: 14px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.expert-links a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.expert-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffe17a, #ffd700);
+  color: #121826;
+  font-weight: 700;
+  box-shadow: 0 12px 30px rgba(255, 215, 0, 0.24);
+}
+
+.expert-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 34px 28px 88px;
+}
+
+.expert-hero,
+.expert-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.88fr);
+  gap: 22px;
+}
+
+.glass-expert {
+  border-radius: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06)),
+    rgba(8, 18, 34, 0.56);
+  box-shadow:
+    0 28px 90px rgba(2, 8, 18, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.panel-hero,
+.expert-side,
+.expert-form-copy,
+.expert-form-wrap {
+  padding: clamp(26px, 3vw, 40px);
+}
+
+.expert-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.expert-chip.muted {
+  color: rgba(255, 255, 255, 0.76);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.expert-hero-copy h1 {
+  margin-top: 22px;
+  max-width: 10ch;
+  font-size: clamp(44px, 6vw, 84px);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+  font-weight: 700;
+}
+
+.expert-lead {
+  margin-top: 22px;
+  max-width: 58ch;
+  font-size: clamp(16px, 1.45vw, 20px);
+  color: rgba(236, 243, 252, 0.8);
+}
+
+.expert-pill-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.expert-pill {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.expert-pill strong {
+  display: block;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+
+.expert-pill span,
+.expert-feature-list p,
+.expert-check-list li,
+.expert-note-band p {
+  display: block;
+  margin-top: 8px;
+  color: rgba(236, 243, 252, 0.74);
+}
+
+.expert-mini-kicker {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.expert-side h2,
+.expert-form-copy h2 {
+  margin-top: 12px;
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.expert-feature-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.expert-feature-list article {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.expert-feature-list strong,
+.expert-form-head h3 {
+  font-size: 21px;
+  letter-spacing: -0.03em;
+}
+
+.expert-side-link {
+  display: inline-flex;
+  margin-top: 18px;
+  color: #fff1af;
+  font-weight: 700;
+}
+
+.expert-form-section {
+  margin-top: 24px;
+}
+
+.expert-check-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.expert-check-list li {
+  position: relative;
+  padding-left: 20px;
+}
+
+.expert-check-list li::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ffd700;
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.45);
+}
+
+.expert-note-band {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.14), rgba(107, 183, 255, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.expert-note-band span {
+  display: inline-block;
+  color: rgba(255, 248, 214, 0.92);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.expert-form-card {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.expert-form-head {
+  margin-bottom: 18px;
+}
+
+.expert-form-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.expert-input {
+  min-height: 62px;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.expert-input::placeholder {
+  color: rgba(240, 245, 252, 0.54);
+}
+
+.expert-textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.expert-submit {
+  min-height: 62px;
+  border: 0 !important;
+  border-radius: 22px !important;
+  background: linear-gradient(135deg, #ffe27f, #ffd700) !important;
+  color: #101827 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 20px 38px rgba(255, 215, 0, 0.22);
+}
+
+.expert-footer {
+  padding: 0 28px 30px;
+}
+
+.expert-footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(8, 18, 34, 0.42);
+  color: rgba(243, 247, 253, 0.78);
+}
+
+.expert-footer p:last-child {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 1100px) {
+  .expert-hero,
+  .expert-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .expert-links {
+    display: none;
+  }
+
+  .expert-pill-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .expert-nav,
+  .expert-shell,
+  .expert-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .expert-hero-copy h1 {
+    max-width: none;
+  }
+
+  .expert-footer-inner {
+    flex-direction: column;
+  }
+}
