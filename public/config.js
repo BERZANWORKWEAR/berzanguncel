@@ -9,7 +9,11 @@ window.BERZAN_CFG = window.BERZAN_CFG || {
 
   // API ayrı bir domainde koşuyorsa buraya yaz.
   // Aynı sunucuda ise boş bırakabilirsin.
-  apiBaseUrl: ""
+  apiBaseUrl: "",
+
+  // Backend yoksa admin panel bu yerel giriş bilgileriyle çalışır.
+  adminUsername: "Qazi",
+  adminPassword: "2+2=1"
 };
 
 
