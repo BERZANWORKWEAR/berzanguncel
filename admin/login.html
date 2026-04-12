@@ -23,7 +23,7 @@
     <section class="erp-login-card">
       <div class="erp-login-mark">B</div>
       <h2>Yönetici Girişi</h2>
-      <p>Sunucu tarafında tanımlı yönetici hesabınız ile giriş yapın.</p>
+      <p>Yönetici hesabınız ile giriş yapın. Canlı API yoksa panel yerel güvenli modda devam eder.</p>
 
       <form id="loginForm" class="erp-form">
         <label>
@@ -44,6 +44,8 @@
 
   <script src="/config.js"></script>
   <script type="module">
+    import { loginLocalAdmin } from '/src/scripts/erp-browser-store.js';
+
     const cfg = window.BERZAN_CFG || {};
     const apiBase = String(cfg.apiBaseUrl || '').replace(/\/$/, '');
     const form = document.getElementById('loginForm');
@@ -52,6 +54,28 @@
 
     function apiUrl(path) {
       return `${apiBase}${path}`;
+    }
+
+    function shouldFallbackToLocal(error) {
+      if (!error) return false;
+      if ([0, 404, 405, 501, 502, 503, 504].includes(Number(error.status || 0))) return true;
+      return /Failed to fetch|Load failed|NetworkError|Unexpected token|JSON/i.test(String(error.message || ''));
+    }
+
+    async function loginWithApi(username, password) {
+      const response = await fetch(apiUrl('/api/admin/auth/login'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        const error = new Error(data.error || 'Giriş başarısız');
+        error.status = response.status;
+        throw error;
+      }
+      return data;
     }
 
     if (localStorage.getItem('berzan_admin_token') === 'public-bypass') {
@@ -64,20 +88,16 @@
       errorEl.textContent = '';
       button.disabled = true;
       button.textContent = 'Giriş yapılıyor...';
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
 
       try {
-        const response = await fetch(apiUrl('/api/admin/auth/login'), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            username: document.getElementById('username').value.trim(),
-            password: document.getElementById('password').value,
-          }),
-        });
-
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) {
-          throw new Error(data.error || 'Giriş başarısız');
+        let data;
+        try {
+          data = await loginWithApi(username, password);
+        } catch (error) {
+          if (!shouldFallbackToLocal(error)) throw error;
+          data = loginLocalAdmin(username, password);
         }
 
         localStorage.setItem('berzan_admin_token', data.token);
