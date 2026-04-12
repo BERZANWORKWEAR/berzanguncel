@@ -263,6 +263,22 @@ body.expert-page {
   margin-top: 24px;
 }
 
+.expert-support-section {
+  margin-top: 24px;
+}
+
+.expert-support-head {
+  margin-bottom: 18px;
+}
+
+.expert-support-head h2 {
+  margin-top: 12px;
+  max-width: 18ch;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
 .expert-check-list {
   list-style: none;
   display: grid;
@@ -347,6 +363,81 @@ body.expert-page {
   box-shadow: 0 20px 38px rgba(255, 215, 0, 0.22);
 }
 
+.expert-support-grid {
+  display: grid;
+  grid-template-columns: 1.2fr repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.expert-support-main,
+.expert-support-card {
+  padding: 24px;
+}
+
+.expert-support-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.expert-support-top h3,
+.expert-support-card h3 {
+  margin-top: 8px;
+  font-size: clamp(22px, 2.4vw, 32px);
+  letter-spacing: -0.04em;
+}
+
+.expert-support-main p,
+.expert-support-card p {
+  margin-top: 10px;
+  color: rgba(236, 243, 252, 0.74);
+}
+
+.expert-support-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-weight: 700;
+}
+
+.expert-support-list {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.expert-support-list li {
+  position: relative;
+  padding-left: 18px;
+  color: rgba(236, 243, 252, 0.78);
+}
+
+.expert-support-list li::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #ffd700;
+}
+
+.expert-support-link {
+  display: inline-flex;
+  margin-top: 18px;
+  color: #fff1af;
+  font-weight: 700;
+}
+
 .expert-footer {
   padding: 0 28px 30px;
 }
@@ -371,7 +462,8 @@ body.expert-page {
 
 @media (max-width: 1100px) {
   .expert-hero,
-  .expert-form-grid {
+  .expert-form-grid,
+  .expert-support-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -393,6 +485,10 @@ body.expert-page {
   }
 
   .expert-hero-copy h1 {
+    max-width: none;
+  }
+
+  .expert-support-head h2 {
     max-width: none;
   }
 
