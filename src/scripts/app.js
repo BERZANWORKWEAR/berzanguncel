@@ -1,3 +1,9 @@
+import {
+  createLocalPublicLead,
+  getLocalPublicProduct,
+  getLocalPublicProducts,
+  getLocalPublicSettings,
+} from "./erp-browser-store.js";
 
 function removeProductExampleNavLink(){
   try{
@@ -60,19 +66,26 @@ function berzanNotifyLead(kind, data){
 async function berzanApplyRuntimeSettings(){
   try{
     const data = await berzanFetchJson('/api/public/settings');
-    const settings = data.settings || {};
-    const heroBadge = document.querySelector('.bz-hero-badge');
-    if (heroBadge && settings.heroBadge) heroBadge.textContent = settings.heroBadge;
+    applyRuntimeSettings(data.settings || {});
+  }catch(e){
+    try{
+      applyRuntimeSettings(getLocalPublicSettings());
+    }catch(_){}
+  }
+}
 
-    const navMsg = document.querySelector('.bz-pro-msg');
-    if (navMsg && settings.announcement) {
-      navMsg.textContent = `${settings.announcement} `;
-      const link = document.createElement('a');
-      link.href = '/uzman/';
-      link.textContent = 'Uzman ekibe yaz';
-      navMsg.appendChild(link);
-    }
-  }catch(e){}
+function applyRuntimeSettings(settings){
+  const heroBadge = document.querySelector('.bz-hero-badge');
+  if (heroBadge && settings.heroBadge) heroBadge.textContent = settings.heroBadge;
+
+  const navMsg = document.querySelector('.bz-pro-msg');
+  if (navMsg && settings.announcement) {
+    navMsg.textContent = `${settings.announcement} `;
+    const link = document.createElement('a');
+    link.href = '/uzman/';
+    link.textContent = 'Uzman ekibe yaz';
+    navMsg.appendChild(link);
+  }
 }
 
 /* =========================
@@ -728,8 +741,13 @@ async function berzanLoadSupabaseProducts(){
 }
 
 async function berzanLoadApiProducts(){
-  const data = await berzanFetchJson('/api/public/products');
-  const rows = Array.isArray(data.products) ? data.products : [];
+  let rows = [];
+  try{
+    const data = await berzanFetchJson('/api/public/products');
+    rows = Array.isArray(data.products) ? data.products : [];
+  }catch(e){
+    rows = getLocalPublicProducts();
+  }
   return rows.map(r => ({
     __source: 'erp-api',
     id: r.id,
@@ -751,8 +769,13 @@ async function berzanLoadApiProducts(){
 }
 
 async function berzanLoadApiProduct(idOrSlug){
-  const data = await berzanFetchJson(`/api/public/products/${encodeURIComponent(idOrSlug)}`);
-  const r = data.product;
+  let r = null;
+  try{
+    const data = await berzanFetchJson(`/api/public/products/${encodeURIComponent(idOrSlug)}`);
+    r = data.product;
+  }catch(e){
+    r = getLocalPublicProduct(idOrSlug);
+  }
   if (!r) return null;
   return {
     __source: 'erp-api',
@@ -1406,8 +1429,32 @@ function initUzmanPrefill(){
       handled = true;
       location.href = '/tesekkurler/';
     }catch(err){
-      handled = true;
-      form.submit();
+      try{
+        createLocalPublicLead({
+          name,
+          phone,
+          email,
+          company,
+          note: msg,
+          items: items.map(it => {
+            const product = berzanFindProduct(it.id) || it || {};
+            return {
+              id: it.id,
+              name: product.name || it.id,
+              qty: Number(it.qty || 1),
+              price: Number(product.quote || product.retail || 0),
+            };
+          }),
+          totals,
+          source: 'Web Form',
+          page: location.pathname,
+        });
+        handled = true;
+        location.href = '/tesekkurler/';
+      }catch(_){
+        handled = true;
+        form.submit();
+      }
     } finally {
       if (submit) {
         submit.disabled = false;
