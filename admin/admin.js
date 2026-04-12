@@ -1,3 +1,14 @@
+import {
+  addLocalInventoryMovement,
+  convertLocalLeadToOrder,
+  deleteLocalResource,
+  getLocalAdminBootstrap,
+  isLocalAdminToken,
+  logoutLocalAdmin,
+  saveLocalResource,
+  saveLocalSettings,
+} from "../src/scripts/erp-browser-store.js";
+
 const cfg = window.BERZAN_CFG || {};
 const apiBase = String(cfg.apiBaseUrl || "").replace(/\/$/, "");
 const authTokenKey = "berzan_admin_token";
@@ -16,6 +27,7 @@ const state = {
   financeEntries: [],
   financeLiabilities: [],
   settings: {},
+  runtimeMode: "api",
 };
 
 const viewTitles = {
@@ -192,6 +204,13 @@ async function apiFetch(path, options = {}) {
   }
 
   return data;
+}
+
+function shouldFallbackToLocal(error) {
+  if (isLocalAdminToken(getToken())) return true;
+  if (!error) return false;
+  if ([0, 404, 405, 501, 502, 503, 504].includes(Number(error.status || 0))) return true;
+  return /Failed to fetch|Load failed|NetworkError|Unexpected token|JSON/i.test(String(error.message || ""));
 }
 
 function formatMoney(value) {
@@ -646,7 +665,8 @@ function renderSettings() {
 }
 
 function renderAll() {
-  document.getElementById("userBadge").textContent = state.username || localStorage.getItem("berzan_admin_user") || "Admin";
+  const modeTag = state.runtimeMode === "local" ? " • Yerel" : "";
+  document.getElementById("userBadge").textContent = `${state.username || localStorage.getItem("berzan_admin_user") || "Admin"}${modeTag}`;
   renderDashboard();
   renderProducts();
   renderLeads();
@@ -821,7 +841,21 @@ function formToPayload(resource, form) {
 }
 
 async function refreshData() {
-  const data = await apiFetch("/api/admin/bootstrap");
+  let data;
+  if (isLocalAdminToken(getToken()) || state.runtimeMode === "local") {
+    data = getLocalAdminBootstrap(getToken());
+    state.runtimeMode = "local";
+  } else {
+    try {
+      data = await apiFetch("/api/admin/bootstrap");
+      state.runtimeMode = "api";
+    } catch (error) {
+      if (!shouldFallbackToLocal(error)) throw error;
+      data = getLocalAdminBootstrap(getToken());
+      state.runtimeMode = "local";
+      showToast("Yerel ERP modu aktif.", "success");
+    }
+  }
   state.username = data.username || "";
   state.dashboard = data.dashboard || null;
   state.categories = data.categories || [];
@@ -840,12 +874,16 @@ async function refreshData() {
 
 async function saveEntity(resource, payload, id = "") {
   const meta = resourceMeta[resource];
-  const path = id ? `${meta.endpoint}/${id}` : meta.endpoint;
-  const method = id ? "PUT" : "POST";
-  await apiFetch(path, {
-    method,
-    body: JSON.stringify(payload),
-  });
+  if (state.runtimeMode === "local") {
+    saveLocalResource(resource, id ? { ...payload, id } : payload);
+  } else {
+    const path = id ? `${meta.endpoint}/${id}` : meta.endpoint;
+    const method = id ? "PUT" : "POST";
+    await apiFetch(path, {
+      method,
+      body: JSON.stringify(payload),
+    });
+  }
   await refreshData();
   closeModal();
   showToast(`${meta.label} kaydedildi.`);
@@ -853,36 +891,42 @@ async function saveEntity(resource, payload, id = "") {
 
 async function deleteEntity(resource, id) {
   const meta = resourceMeta[resource];
-  await apiFetch(`${meta.endpoint}/${id}`, { method: "DELETE" });
+  if (state.runtimeMode === "local") deleteLocalResource(resource, id);
+  else await apiFetch(`${meta.endpoint}/${id}`, { method: "DELETE" });
   await refreshData();
   showToast(`${meta.label} silindi.`);
 }
 
 async function convertLead(id) {
-  await apiFetch(`/api/admin/leads/${id}/convert`, { method: "POST" });
+  if (state.runtimeMode === "local") convertLocalLeadToOrder(id);
+  else await apiFetch(`/api/admin/leads/${id}/convert`, { method: "POST" });
   await refreshData();
   showToast("Teklif siparişe dönüştürüldü.");
 }
 
 async function saveSettingsForm() {
-  await apiFetch("/api/admin/settings", {
-    method: "PUT",
-    body: JSON.stringify({
-      companyName: document.getElementById("settingCompanyName").value.trim(),
-      supportPhone: document.getElementById("settingSupportPhone").value.trim(),
-      supportEmail: document.getElementById("settingSupportEmail").value.trim(),
-      heroBadge: document.getElementById("settingHeroBadge").value.trim(),
-      announcement: document.getElementById("settingAnnouncement").value.trim(),
-      salesOwner: document.getElementById("settingSalesOwner").value.trim(),
-    }),
-  });
+  const payload = {
+    companyName: document.getElementById("settingCompanyName").value.trim(),
+    supportPhone: document.getElementById("settingSupportPhone").value.trim(),
+    supportEmail: document.getElementById("settingSupportEmail").value.trim(),
+    heroBadge: document.getElementById("settingHeroBadge").value.trim(),
+    announcement: document.getElementById("settingAnnouncement").value.trim(),
+    salesOwner: document.getElementById("settingSalesOwner").value.trim(),
+  };
+  if (state.runtimeMode === "local") saveLocalSettings(payload);
+  else
+    await apiFetch("/api/admin/settings", {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    });
   await refreshData();
   showToast("Site ayarları kaydedildi.");
 }
 
 async function logout() {
   try {
-    await apiFetch("/api/admin/auth/logout", { method: "POST" });
+    if (state.runtimeMode === "local" || isLocalAdminToken(getToken())) logoutLocalAdmin();
+    else await apiFetch("/api/admin/auth/logout", { method: "POST" });
   } catch {}
   localStorage.removeItem(authTokenKey);
   localStorage.removeItem("berzan_admin_user");
@@ -929,15 +973,18 @@ function attachEvents() {
   document.getElementById("inventoryForm").addEventListener("submit", async (event) => {
     event.preventDefault();
     try {
-      await apiFetch("/api/admin/inventory/movements", {
-        method: "POST",
-        body: JSON.stringify({
-          product_id: document.getElementById("inventoryProduct").value,
-          type: document.getElementById("inventoryType").value,
-          quantity: Number(document.getElementById("inventoryQty").value || 1),
-          reason: document.getElementById("inventoryReason").value.trim(),
-        }),
-      });
+      const payload = {
+        product_id: document.getElementById("inventoryProduct").value,
+        type: document.getElementById("inventoryType").value,
+        quantity: Number(document.getElementById("inventoryQty").value || 1),
+        reason: document.getElementById("inventoryReason").value.trim(),
+      };
+      if (state.runtimeMode === "local") addLocalInventoryMovement(payload);
+      else
+        await apiFetch("/api/admin/inventory/movements", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
       event.currentTarget.reset();
       await refreshData();
       showToast("Stok hareketi işlendi.");
