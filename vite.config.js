@@ -12,6 +12,7 @@ const pages = [
   'magaza/index.html',
   'urun/index.html',
   'urunler/index.html',
+  'kurd/index.html',
   'iletisim/index.html',
   'tesekkurler/index.html',
   'kvkk/index.html',
