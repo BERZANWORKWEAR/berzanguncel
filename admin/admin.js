@@ -676,6 +676,86 @@ function renderSettings() {
   document.getElementById("settingSalesOwner").value = state.settings.salesOwner || "";
 }
 
+function renderOutlook() {
+  const pill = document.getElementById("outlookStatusPill");
+  const title = document.getElementById("outlookStatusTitle");
+  const meta = document.getElementById("outlookStatusMeta");
+  const inbox = document.getElementById("outlookInboxList");
+  const connectBtn = document.getElementById("connectOutlookBtn");
+  const refreshBtn = document.getElementById("refreshOutlookBtn");
+  const disconnectBtn = document.getElementById("disconnectOutlookBtn");
+
+  const status = state.outlookStatus || {};
+  const isLocal = state.runtimeMode === "local";
+  const configured = Boolean(status.configured);
+  const connected = Boolean(status.connected);
+
+  if (isLocal) {
+    pill.textContent = "Yerel mod";
+    pill.className = "erp-status-pill warn";
+    title.textContent = "Outlook entegrasyonu için API modu gerekli";
+    meta.textContent = "Tarayıcı içi yerel modda Microsoft OAuth çalıştırmıyoruz. API ayağa kalktığında bu alan aktif olur.";
+    inbox.innerHTML = `<div class="erp-mail-empty">Yerel modda mailbox okunamaz.</div>`;
+    connectBtn.disabled = true;
+    refreshBtn.disabled = true;
+    disconnectBtn.disabled = true;
+    return;
+  }
+
+  if (!configured) {
+    pill.textContent = "Kurulum bekliyor";
+    pill.className = "erp-status-pill warn";
+    title.textContent = "Microsoft Graph yapılandırılmadı";
+    meta.textContent = "Önce .env içine Outlook uygulama bilgilerini gir, sonra bağlantıyı başlat.";
+    inbox.innerHTML = `<div class="erp-mail-empty">OUTLOOK_CLIENT_ID ve SECRET tanımlandığında bu alan aktif olacak.</div>`;
+    connectBtn.disabled = true;
+    refreshBtn.disabled = true;
+    disconnectBtn.disabled = true;
+    return;
+  }
+
+  connectBtn.disabled = false;
+  refreshBtn.disabled = !connected;
+  disconnectBtn.disabled = !connected;
+
+  if (!connected) {
+    pill.textContent = "Hazır";
+    pill.className = "erp-status-pill";
+    title.textContent = "Microsoft hesabını bağla";
+    meta.textContent = "Yetki verdikten sonra inbox görüntülenir ve panelden mail gönderilir.";
+    inbox.innerHTML = `<div class="erp-mail-empty">Bağlantı henüz kurulmadı.</div>`;
+    return;
+  }
+
+  pill.textContent = "Bağlı";
+  pill.className = "erp-status-pill success";
+  title.textContent = status.displayName || status.accountEmail || "Microsoft Hesabı";
+  meta.textContent = `${status.accountEmail || "E-posta bilinmiyor"} • Son senkron ${formatDateTime(status.lastSyncAt || status.connectedAt)}`;
+
+  if (!state.outlookMessages.length) {
+    inbox.innerHTML = `<div class="erp-mail-empty">Gösterilecek mail bulunamadı.</div>`;
+    return;
+  }
+
+  inbox.innerHTML = state.outlookMessages
+    .map((mail) => {
+      const sender = mail.from?.emailAddress?.name || mail.from?.emailAddress?.address || "Bilinmeyen gönderici";
+      const address = mail.from?.emailAddress?.address || "";
+      return `
+        <article class="erp-mail-item ${mail.isRead ? "" : "is-unread"}">
+          <div class="erp-mail-item-head">
+            <strong>${escapeHtml(mail.subject || "(Konu yok)")}</strong>
+            <span>${formatDateTime(mail.receivedDateTime)}</span>
+          </div>
+          <p class="erp-mail-from">${escapeHtml(sender)}${address ? ` • ${escapeHtml(address)}` : ""}</p>
+          <p class="erp-mail-preview">${escapeHtml(mail.bodyPreview || "Önizleme yok")}</p>
+          ${mail.webLink ? `<a class="erp-mini-link" href="${escapeHtml(mail.webLink)}" target="_blank" rel="noreferrer">Outlook'ta aç</a>` : ""}
+        </article>
+      `;
+    })
+    .join("");
+}
+
 function renderAll() {
   const modeTag = state.runtimeMode === "local" ? " • Yerel" : "";
   document.getElementById("userBadge").textContent = `${state.username || localStorage.getItem("berzan_admin_user") || "Admin"}${modeTag}`;
@@ -688,6 +768,7 @@ function renderAll() {
   renderFinance();
   renderTasks();
   renderSettings();
+  renderOutlook();
 }
 
 function findRecord(resource, id) {
