@@ -113,6 +113,17 @@ export async function getMailboxStatus() {
       inboxCount: Number(status.messages || 0),
       unseenCount: Number(status.unseen || 0),
     };
+  } catch (error) {
+    return {
+      configured: true,
+      connected: false,
+      provider: config.imap.host,
+      accountEmail: config.address,
+      displayName: config.address,
+      lastSyncAt: "",
+      mode: "imap",
+      error: String(error.message || error),
+    };
   } finally {
     await client.logout().catch(() => {});
   }
