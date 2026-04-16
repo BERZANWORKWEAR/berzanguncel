@@ -20,13 +20,10 @@ import {
   saveSettings,
 } from "./lib/erp-store.js";
 import {
-  completeOutlookConnection,
-  createOutlookConnectUrl,
-  disconnectOutlook,
-  getOutlookStatus,
-  listInboxMessages,
-  sendOutlookMail,
-} from "./lib/outlook.js";
+  getMailboxStatus,
+  listMailboxMessages,
+  sendMailboxMail,
+} from "./lib/mailbox.js";
 
 dotenv.config();
 
@@ -264,106 +261,28 @@ app.post("/api/admin/leads/:id/convert", requireAdmin, async (req, res) => {
   }
 });
 
-app.get("/api/admin/integrations/outlook/status", requireAdmin, async (_req, res) => {
+app.get("/api/admin/integrations/mailbox/status", requireAdmin, async (_req, res) => {
   try {
-    const integration = await getOutlookStatus(PORT);
+    const integration = await getMailboxStatus();
     return res.json({ ok: true, integration });
   } catch (error) {
     return res.status(500).json({ ok: false, error: String(error.message || error) });
   }
 });
 
-app.get("/api/admin/integrations/outlook/connect-url", requireAdmin, async (req, res) => {
+app.get("/api/admin/integrations/mailbox/messages", requireAdmin, async (req, res) => {
   try {
-    const originHint = String(req.headers.origin || "").trim();
-    const url = await createOutlookConnectUrl(originHint, PORT);
-    return res.json({ ok: true, url });
-  } catch (error) {
-    return res.status(400).json({ ok: false, error: String(error.message || error) });
-  }
-});
-
-app.get("/api/admin/integrations/outlook/callback", async (req, res) => {
-  try {
-    const integration = await completeOutlookConnection(
-      {
-        code: req.query.code,
-        state: req.query.state,
-        error: req.query.error,
-        errorDescription: req.query.error_description,
-      },
-      PORT
-    );
-
-    return res.status(200).send(`<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <title>Outlook Bağlandı</title>
-  <style>
-    body{font-family:Inter,system-ui,sans-serif;background:#f4f7fb;color:#0f172a;display:grid;place-items:center;min-height:100vh;margin:0}
-    .card{background:rgba(255,255,255,.86);backdrop-filter:blur(18px);padding:32px;border-radius:24px;box-shadow:0 20px 60px rgba(15,23,42,.12);max-width:520px}
-    h1{margin:0 0 12px;font-size:30px} p{margin:0;color:#475569;line-height:1.6}
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>Outlook baglandi</h1>
-    <p>${integration.displayName || integration.accountEmail || "Microsoft hesabi"} icin yetkilendirme tamamlandi. Bu pencereyi kapatabilirsiniz.</p>
-  </div>
-  <script>
-    window.opener?.postMessage({ type: "berzan-outlook-connected", ok: true }, "*");
-    setTimeout(() => window.close(), 1200);
-  </script>
-</body>
-</html>`);
-  } catch (error) {
-    return res.status(400).send(`<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <title>Outlook Baglantisi Basarisiz</title>
-  <style>
-    body{font-family:Inter,system-ui,sans-serif;background:#fff7ed;color:#7c2d12;display:grid;place-items:center;min-height:100vh;margin:0}
-    .card{background:#ffffff;padding:32px;border-radius:24px;box-shadow:0 20px 60px rgba(124,45,18,.12);max-width:560px}
-    h1{margin:0 0 12px;font-size:30px} p{margin:0;line-height:1.6}
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>Baglanti tamamlanamadi</h1>
-    <p>${String(error.message || error).replace(/[<>&"]/g, "")}</p>
-  </div>
-  <script>
-    window.opener?.postMessage({ type: "berzan-outlook-connected", ok: false, error: ${JSON.stringify(String(error.message || error))} }, "*");
-  </script>
-</body>
-</html>`);
-  }
-});
-
-app.get("/api/admin/integrations/outlook/messages", requireAdmin, async (req, res) => {
-  try {
-    const messages = await listInboxMessages({ top: req.query.top || 8 }, PORT);
+    const messages = await listMailboxMessages({ top: req.query.top || 8 });
     return res.json({ ok: true, messages });
   } catch (error) {
     return res.status(400).json({ ok: false, error: String(error.message || error) });
   }
 });
 
-app.post("/api/admin/integrations/outlook/send", requireAdmin, async (req, res) => {
+app.post("/api/admin/integrations/mailbox/send", requireAdmin, async (req, res) => {
   try {
-    const result = await sendOutlookMail(req.body || {}, PORT);
+    const result = await sendMailboxMail(req.body || {});
     return res.json({ ok: true, ...result });
-  } catch (error) {
-    return res.status(400).json({ ok: false, error: String(error.message || error) });
-  }
-});
-
-app.delete("/api/admin/integrations/outlook", requireAdmin, async (_req, res) => {
-  try {
-    const integration = await disconnectOutlook();
-    return res.json({ ok: true, integration });
   } catch (error) {
     return res.status(400).json({ ok: false, error: String(error.message || error) });
   }
@@ -456,5 +375,5 @@ app.listen(PORT, () => {
   if (ERP_DB_PATH) console.log(`ERP db path: ${ERP_DB_PATH}`);
   else if (ERP_DATA_DIR) console.log(`ERP data dir: ${ERP_DATA_DIR}`);
   if (ADMIN_BYPASS) console.log("Admin auth bypass is ACTIVE");
-  if (process.env.OUTLOOK_CLIENT_ID) console.log("Outlook integration config detected");
+  if (process.env.IMAP_HOST || process.env.MAILBOX_ADDRESS) console.log("IMAP mailbox integration config detected");
 });
