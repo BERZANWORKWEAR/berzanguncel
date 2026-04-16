@@ -718,7 +718,9 @@ function renderOutlook() {
     pill.textContent = "Hazır";
     pill.className = "erp-status-pill";
     title.textContent = status.accountEmail || "Kurumsal mail hesabı";
-    meta.textContent = "Yapılandırma bulundu. Bağlantıyı test ederek inbox erişimini doğrulayabilirsin.";
+    meta.textContent = status.error
+      ? `Bağlantı kurulamadı: ${status.error}`
+      : "Yapılandırma bulundu. Bağlantıyı test ederek inbox erişimini doğrulayabilirsin.";
     inbox.innerHTML = `<div class="erp-mail-empty">Bağlantı doğrulanınca son mailler burada görünecek.</div>`;
     return;
   }
