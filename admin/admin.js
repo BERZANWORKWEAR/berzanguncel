@@ -962,7 +962,81 @@ async function refreshData() {
   state.financeEntries = data.financeEntries || [];
   state.financeLiabilities = data.financeLiabilities || [];
   state.settings = data.settings || {};
+  if (state.runtimeMode === "local") {
+    state.outlookStatus = { configured: false, connected: false };
+    state.outlookMessages = [];
+  } else {
+    try {
+      await refreshOutlookPanel();
+    } catch (error) {
+      state.outlookStatus = { configured: false, connected: false };
+      state.outlookMessages = [];
+      showToast(error.message || "Outlook durumu alınamadı.", "error");
+    }
+  }
   renderAll();
+}
+
+async function refreshOutlookPanel(showSuccessToast = false) {
+  if (state.runtimeMode === "local") {
+    state.outlookStatus = { configured: false, connected: false };
+    state.outlookMessages = [];
+    renderOutlook();
+    return;
+  }
+
+  const statusData = await apiFetch("/api/admin/integrations/outlook/status");
+  state.outlookStatus = statusData.integration || { configured: false, connected: false };
+
+  if (state.outlookStatus.connected) {
+    const mailData = await apiFetch("/api/admin/integrations/outlook/messages?top=8");
+    state.outlookMessages = mailData.messages || [];
+  } else {
+    state.outlookMessages = [];
+  }
+
+  renderOutlook();
+  if (showSuccessToast) showToast("Outlook gelen kutusu yenilendi.");
+}
+
+async function startOutlookConnect() {
+  if (state.runtimeMode === "local") {
+    throw new Error("Yerel modda Outlook bağlanamaz. API modunu açın.");
+  }
+
+  const data = await apiFetch("/api/admin/integrations/outlook/connect-url");
+  const popup = window.open(data.url, "berzan-outlook-auth", "width=560,height=760");
+  if (!popup) window.location.href = data.url;
+}
+
+async function disconnectOutlookConnection() {
+  if (state.runtimeMode === "local") return;
+  await apiFetch("/api/admin/integrations/outlook", { method: "DELETE" });
+  state.outlookStatus = { configured: true, connected: false };
+  state.outlookMessages = [];
+  renderOutlook();
+  showToast("Outlook bağlantısı kaldırıldı.");
+}
+
+async function sendOutlookComposeForm() {
+  if (state.runtimeMode === "local") {
+    throw new Error("Yerel modda mail gönderilmez.");
+  }
+
+  const payload = {
+    to: document.getElementById("outlookComposeTo").value.trim(),
+    subject: document.getElementById("outlookComposeSubject").value.trim(),
+    content: document.getElementById("outlookComposeBody").value.trim(),
+  };
+
+  await apiFetch("/api/admin/integrations/outlook/send", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  document.getElementById("outlookComposeForm").reset();
+  showToast("Mail Outlook hesabından gönderildi.");
+  await refreshOutlookPanel();
 }
 
 async function saveEntity(resource, payload, id = "") {
@@ -1092,6 +1166,55 @@ function attachEvents() {
       await saveSettingsForm();
     } catch (error) {
       showToast(error.message || "Ayarlar kaydedilemedi.", "error");
+    }
+  });
+
+  document.getElementById("connectOutlookBtn").addEventListener("click", async () => {
+    try {
+      await startOutlookConnect();
+    } catch (error) {
+      showToast(error.message || "Outlook bağlantısı başlatılamadı.", "error");
+    }
+  });
+
+  document.getElementById("refreshOutlookBtn").addEventListener("click", async () => {
+    try {
+      await refreshOutlookPanel(true);
+    } catch (error) {
+      showToast(error.message || "Gelen kutusu yenilenemedi.", "error");
+    }
+  });
+
+  document.getElementById("disconnectOutlookBtn").addEventListener("click", async () => {
+    const approved = window.confirm("Outlook bağlantısını kaldırmak istediğine emin misin?");
+    if (!approved) return;
+    try {
+      await disconnectOutlookConnection();
+    } catch (error) {
+      showToast(error.message || "Bağlantı kaldırılamadı.", "error");
+    }
+  });
+
+  document.getElementById("outlookComposeForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    try {
+      await sendOutlookComposeForm();
+    } catch (error) {
+      showToast(error.message || "Mail gönderilemedi.", "error");
+    }
+  });
+
+  window.addEventListener("message", async (event) => {
+    if (!event.data || event.data.type !== "berzan-outlook-connected") return;
+    if (!event.data.ok) {
+      showToast(event.data.error || "Outlook bağlantısı tamamlanamadı.", "error");
+      return;
+    }
+    try {
+      await refreshOutlookPanel();
+      showToast("Outlook hesabı bağlandı.");
+    } catch (error) {
+      showToast(error.message || "Outlook durumu alınamadı.", "error");
     }
   });
 
