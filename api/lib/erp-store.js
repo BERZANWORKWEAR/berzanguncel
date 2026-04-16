@@ -539,6 +539,19 @@ function buildDefaultDb() {
     financeEntries,
     financeLiabilities,
     sessions: [],
+    integrations: {
+      outlook: {
+        connected: false,
+        accountEmail: "",
+        displayName: "",
+        scopes: [],
+        connectedAt: "",
+        lastSyncAt: "",
+        accessToken: "",
+        refreshToken: "",
+        accessTokenExpiresAt: "",
+      },
+    },
     settings: {
       companyName: "BERZAN",
       supportPhone: "+90 542 100 55 64",
@@ -580,6 +593,8 @@ async function readDb() {
   db.sessions = Array.isArray(db.sessions)
     ? db.sessions.filter((session) => new Date(session.expires_at).getTime() > Date.now())
     : [];
+  db.integrations = db.integrations || {};
+  db.integrations.outlook = sanitizeOutlookIntegration(db.integrations.outlook, defaults.integrations.outlook);
   db.settings = db.settings || {};
 
   return db;
@@ -894,6 +909,20 @@ function sanitizeSettings(payload, fallback = {}) {
   };
 }
 
+function sanitizeOutlookIntegration(payload, fallback = {}) {
+  return {
+    connected: Boolean(payload?.connected ?? fallback?.connected ?? false),
+    accountEmail: String(payload?.accountEmail || fallback?.accountEmail || "").trim(),
+    displayName: String(payload?.displayName || fallback?.displayName || "").trim(),
+    scopes: toArray(payload?.scopes ?? fallback?.scopes ?? []),
+    connectedAt: String(payload?.connectedAt || fallback?.connectedAt || "").trim(),
+    lastSyncAt: String(payload?.lastSyncAt || fallback?.lastSyncAt || "").trim(),
+    accessToken: String(payload?.accessToken || fallback?.accessToken || "").trim(),
+    refreshToken: String(payload?.refreshToken || fallback?.refreshToken || "").trim(),
+    accessTokenExpiresAt: String(payload?.accessTokenExpiresAt || fallback?.accessTokenExpiresAt || "").trim(),
+  };
+}
+
 function sanitizeFinanceAccount(payload, fallback = {}) {
   return {
     id: payload.id || fallback.id || makeId("fac"),
@@ -1003,6 +1032,37 @@ export async function createAdminSession(username) {
       expires_at: new Date(Date.now() + 1000 * 60 * 60 * 12).toISOString(),
     });
     return { token, username };
+  });
+}
+
+export async function getOutlookIntegration() {
+  const db = await readDb();
+  return sanitizeOutlookIntegration(db.integrations?.outlook);
+}
+
+export async function saveOutlookIntegration(payload) {
+  return mutateDb(async (db) => {
+    db.integrations = db.integrations || {};
+    db.integrations.outlook = sanitizeOutlookIntegration(payload, db.integrations.outlook);
+    return db.integrations.outlook;
+  });
+}
+
+export async function clearOutlookIntegration() {
+  return mutateDb(async (db) => {
+    db.integrations = db.integrations || {};
+    db.integrations.outlook = sanitizeOutlookIntegration({
+      connected: false,
+      accountEmail: "",
+      displayName: "",
+      scopes: [],
+      connectedAt: "",
+      lastSyncAt: "",
+      accessToken: "",
+      refreshToken: "",
+      accessTokenExpiresAt: "",
+    });
+    return db.integrations.outlook;
   });
 }
 
