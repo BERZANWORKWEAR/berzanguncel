@@ -980,37 +980,25 @@ async function refreshOutlookPanel(showSuccessToast = false) {
     return;
   }
 
-  const statusData = await apiFetch("/api/admin/integrations/outlook/status");
+  const statusData = await apiFetch("/api/admin/integrations/mailbox/status");
   state.outlookStatus = statusData.integration || { configured: false, connected: false };
 
   if (state.outlookStatus.connected) {
-    const mailData = await apiFetch("/api/admin/integrations/outlook/messages?top=8");
+    const mailData = await apiFetch("/api/admin/integrations/mailbox/messages?top=8");
     state.outlookMessages = mailData.messages || [];
   } else {
     state.outlookMessages = [];
   }
 
   renderOutlook();
-  if (showSuccessToast) showToast("Outlook gelen kutusu yenilendi.");
+  if (showSuccessToast) showToast("Kurumsal mail gelen kutusu yenilendi.");
 }
 
 async function startOutlookConnect() {
   if (state.runtimeMode === "local") {
-    throw new Error("Yerel modda Outlook bağlanamaz. API modunu açın.");
+    throw new Error("Yerel modda kurumsal mail bağlanamaz. API modunu açın.");
   }
-
-  const data = await apiFetch("/api/admin/integrations/outlook/connect-url");
-  const popup = window.open(data.url, "berzan-outlook-auth", "width=560,height=760");
-  if (!popup) window.location.href = data.url;
-}
-
-async function disconnectOutlookConnection() {
-  if (state.runtimeMode === "local") return;
-  await apiFetch("/api/admin/integrations/outlook", { method: "DELETE" });
-  state.outlookStatus = { configured: true, connected: false };
-  state.outlookMessages = [];
-  renderOutlook();
-  showToast("Outlook bağlantısı kaldırıldı.");
+  await refreshOutlookPanel(true);
 }
 
 async function sendOutlookComposeForm() {
@@ -1024,13 +1012,13 @@ async function sendOutlookComposeForm() {
     content: document.getElementById("outlookComposeBody").value.trim(),
   };
 
-  await apiFetch("/api/admin/integrations/outlook/send", {
+  await apiFetch("/api/admin/integrations/mailbox/send", {
     method: "POST",
     body: JSON.stringify(payload),
   });
 
   document.getElementById("outlookComposeForm").reset();
-  showToast("Mail Outlook hesabından gönderildi.");
+  showToast("Mail kurumsal hesabından gönderildi.");
   await refreshOutlookPanel();
 }
 
