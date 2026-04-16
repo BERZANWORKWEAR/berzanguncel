@@ -556,24 +556,62 @@
           <section class="erp-card">
             <div class="erp-card-head">
               <div>
-                <h2>Panel Notları</h2>
-                <p>Kurulum ve çalışma mantığı</p>
+                <h2>Outlook Entegrasyonu</h2>
+                <p>Inbox oku, hesap durumunu gör ve panelden mail gönder</p>
               </div>
             </div>
-            <div class="erp-note-stack">
-              <div class="erp-note">
-                <strong>Kimlik doğrulama</strong>
-                <p>Panel girişleri backend oturumu ile korunur. Varsayılan kullanıcı bilgileri sunucu `.env` ile değiştirilebilir.</p>
+            <div class="erp-integration-card">
+              <div class="erp-integration-status">
+                <span class="erp-status-pill" id="outlookStatusPill">Kurulum bekliyor</span>
+                <strong id="outlookStatusTitle">Microsoft Graph yapılandırılmadı</strong>
+                <p id="outlookStatusMeta">Azure uygulama bilgilerini tanımlayın, sonra hesabınızı bağlayın.</p>
               </div>
-              <div class="erp-note">
-                <strong>Canlı katalog</strong>
-                <p>Site önce Supabase’i dener, veri yoksa bu ERP API’sindeki ürünleri otomatik kullanır.</p>
+
+              <div class="erp-inline-actions">
+                <button class="erp-primary-btn" id="connectOutlookBtn" type="button">Microsoft ile Bağlan</button>
+                <button class="erp-secondary-btn" id="refreshOutlookBtn" type="button">Gelen Kutusunu Yenile</button>
+                <button class="erp-ghost-btn" id="disconnectOutlookBtn" type="button">Bağlantıyı Kaldır</button>
               </div>
-              <div class="erp-note">
-                <strong>Web form entegrasyonu</strong>
-                <p>Uzman formundan gelen her gönderim teklif, müşteri ve görev kaydı olarak CRM akışına düşer.</p>
+
+              <div class="erp-note-stack">
+                <div class="erp-note">
+                  <strong>Gereken ortam değişkenleri</strong>
+                  <p>`OUTLOOK_CLIENT_ID`, `OUTLOOK_CLIENT_SECRET`, `OUTLOOK_REDIRECT_URI`, opsiyonel `OUTLOOK_TENANT_ID`.</p>
+                </div>
+                <div class="erp-note">
+                  <strong>İzin kapsamı</strong>
+                  <p>`User.Read`, `Mail.Read`, `Mail.Send`, `offline_access` ile bağlanır. Token sunucuda şifrelenmiş saklanır.</p>
+                </div>
+              </div>
+
+              <div class="erp-mail-list" id="outlookInboxList">
+                <div class="erp-mail-empty">Bağlantı kurulduğunda son mailler burada görünecek.</div>
               </div>
             </div>
+          </section>
+
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Hızlı Mail Gönder</h2>
+                <p>Outlook hesabınla panelden hızlı çıkış yap</p>
+              </div>
+            </div>
+            <form class="erp-form" id="outlookComposeForm">
+              <label>
+                <span>Alıcı</span>
+                <input id="outlookComposeTo" type="email" placeholder="ornek@firma.com" required />
+              </label>
+              <label>
+                <span>Konu</span>
+                <input id="outlookComposeSubject" type="text" placeholder="Teklif dönüşü / bilgilendirme" required />
+              </label>
+              <label class="full">
+                <span>İçerik</span>
+                <textarea id="outlookComposeBody" rows="7" placeholder="Mail içeriğini buraya yazın." required></textarea>
+              </label>
+              <button class="erp-primary-btn" type="submit">Mail Gönder</button>
+            </form>
           </section>
         </div>
       </section>
