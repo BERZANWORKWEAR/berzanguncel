@@ -27,6 +27,8 @@ const state = {
   financeEntries: [],
   financeLiabilities: [],
   settings: {},
+  outlookStatus: null,
+  outlookMessages: [],
   runtimeMode: "api",
 };
 
@@ -220,6 +222,16 @@ function formatMoney(value) {
 function formatDate(value) {
   if (!value) return "—";
   return new Intl.DateTimeFormat("tr-TR", { dateStyle: "medium" }).format(new Date(value));
+}
+
+function formatDateTime(value) {
+  if (!value) return "—";
+  return new Intl.DateTimeFormat("tr-TR", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(value));
 }
 
 function escapeHtml(value) {
