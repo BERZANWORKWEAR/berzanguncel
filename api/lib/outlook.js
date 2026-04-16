@@ -279,6 +279,11 @@ export async function listInboxMessages({ top = 8 } = {}, port) {
     {},
     port
   );
+  const integration = await getOutlookIntegration();
+  await saveOutlookIntegration({
+    ...integration,
+    lastSyncAt: nowIso(),
+  });
   return Array.isArray(data.value) ? data.value : [];
 }
 
@@ -315,6 +320,12 @@ export async function sendOutlookMail(payload = {}, port) {
     },
     port
   );
+
+  const integration = await getOutlookIntegration();
+  await saveOutlookIntegration({
+    ...integration,
+    lastSyncAt: nowIso(),
+  });
 
   return { ok: true };
 }
