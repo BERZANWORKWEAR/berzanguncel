@@ -725,7 +725,7 @@ function renderOutlook() {
 
   pill.textContent = "Bağlı";
   pill.className = "erp-status-pill success";
-  title.textContent = status.displayName || status.accountEmail || "Microsoft Hesabı";
+  title.textContent = status.displayName || status.accountEmail || "Kurumsal Mail";
   meta.textContent = `${status.accountEmail || "E-posta bilinmiyor"} • Son senkron ${formatDateTime(status.lastSyncAt)}`;
 
   if (!state.outlookMessages.length) {
@@ -966,7 +966,7 @@ async function refreshData() {
     } catch (error) {
       state.outlookStatus = { configured: false, connected: false };
       state.outlookMessages = [];
-      showToast(error.message || "Outlook durumu alınamadı.", "error");
+      showToast(error.message || "Mail durumu alınamadı.", "error");
     }
   }
   renderAll();
@@ -1156,7 +1156,7 @@ function attachEvents() {
     try {
       await startOutlookConnect();
     } catch (error) {
-      showToast(error.message || "Outlook bağlantısı başlatılamadı.", "error");
+      showToast(error.message || "Mail bağlantısı test edilemedi.", "error");
     }
   });
 
@@ -1168,36 +1168,12 @@ function attachEvents() {
     }
   });
 
-  document.getElementById("disconnectOutlookBtn").addEventListener("click", async () => {
-    const approved = window.confirm("Outlook bağlantısını kaldırmak istediğine emin misin?");
-    if (!approved) return;
-    try {
-      await disconnectOutlookConnection();
-    } catch (error) {
-      showToast(error.message || "Bağlantı kaldırılamadı.", "error");
-    }
-  });
-
   document.getElementById("outlookComposeForm").addEventListener("submit", async (event) => {
     event.preventDefault();
     try {
       await sendOutlookComposeForm();
     } catch (error) {
       showToast(error.message || "Mail gönderilemedi.", "error");
-    }
-  });
-
-  window.addEventListener("message", async (event) => {
-    if (!event.data || event.data.type !== "berzan-outlook-connected") return;
-    if (!event.data.ok) {
-      showToast(event.data.error || "Outlook bağlantısı tamamlanamadı.", "error");
-      return;
-    }
-    try {
-      await refreshOutlookPanel();
-      showToast("Outlook hesabı bağlandı.");
-    } catch (error) {
-      showToast(error.message || "Outlook durumu alınamadı.", "error");
     }
   });
 
