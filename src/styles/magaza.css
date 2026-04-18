@@ -66,10 +66,10 @@ body.magaza-page .bz-nav {
   backdrop-filter: blur(32px) saturate(1.4);
   -webkit-backdrop-filter: blur(32px) saturate(1.4);
   border-bottom: 1px solid rgba(255,255,255,0.4);
-  transition: all 0.3s var(--bz-transition);
+  transition: background 0.3s var(--bz-transition), box-shadow 0.3s var(--bz-transition), border-color 0.3s var(--bz-transition);
 }
 body.magaza-page .bz-nav.is-compact {
-  height: 52px;
+  height: 64px;
   box-shadow: 0 2px 20px rgba(0,0,0,0.05);
 }
 body.magaza-page .bz-nav-inner {
@@ -79,6 +79,9 @@ body.magaza-page .bz-nav-inner {
   box-sizing: border-box;
   height: 100%;
   display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+body.magaza-page .bz-nav.is-compact .bz-nav-inner {
+  height: 100%;
 }
 body.magaza-page .bz-brand {
   display: flex; align-items: center; gap: 10px;
