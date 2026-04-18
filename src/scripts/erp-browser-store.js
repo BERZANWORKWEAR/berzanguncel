@@ -1,4 +1,5 @@
 import seedDb from "../../api/data/erp-db.json";
+import { emitAppSync } from "./live-sync.js";
 
 const LOCAL_DB_KEY = "berzan_erp_local_db_v1";
 const LOCAL_SESSION_KEY = "berzan_admin_local_session_v1";
@@ -135,6 +136,9 @@ function writeDb(db) {
   db.meta = db.meta || {};
   db.meta.updated_at = nowIso();
   localStorage.setItem(LOCAL_DB_KEY, JSON.stringify(db));
+  emitAppSync("erp:db-updated", "all", {
+    updatedAt: db.meta.updated_at,
+  });
 }
 
 function mutateDb(mutator) {
@@ -154,10 +158,17 @@ function getStoredSession() {
 
 function setStoredSession(session) {
   localStorage.setItem(LOCAL_SESSION_KEY, JSON.stringify(session));
+  emitAppSync("erp:session-updated", "session", {
+    loggedIn: true,
+    username: session?.username || "",
+  });
 }
 
 function clearStoredSession() {
   localStorage.removeItem(LOCAL_SESSION_KEY);
+  emitAppSync("erp:session-updated", "session", {
+    loggedIn: false,
+  });
 }
 
 function validateLocalSession(token) {
