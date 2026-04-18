@@ -4,6 +4,7 @@ import {
   getLocalPublicProducts,
   getLocalPublicSettings,
 } from "./erp-browser-store.js";
+import { subscribeAppSync } from "./live-sync.js";
 
 function removeProductExampleNavLink(){
   try{
@@ -86,6 +87,48 @@ function applyRuntimeSettings(settings){
     link.textContent = 'Uzman ekibe yaz';
     navMsg.appendChild(link);
   }
+
+  applySupportRuntimeSettings(settings);
+}
+
+function normalizePhone(phone){
+  return String(phone || '').replace(/[^\d+]/g, '');
+}
+
+function applySupportRuntimeSettings(settings){
+  const phoneDisplay = document.getElementById('supportPhoneDisplay');
+  const phoneButton = document.getElementById('supportPhoneButton');
+  const emailDisplay = document.getElementById('supportEmailDisplay');
+  const emailButton = document.getElementById('supportEmailButton');
+  const phone = settings.supportPhone || '+90 542 100 55 64';
+  const email = settings.supportEmail || 'destek@berzan.com.tr';
+  if (phoneDisplay) phoneDisplay.textContent = phone;
+  if (phoneButton) phoneButton.href = `tel:${normalizePhone(phone)}`;
+  if (emailDisplay) emailDisplay.textContent = email;
+  if (emailButton) emailButton.href = `mailto:${email}`;
+}
+
+let berzanSyncTimer = 0;
+
+function berzanIsCatalogPage(){
+  return document.body.classList.contains('magaza-page')
+    || document.body.classList.contains('urunler-page')
+    || document.body.classList.contains('urun-page');
+}
+
+function berzanScheduleSoftSync(payload = {}){
+  window.clearTimeout(berzanSyncTimer);
+  berzanSyncTimer = window.setTimeout(async () => {
+    try{
+      await berzanApplyRuntimeSettings();
+      const scope = String(payload.scope || 'all');
+      if (berzanIsCatalogPage() && /all|products|categories|inventory|orders|catalog/.test(scope)) {
+        window.location.reload();
+      }
+    }catch(e){
+      console.warn('[BERZAN sync] public refresh failed', e);
+    }
+  }, 180);
 }
 
 /* =========================
