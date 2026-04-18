@@ -25,10 +25,33 @@ const BERZAN_CFG = Object.assign({
   notifyTo: '9054210055649',
   apiBaseUrl: ''
 }, window.BERZAN_CFG || {});
+const LIVE_PRODUCTS_CACHE_KEY = 'berzan_live_products_cache_v1';
 
 function berzanApiUrl(path){
   const base = String(BERZAN_CFG.apiBaseUrl || '').replace(/\/$/, '');
   return `${base}${path}`;
+}
+
+function readProductsCache(){
+  try{
+    const raw = localStorage.getItem(LIVE_PRODUCTS_CACHE_KEY);
+    const data = raw ? JSON.parse(raw) : null;
+    return Array.isArray(data) ? data : [];
+  }catch{
+    return [];
+  }
+}
+
+function writeProductsCache(products){
+  try{
+    localStorage.setItem(LIVE_PRODUCTS_CACHE_KEY, JSON.stringify(products));
+  }catch{}
+}
+
+function productsSignature(products){
+  return (products || [])
+    .map(p => `${p.id}|${p.slug}|${p.retail}|${p.quote || ''}|${p.name}|${p.cover || ''}`)
+    .join('~');
 }
 
 async function berzanFetchJson(path, options = {}){
@@ -811,6 +834,33 @@ async function berzanLoadApiProducts(){
   }));
 }
 
+function berzanLoadInstantProducts(){
+  const cached = readProductsCache();
+  if (cached.length) return cached;
+
+  const localRows = getLocalPublicProducts().map(r => ({
+    __source: 'local-erp',
+    id: r.id,
+    slug: (r.slug || '').toLowerCase(),
+    name: r.name || 'Ürün',
+    mini: r.short_desc || '',
+    desc: r.description || r.short_desc || '',
+    retail: Number(r.price_try) || 0,
+    quote: Number(r.quote_price_try || r.price_try) || 0,
+    colors: [],
+    cover: r.cover_image_url || '',
+    cat: (r.category_slug || 'mont').toLowerCase(),
+    seasons: Array.isArray(r.seasons) ? r.seasons : [],
+    sectors: Array.isArray(r.sectors) ? r.sectors : [],
+    badges: Array.isArray(r.badges) ? r.badges : [],
+    badge: Array.isArray(r.badges) ? r.badges[0] || null : null,
+    rating: null,
+  }));
+
+  if (localRows.length) return localRows;
+  return BERZAN_CATALOG;
+}
+
 async function berzanLoadApiProduct(idOrSlug){
   let r = null;
   try{
@@ -888,27 +938,9 @@ async function initShopPage(){
   const grid = document.getElementById('productsGrid');
   const catBtns = Array.from(document.querySelectorAll('.cat-item'));
 
-  let PRODUCTS = BERZAN_CATALOG;
-  try{
-    const live = await berzanLoadSupabaseProducts();
-    if (Array.isArray(live) && live.length){
-      PRODUCTS = live;
-      window.__LIVE_PRODUCTS__ = live;
-    }
-  }catch(e){
-    console.warn("[Supabase] products load failed", e);
-  }
-  if (PRODUCTS === BERZAN_CATALOG){
-    try{
-      const live = await berzanLoadApiProducts();
-      if (Array.isArray(live) && live.length){
-        PRODUCTS = live;
-        window.__LIVE_PRODUCTS__ = live;
-      }
-    }catch(e){
-      console.warn("[ERP API] products load failed", e);
-    }
-  }
+  let PRODUCTS = berzanLoadInstantProducts();
+  let currentProductsSignature = productsSignature(PRODUCTS);
+  window.__LIVE_PRODUCTS__ = PRODUCTS;
 
   const tabs = Array.from(document.querySelectorAll('.season-tab'));
   const indicator = document.getElementById('seasonIndicator');
@@ -1179,6 +1211,45 @@ function matchQuery(p){
 
   // Initial render
   pickFirstNonEmptyCat();
+
+  async function hydrateShopProducts(){
+    let next = null;
+    try{
+      const live = await berzanLoadSupabaseProducts();
+      if (Array.isArray(live) && live.length) next = live;
+    }catch(e){
+      console.warn("[Supabase] products load failed", e);
+    }
+
+    if (!next) {
+      try{
+        const live = await berzanLoadApiProducts();
+        if (Array.isArray(live) && live.length) next = live;
+      }catch(e){
+        console.warn("[ERP API] products load failed", e);
+      }
+    }
+
+    if (!Array.isArray(next) || !next.length) return;
+
+    const nextSignature = productsSignature(next);
+    writeProductsCache(next);
+    window.__LIVE_PRODUCTS__ = next;
+
+    if (nextSignature === currentProductsSignature) return;
+    PRODUCTS = next;
+    currentProductsSignature = nextSignature;
+    applyAll();
+  }
+
+  hydrateShopProducts();
+
+  subscribeAppSync((payload) => {
+    const scope = String(payload?.scope || 'all');
+    if (/all|products|categories|inventory|catalog/.test(scope)) {
+      hydrateShopProducts();
+    }
+  });
 }
 
 initShopPage();
