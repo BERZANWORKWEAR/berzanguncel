@@ -8,6 +8,7 @@ import {
   saveLocalResource,
   saveLocalSettings,
 } from "../src/scripts/erp-browser-store.js";
+import { emitAppSync, subscribeAppSync } from "../src/scripts/live-sync.js";
 
 const cfg = window.BERZAN_CFG || {};
 const apiBase = String(cfg.apiBaseUrl || "").replace(/\/$/, "");
@@ -31,6 +32,9 @@ const state = {
   outlookMessages: [],
   runtimeMode: "api",
 };
+
+let externalRefreshTimer = 0;
+let backgroundSyncTimer = 0;
 
 const viewTitles = {
   dashboard: "Kontrol Merkezi",
@@ -1037,6 +1041,7 @@ async function saveEntity(resource, payload, id = "") {
     });
   }
   await refreshData();
+  emitAppSync("erp:admin-updated", resource, { resource, id: id || null });
   closeModal();
   showToast(`${meta.label} kaydedildi.`);
 }
@@ -1046,6 +1051,7 @@ async function deleteEntity(resource, id) {
   if (state.runtimeMode === "local") deleteLocalResource(resource, id);
   else await apiFetch(`${meta.endpoint}/${id}`, { method: "DELETE" });
   await refreshData();
+  emitAppSync("erp:admin-deleted", resource, { resource, id });
   showToast(`${meta.label} silindi.`);
 }
 
@@ -1053,6 +1059,7 @@ async function convertLead(id) {
   if (state.runtimeMode === "local") convertLocalLeadToOrder(id);
   else await apiFetch(`/api/admin/leads/${id}/convert`, { method: "POST" });
   await refreshData();
+  emitAppSync("erp:lead-converted", "orders", { leadId: id });
   showToast("Teklif siparişe dönüştürüldü.");
 }
 
@@ -1072,7 +1079,33 @@ async function saveSettingsForm() {
       body: JSON.stringify(payload),
     });
   await refreshData();
+  emitAppSync("erp:settings-updated", "settings", {
+    companyName: payload.companyName,
+  });
   showToast("Site ayarları kaydedildi.");
+}
+
+function scheduleExternalRefresh() {
+  window.clearTimeout(externalRefreshTimer);
+  externalRefreshTimer = window.setTimeout(async () => {
+    try {
+      await refreshData();
+    } catch (error) {
+      console.warn("[BERZAN admin] sync refresh failed", error);
+    }
+  }, 220);
+}
+
+function startBackgroundSync() {
+  window.clearInterval(backgroundSyncTimer);
+  backgroundSyncTimer = window.setInterval(async () => {
+    if (document.visibilityState !== "visible") return;
+    try {
+      await refreshData();
+    } catch (error) {
+      console.warn("[BERZAN admin] background sync failed", error);
+    }
+  }, 15000);
 }
 
 async function logout() {
@@ -1139,6 +1172,9 @@ function attachEvents() {
         });
       event.currentTarget.reset();
       await refreshData();
+      emitAppSync("erp:inventory-updated", "inventory", {
+        productId: payload.product_id,
+      });
       showToast("Stok hareketi işlendi.");
     } catch (error) {
       showToast(error.message || "Stok hareketi işlenemedi.", "error");
@@ -1208,6 +1244,20 @@ function attachEvents() {
       }
     }
   });
+
+  subscribeAppSync((payload) => {
+    if (!payload || payload.type === "erp:session-updated") {
+      if (!getToken()) window.location.href = "/admin/login.html";
+      return;
+    }
+    scheduleExternalRefresh();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") scheduleExternalRefresh();
+  });
+
+  startBackgroundSync();
 }
 
 async function init() {
