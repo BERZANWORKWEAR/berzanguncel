@@ -21,6 +21,7 @@ const state = {
   products: [],
   leads: [],
   customers: [],
+  workflows: [],
   orders: [],
   tasks: [],
   inventoryMovements: [],
@@ -41,6 +42,7 @@ const viewTitles = {
   catalog: "Katalog",
   leads: "Teklif Havuzu",
   customers: "Müşteriler",
+  workflows: "İş Takip",
   orders: "Siparişler",
   inventory: "Stok",
   finance: "Finans",
@@ -111,6 +113,64 @@ const resourceMeta = {
       { name: "segment", label: "Segment", type: "select", options: ["Kurumsal", "Perakende", "Distribütör"] },
       { name: "status", label: "Durum", type: "select", options: ["Aktif", "Pasif", "Aday"] },
       { name: "assigned_to", label: "Sorumlu", type: "text" },
+      { name: "notes", label: "Notlar", type: "textarea" },
+    ],
+  },
+  workflows: {
+    label: "İş Takibi",
+    endpoint: "/api/admin/workflows",
+    fields: [
+      { name: "title", label: "Akış Başlığı", type: "text", required: true },
+      {
+        name: "customer_id",
+        label: "Müşteri",
+        type: "select",
+        options: () => [{ value: "", label: "Seçiniz" }, ...state.customers.map((item) => ({ value: item.id, label: item.company || item.name }))],
+      },
+      {
+        name: "lead_id",
+        label: "Bağlı Teklif",
+        type: "select",
+        options: () => [{ value: "", label: "Seçiniz" }, ...state.leads.map((item) => ({ value: item.id, label: item.company || item.name }))],
+      },
+      {
+        name: "order_id",
+        label: "Bağlı Sipariş",
+        type: "select",
+        options: () => [{ value: "", label: "Seçiniz" }, ...state.orders.map((item) => ({ value: item.id, label: item.order_no || item.id }))],
+      },
+      {
+        name: "stage",
+        label: "Aşama",
+        type: "select",
+        options: [
+          "İletişim Bekliyor",
+          "İletişime Geçildi",
+          "Müşteriye Gidildi",
+          "Numune İstendi",
+          "Numune Gönderildi",
+          "Direkt Sipariş Alındı",
+          "Sipariş Geçildi",
+          "Sipariş Teslim Edildi",
+          "Tekrar Aranacak",
+        ],
+      },
+      {
+        name: "status",
+        label: "Durum",
+        type: "select",
+        options: ["Takipte", "Sıcak", "Beklemede", "Siparişe Döndü", "Teslim Edildi", "Kaybedildi"],
+      },
+      { name: "contacted", label: "İletişime Geçildi", type: "checkbox", default: false },
+      { name: "visited", label: "Müşteriye Gidildi", type: "checkbox", default: false },
+      { name: "sample_requested", label: "Numune İstendi", type: "checkbox", default: false },
+      { name: "direct_order", label: "Direkt Sipariş", type: "checkbox", default: false },
+      { name: "order_placed", label: "Sipariş Geçildi", type: "checkbox", default: false },
+      { name: "delivered", label: "Sipariş Teslim Edildi", type: "checkbox", default: false },
+      { name: "last_action_at", label: "Son İşlem Tarihi", type: "date" },
+      { name: "next_action", label: "Sıradaki Aksiyon", type: "text" },
+      { name: "next_action_date", label: "Sonraki Aksiyon Tarihi", type: "date" },
+      { name: "owner", label: "Sorumlu", type: "text" },
       { name: "notes", label: "Notlar", type: "textarea" },
     ],
   },
@@ -272,6 +332,17 @@ function setActiveView(view) {
 function customerLabel(customerId) {
   const customer = state.customers.find((item) => item.id === customerId);
   return customer ? customer.company || customer.name : "Bağlı değil";
+}
+
+function leadLabel(leadId) {
+  const lead = state.leads.find((item) => item.id === leadId);
+  if (!lead) return "Teklif yok";
+  return lead.company || lead.name || lead.lead_no || lead.id;
+}
+
+function orderLabel(orderId) {
+  const order = state.orders.find((item) => item.id === orderId);
+  return order ? order.order_no || order.id : "Sipariş yok";
 }
 
 function accountLabel(accountId) {
@@ -534,6 +605,112 @@ function renderOrders() {
     .join("");
 }
 
+function workflowProgressHtml(item) {
+  const steps = [
+    { active: item.contacted, label: "İletişim" },
+    { active: item.visited, label: "Ziyaret" },
+    { active: item.sample_requested, label: "Numune" },
+    { active: item.direct_order || item.order_placed, label: item.direct_order ? "Direkt Sipariş" : "Sipariş" },
+    { active: item.delivered, label: "Teslim" },
+  ].filter((step, index, array) => step.active || (index === array.length - 1 && !array.some((item2) => item2.active)));
+
+  if (!steps.length) return `<span class="erp-progress-chip is-passive">Akış yeni</span>`;
+
+  return steps
+    .map(
+      (step) => `
+        <span class="erp-progress-chip ${step.active ? "is-active" : "is-passive"}">${escapeHtml(step.label)}</span>
+      `
+    )
+    .join("");
+}
+
+function workflowTitle(item) {
+  const customer = item.customer_id ? customerLabel(item.customer_id) : "";
+  const lead = item.lead_id ? leadLabel(item.lead_id) : "";
+  const order = item.order_id ? orderLabel(item.order_id) : "";
+  return item.title || customer || lead || order || "Takip Kaydı";
+}
+
+function workflowSubtitle(item) {
+  const parts = [];
+  if (item.customer_id) parts.push(customerLabel(item.customer_id));
+  if (item.lead_id) parts.push(`Teklif: ${leadLabel(item.lead_id)}`);
+  if (item.order_id) parts.push(`Sipariş: ${orderLabel(item.order_id)}`);
+  return parts.filter(Boolean).join(" • ") || "Bağlantı yok";
+}
+
+function renderWorkflows() {
+  const summary = [
+    { label: "İletişim", count: state.workflows.filter((item) => item.contacted).length },
+    { label: "Ziyaret", count: state.workflows.filter((item) => item.visited).length },
+    { label: "Numune", count: state.workflows.filter((item) => item.sample_requested).length },
+    { label: "Sipariş", count: state.workflows.filter((item) => item.direct_order || item.order_placed).length },
+    { label: "Teslim", count: state.workflows.filter((item) => item.delivered).length },
+  ];
+
+  document.getElementById("workflowStageGrid").innerHTML = summary
+    .map(
+      (item) => `
+        <article class="erp-stage-card">
+          <span>${escapeHtml(item.label)}</span>
+          <strong>${item.count}</strong>
+        </article>
+      `
+    )
+    .join("");
+
+  const focusItems = [...state.workflows]
+    .filter((item) => !item.delivered && item.status !== "Kaybedildi")
+    .sort((a, b) => new Date(a.next_action_date || a.last_action_at || 0).getTime() - new Date(b.next_action_date || b.last_action_at || 0).getTime())
+    .slice(0, 6);
+
+  renderList(
+    "workflowFocusList",
+    focusItems,
+    (item) => `
+      <article class="erp-list-item">
+        <div>
+          <strong>${escapeHtml(workflowTitle(item))}</strong>
+          <p>${escapeHtml(item.next_action || "Sıradaki adım tanımlanmadı")} • ${formatDate(item.next_action_date || item.last_action_at)}</p>
+        </div>
+        <span class="${badgeClass("workflow", item.status)}">${escapeHtml(item.status || "Takipte")}</span>
+      </article>
+    `,
+    "Takip listesi temiz görünüyor."
+  );
+
+  document.getElementById("workflowTableBody").innerHTML = state.workflows
+    .map(
+      (item) => `
+        <tr>
+          <td>
+            <div class="erp-cell-stack">
+              <strong>${escapeHtml(workflowTitle(item))}</strong>
+              <span>${escapeHtml(workflowSubtitle(item))}</span>
+            </div>
+          </td>
+          <td><span class="${badgeClass("stage", item.stage)}">${escapeHtml(item.stage)}</span></td>
+          <td><div class="erp-progress-row">${workflowProgressHtml(item)}</div></td>
+          <td><span class="${badgeClass("workflow", item.status)}">${escapeHtml(item.status)}</span></td>
+          <td>
+            <div class="erp-cell-stack">
+              <strong>${escapeHtml(item.next_action || "Plan yok")}</strong>
+              <span>${formatDate(item.next_action_date)}</span>
+            </div>
+          </td>
+          <td>${formatDate(item.last_action_at)}</td>
+          <td>${escapeHtml(item.owner || "Satış Ekibi")}</td>
+          <td class="erp-actions">
+            <button class="erp-table-btn js-edit" data-resource="workflows" data-id="${item.id}" type="button">Düzenle</button>
+            <button class="erp-table-btn danger js-delete" data-resource="workflows" data-id="${item.id}" type="button">Sil</button>
+          </td>
+        </tr>
+      `
+    )
+    .join("");
+}
+
 function renderInventory() {
   document.getElementById("inventoryProduct").innerHTML = state.products
     .map((product) => `<option value="${product.id}">${escapeHtml(product.name)} (${product.stock})</option>`)
@@ -764,6 +941,7 @@ function renderAll() {
   renderProducts();
   renderLeads();
   renderCustomers();
+  renderWorkflows();
   renderOrders();
   renderInventory();
   renderFinance();
@@ -778,6 +956,7 @@ function findRecord(resource, id) {
     products: state.products,
     leads: state.leads,
     customers: state.customers,
+    workflows: state.workflows,
     orders: state.orders,
     tasks: state.tasks,
     financeAccounts: state.financeAccounts,
@@ -956,6 +1135,7 @@ async function refreshData() {
   state.products = data.products || [];
   state.leads = data.leads || [];
   state.customers = data.customers || [];
+  state.workflows = data.workflows || [];
   state.orders = data.orders || [];
   state.tasks = data.tasks || [];
   state.inventoryMovements = data.inventoryMovements || [];
