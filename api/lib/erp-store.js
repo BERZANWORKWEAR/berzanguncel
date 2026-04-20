@@ -266,6 +266,13 @@ function isCashLikeAccount(account) {
   return ["Kasa", "Banka", "E-Cuzdan"].includes(String(account?.type || ""));
 }
 
+function toBool(value, fallback = false) {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "string") return ["true", "1", "on"].includes(value.toLowerCase());
+  if (typeof value === "number") return value > 0;
+  return Boolean(value ?? fallback);
+}
+
 function buildDefaultDb() {
   const createdAt = nowIso();
   const customers = [
@@ -341,6 +348,31 @@ function buildDefaultDb() {
       related_type: "lead",
       related_id: leads[0].id,
       notes: "Sabah vardiya planı çıkmadan önce dönüş bekliyorlar.",
+      created_at: createdAt,
+      updated_at: createdAt,
+    },
+  ];
+
+  const workflows = [
+    {
+      id: "wrk_demo_1",
+      title: "Demir Lojistik yaz sezonu takibi",
+      customer_id: customers[0].id,
+      lead_id: leads[0].id,
+      order_id: orders[0].id,
+      stage: "Numune İstendi",
+      status: "Sıcak",
+      contacted: true,
+      visited: true,
+      sample_requested: true,
+      direct_order: false,
+      order_placed: false,
+      delivered: false,
+      last_action_at: createdAt,
+      next_action: "Numune setini kargoya ver ve teyit al",
+      next_action_date: plusDays(1),
+      owner: "Satış Ekibi",
+      notes: "Numune onayı sonrası siparişe dönmesi bekleniyor.",
       created_at: createdAt,
       updated_at: createdAt,
     },
@@ -532,6 +564,7 @@ function buildDefaultDb() {
     })),
     leads,
     customers,
+    workflows,
     orders,
     tasks,
     inventoryMovements,
@@ -584,6 +617,7 @@ async function readDb() {
   db.products = Array.isArray(db.products) ? db.products : [];
   db.leads = Array.isArray(db.leads) ? db.leads : [];
   db.customers = Array.isArray(db.customers) ? db.customers : [];
+  db.workflows = Array.isArray(db.workflows) ? db.workflows : defaults.workflows;
   db.orders = Array.isArray(db.orders) ? db.orders : [];
   db.tasks = Array.isArray(db.tasks) ? db.tasks : [];
   db.inventoryMovements = Array.isArray(db.inventoryMovements) ? db.inventoryMovements : [];
@@ -897,6 +931,65 @@ function sanitizeTask(payload, fallback = {}) {
   };
 }
 
+function sanitizeWorkflow(payload, fallback = {}) {
+  const stage = String(payload.stage || fallback.stage || "İletişim Bekliyor").trim();
+  const workflow = {
+    id: payload.id || fallback.id || makeId("wrk"),
+    title: String(payload.title || fallback.title || "").trim(),
+    customer_id: Object.prototype.hasOwnProperty.call(payload, "customer_id") ? payload.customer_id || null : fallback.customer_id || null,
+    lead_id: Object.prototype.hasOwnProperty.call(payload, "lead_id") ? payload.lead_id || null : fallback.lead_id || null,
+    order_id: Object.prototype.hasOwnProperty.call(payload, "order_id") ? payload.order_id || null : fallback.order_id || null,
+    stage,
+    status: String(payload.status || fallback.status || "Takipte").trim(),
+    contacted: toBool(payload.contacted, fallback.contacted),
+    visited: toBool(payload.visited, fallback.visited),
+    sample_requested: toBool(payload.sample_requested, fallback.sample_requested),
+    direct_order: toBool(payload.direct_order, fallback.direct_order),
+    order_placed: toBool(payload.order_placed, fallback.order_placed),
+    delivered: toBool(payload.delivered, fallback.delivered),
+    last_action_at: payload.last_action_at || fallback.last_action_at || nowIso(),
+    next_action: String(payload.next_action || fallback.next_action || "").trim(),
+    next_action_date: payload.next_action_date || fallback.next_action_date || null,
+    owner: String(payload.owner || fallback.owner || "Satış Ekibi").trim(),
+    notes: String(payload.notes || fallback.notes || "").trim(),
+    created_at: fallback.created_at || nowIso(),
+    updated_at: nowIso(),
+  };
+
+  const stageFlags = {
+    "İletişime Geçildi": { contacted: true },
+    "Müşteriye Gidildi": { contacted: true, visited: true },
+    "Numune İstendi": { contacted: true, sample_requested: true },
+    "Numune Gönderildi": { contacted: true, sample_requested: true },
+    "Direkt Sipariş Alındı": { contacted: true, direct_order: true, order_placed: true },
+    "Sipariş Geçildi": { contacted: true, order_placed: true },
+    "Sipariş Teslim Edildi": { contacted: true, order_placed: true, delivered: true },
+    "Tekrar Aranacak": { contacted: true },
+  };
+
+  Object.assign(workflow, {
+    contacted: workflow.contacted || Boolean(stageFlags[stage]?.contacted),
+    visited: workflow.visited || Boolean(stageFlags[stage]?.visited),
+    sample_requested: workflow.sample_requested || Boolean(stageFlags[stage]?.sample_requested),
+    direct_order: workflow.direct_order || Boolean(stageFlags[stage]?.direct_order),
+    order_placed: workflow.order_placed || Boolean(stageFlags[stage]?.order_placed),
+    delivered: workflow.delivered || Boolean(stageFlags[stage]?.delivered),
+  });
+
+  if (workflow.visited) workflow.contacted = true;
+  if (workflow.direct_order) workflow.order_placed = true;
+  if (workflow.delivered) {
+    workflow.order_placed = true;
+    workflow.status = "Teslim Edildi";
+    workflow.stage = "Sipariş Teslim Edildi";
+  }
+
+  workflow.customer_id = workflow.customer_id || null;
+  workflow.lead_id = workflow.lead_id || null;
+  workflow.order_id = workflow.order_id || null;
+  return workflow;
+}
+
 function sanitizeSettings(payload, fallback = {}) {
   return {
     companyName: String(payload.companyName || fallback.companyName || "BERZAN").trim(),
@@ -984,6 +1077,7 @@ export async function getAdminBootstrap() {
     leads: [...db.leads].sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()),
     customers: [...db.customers].sort((a, b) => new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime()),
     orders: [...db.orders].sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()),
+    workflows: [...db.workflows].sort((a, b) => new Date(b.last_action_at || b.updated_at || 0).getTime() - new Date(a.last_action_at || a.updated_at || 0).getTime()),
     tasks: [...db.tasks].sort((a, b) => new Date(a.due_date || 0).getTime() - new Date(b.due_date || 0).getTime()),
     inventoryMovements: [...db.inventoryMovements]
       .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
@@ -1114,6 +1208,31 @@ export async function saveResource(resource, payload) {
       return customer;
     }
 
+    if (resource === "workflows") {
+      const existing = db.workflows.find((item) => item.id === payload.id);
+      const workflow = sanitizeWorkflow(payload, existing);
+      if (existing) Object.assign(existing, workflow);
+      else db.workflows.unshift(workflow);
+
+      if (workflow.customer_id) {
+        const customer = db.customers.find((item) => item.id === workflow.customer_id);
+        if (customer) {
+          customer.last_contact_at = workflow.last_action_at || nowIso();
+          customer.updated_at = nowIso();
+        }
+      }
+
+      if (workflow.order_id && workflow.delivered) {
+        const order = db.orders.find((item) => item.id === workflow.order_id);
+        if (order) {
+          order.status = "Tamamlandı";
+          order.updated_at = nowIso();
+        }
+      }
+
+      return workflow;
+    }
+
     if (resource === "orders") {
       const existing = db.orders.find((item) => item.id === payload.id);
       const order = sanitizeOrder(payload, existing);
@@ -1177,6 +1296,7 @@ export async function deleteResource(resource, id) {
       products: "products",
       leads: "leads",
       customers: "customers",
+      workflows: "workflows",
       orders: "orders",
       tasks: "tasks",
       financeAccounts: "financeAccounts",
@@ -1289,6 +1409,24 @@ export async function convertLeadToOrder(leadId) {
       updated_at: nowIso(),
     });
 
+    db.workflows.unshift(
+      sanitizeWorkflow({
+        title: `${lead.company || lead.name} sipariş takibi`,
+        customer_id: lead.customer_id || null,
+        lead_id: lead.id,
+        order_id: order.id,
+        stage: "Sipariş Geçildi",
+        status: "Siparişe Döndü",
+        contacted: true,
+        order_placed: true,
+        last_action_at: nowIso(),
+        next_action: "Termin ve teslim sürecini teyit et",
+        next_action_date: plusDays(2),
+        owner: db.settings.salesOwner || "Satış Ekibi",
+        notes: "Teklif siparişe çevrildi.",
+      })
+    );
+
     return order;
   });
 }
@@ -1324,6 +1462,21 @@ export async function createPublicLead(payload) {
       created_at: nowIso(),
       updated_at: nowIso(),
     });
+
+    db.workflows.unshift(
+      sanitizeWorkflow({
+        title: `${lead.company || lead.name} ilk temas`,
+        customer_id: customer.id,
+        lead_id: lead.id,
+        stage: "İletişim Bekliyor",
+        status: "Takipte",
+        last_action_at: nowIso(),
+        next_action: "İlk telefon görüşmesini yap",
+        next_action_date: plusDays(1),
+        owner: db.settings.salesOwner || "Satış Ekibi",
+        notes: "Web sitesi üzerinden yeni talep geldi.",
+      })
+    );
 
     return {
       lead,
