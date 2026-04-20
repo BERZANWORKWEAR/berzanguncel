@@ -25,7 +25,7 @@ const BERZAN_CFG = Object.assign({
   notifyTo: '9054210055649',
   apiBaseUrl: ''
 }, window.BERZAN_CFG || {});
-const LIVE_PRODUCTS_CACHE_KEY = 'berzan_live_products_cache_v1';
+const LIVE_PRODUCTS_CACHE_KEY = 'berzan_live_products_cache_v2';
 
 function berzanApiUrl(path){
   const base = String(BERZAN_CFG.apiBaseUrl || '').replace(/\/$/, '');
