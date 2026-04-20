@@ -148,6 +148,15 @@ function ensureDbShape(db) {
   db.financeEntries = Array.isArray(db.financeEntries) ? db.financeEntries : fallback.financeEntries;
   db.financeLiabilities = Array.isArray(db.financeLiabilities) ? db.financeLiabilities : fallback.financeLiabilities;
   db.settings = db.settings || fallback.settings || {};
+  const seededMekapProducts = fallback.products.filter((product) => String(product.id || "").startsWith("prd_mekap_"));
+  if (seededMekapProducts.length) {
+    const manualProducts = db.products.filter((product) => !String(product.id || "").startsWith("prd_mekap_"));
+    const manualSlugs = new Set(manualProducts.map((product) => String(product.slug || "").toLowerCase()).filter(Boolean));
+    db.products = [
+      ...manualProducts,
+      ...seededMekapProducts.filter((product) => !manualSlugs.has(String(product.slug || "").toLowerCase())),
+    ];
+  }
   return db;
 }
 
