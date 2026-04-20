@@ -484,7 +484,7 @@ body.magaza-page .bz-search-trigger:hover {
   isolation: isolate;
   min-height: 620px;
   background: linear-gradient(180deg, #ffffff, #fbfcff);
-  border-radius: 34px;
+  border-radius: 26px;
   border: 1px solid rgba(214, 223, 238, 0.82);
   overflow: hidden;
   display: flex;
@@ -586,7 +586,7 @@ body.magaza-page .shop-foot::after {
   bottom: 10px;
   width: 170px;
   height: 64px;
-  border-radius: 999px;
+  border-radius: 24px;
   background:
     linear-gradient(90deg, rgba(98, 162, 255, 0.24), rgba(208, 176, 255, 0.18));
   filter: blur(24px);
@@ -601,7 +601,7 @@ body.magaza-page .shop-cta {
   min-width: 142px;
   min-height: 50px;
   padding: 12px 22px;
-  border-radius: 999px;
+  border-radius: 18px;
   text-decoration: none;
   font-size: 15px;
   font-weight: 600;
@@ -804,7 +804,7 @@ body.magaza-page .badge {
 @media (max-width: 720px) {
   .shop-card {
     min-height: 540px;
-    border-radius: 28px;
+    border-radius: 22px;
   }
 
   body.magaza-page .shop-head {
