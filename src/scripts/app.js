@@ -1090,14 +1090,6 @@ function matchQuery(p){
 
   function render(items){
     if (!grid) return;
-  const addBtnClass = document.body.classList.contains('magaza-page') ? 'btn small' : 'btn primary small';
-
-    const seasonText = (value) => {
-      if (value === 'yazlik') return 'Yazlık';
-      if (value === 'kislik') return 'Kışlık';
-      if (value === 'sezonluk') return 'Sezonluk';
-      return value || '';
-    };
 
     const list = sortItems(items.slice());
     grid.innerHTML = list.map(p => `
@@ -1106,31 +1098,14 @@ function matchQuery(p){
           <div class="shop-media">
             <div class="shop-glow shop-glow-a"></div>
             <div class="shop-glow shop-glow-b"></div>
-            <div class="shop-media-top">
-              <span class="shop-chip shop-chip-cat">${BERZAN_CATEGORIES[p.cat] || 'Ürün'}</span>
-              ${(p.badge || (p.badges && p.badges[0])) ? `<span class="shop-chip shop-chip-badge">${p.badge || p.badges[0]}</span>` : ``}
-            </div>
             ${(()=>{const img=berzanImgFor(p); return img ? `<img class=\"shop-img\" src=\"${img}\" alt=\"${p.name}\" loading=\"lazy\" decoding=\"async\">` : `<div class=\"shop-ph\">${(p.cat||'').toUpperCase()}</div>`;})()}
-            <div class="shop-media-bottom">
-              ${(p.seasons && p.seasons[0]) ? `<span class="shop-mini-meta">${seasonText(p.seasons[0])}</span>` : ``}
-              ${(p.sectors && p.sectors[0]) ? `<span class="shop-mini-meta">${BERZAN_SECTOR_MAP[p.sectors[0]] || p.sectors[0]}</span>` : ``}
-            </div>
           </div>
           <div class="shop-body">
-            <div class="shop-kicker">${BERZAN_CATEGORIES[p.cat] || 'Kurumsal Koleksiyon'}</div>
             <div class="shop-name">${p.name}</div>
-            <div class="shop-desc">${p.desc || ''}</div>
-            <div class="shop-badges">
-              ${(p.badges||[]).map(b=>`<span class="pill">${b}</span>`).join('')}
-            </div>
           </div>
         </a>
         <div class="shop-foot">
-          <div class="shop-price">
-            <div class="shop-price-main">${berzanFormatTRY(p.retail)}</div>
-            <div class="shop-price-sub">Kurumsal teklif: ${berzanFormatTRY(p.quote || p.retail)}</div>
-          </div>
-          <button class="${addBtnClass}" type="button" data-add-to-cart="${p.id}">Sepete Ekle</button>
+          <a class="shop-cta" href="/urun/?urun=${encodeURIComponent(p.id)}">Ürünü İncele</a>
         </div>
       </div>
     `).join('');
