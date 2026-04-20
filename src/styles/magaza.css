@@ -9,21 +9,25 @@ body.magaza-page {
   --bz-gold: #FFD700;
   --bz-navy: #131D2E;
   --bz-dark: #0b0f14;
-  --bz-bg: #f5f5f7;
-  --bz-card: #ffffff;
+  --bz-bg: #eef4ff;
+  --bz-card: rgba(255,255,255,0.58);
   --bz-text: #1a1a1a;
   --bz-muted: #6e6e73;
-  --bz-border: rgba(0,0,0,0.07);
-  --bz-radius: 18px;
+  --bz-border: rgba(132,156,198,0.22);
+  --bz-radius: 28px;
   --bz-radius-sm: 10px;
-  --bz-shadow-sm: 0 2px 12px rgba(0,0,0,0.05);
-  --bz-shadow-md: 0 10px 36px rgba(0,0,0,0.09);
-  --bz-shadow-lg: 0 22px 72px rgba(0,0,0,0.13);
+  --bz-shadow-sm: 0 12px 28px rgba(122,145,181,0.12);
+  --bz-shadow-md: 0 18px 50px rgba(116,138,175,0.15);
+  --bz-shadow-lg: 0 28px 84px rgba(111,134,172,0.2);
   --bz-transition: cubic-bezier(0.2, 0.8, 0.2, 1);
   --sidebar-w: 260px;
 
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-  background: var(--bz-bg);
+  background:
+    radial-gradient(circle at top left, rgba(115, 174, 255, 0.24), transparent 24%),
+    radial-gradient(circle at top right, rgba(255, 214, 112, 0.22), transparent 18%),
+    radial-gradient(circle at 50% 18%, rgba(255,255,255,0.86), transparent 28%),
+    linear-gradient(180deg, #f9fbff 0%, var(--bz-bg) 56%, #e9f1ff 100%);
   color: var(--bz-text);
   -webkit-font-smoothing: antialiased;
   margin: 0;
@@ -473,19 +477,36 @@ body.magaza-page .bz-search-trigger:hover {
 
 /* Shop card (rendered by app.js) */
 .shop-card {
-  background: var(--bz-card);
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.28)),
+    var(--bz-card);
   border-radius: var(--bz-radius);
-  border: 1px solid var(--bz-border);
+  border: 1px solid rgba(255,255,255,0.72);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: all 0.32s var(--bz-transition);
   box-shadow: var(--bz-shadow-sm);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+}
+.shop-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: calc(var(--bz-radius) - 1px);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.74), rgba(255,255,255,0.14) 44%, rgba(83,145,255,0.08) 100%),
+    radial-gradient(circle at top left, rgba(255,255,255,0.74), transparent 38%);
+  pointer-events: none;
+  z-index: 0;
 }
 .shop-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.01);
   box-shadow: var(--bz-shadow-lg);
-  border-color: rgba(255,103,0,0.10);
+  border-color: rgba(255,255,255,0.9);
 }
 
 .shop-link {
@@ -494,25 +515,113 @@ body.magaza-page .bz-search-trigger:hover {
   display: flex;
   flex-direction: column;
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .shop-media {
   aspect-ratio: 1 / 1;
-  background: linear-gradient(160deg, #f8f8f8, #ededef);
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.88), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(255,214,112,0.2), transparent 22%),
+    linear-gradient(160deg, rgba(255,255,255,0.7), rgba(236,243,255,0.66));
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  padding: 24px;
+}
+.shop-media::after {
+  content: "";
+  position: absolute;
+  inset: auto -12% -32% -12%;
+  height: 54%;
+  background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.9));
+  filter: blur(12px);
+  opacity: 0.9;
+}
+.shop-glow {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(18px);
+  opacity: 0.75;
+  pointer-events: none;
+}
+.shop-glow-a {
+  width: 112px;
+  height: 112px;
+  top: -20px;
+  left: -16px;
+  background: rgba(96, 155, 255, 0.24);
+}
+.shop-glow-b {
+  width: 96px;
+  height: 96px;
+  right: -10px;
+  bottom: 28px;
+  background: rgba(255, 214, 112, 0.28);
+}
+.shop-media-top,
+.shop-media-bottom {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  z-index: 2;
+}
+.shop-media-top {
+  top: 16px;
+}
+.shop-media-bottom {
+  bottom: 16px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.shop-chip,
+.shop-mini-meta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.72);
+  background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,255,255,0.42));
+  box-shadow: 0 8px 18px rgba(136,157,194,0.12);
+  color: #193152;
+  white-space: nowrap;
+}
+.shop-chip {
+  min-height: 32px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.shop-chip-badge {
+  color: #7a5200;
+}
+.shop-mini-meta {
+  min-height: 28px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
 }
 .shop-img {
-  width: 72%;
-  height: 72%;
+  position: relative;
+  z-index: 1;
+  width: 78%;
+  height: 78%;
   object-fit: contain;
   transition: transform 0.45s var(--bz-transition);
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08));
+  filter:
+    drop-shadow(0 18px 28px rgba(83, 113, 160, 0.14))
+    drop-shadow(0 28px 44px rgba(255,255,255,0.52));
 }
-.shop-card:hover .shop-img { transform: scale(1.07); }
+.shop-card:hover .shop-img { transform: scale(1.09) translateY(-2px); }
 .shop-ph {
   font-size: clamp(11px, 1.2vw, 14px);
   font-weight: 800;
@@ -523,23 +632,32 @@ body.magaza-page .bz-search-trigger:hover {
 }
 
 .shop-body {
-  padding: clamp(12px, 1.2vw, 18px);
+  position: relative;
+  z-index: 1;
+  padding: 18px 18px 14px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   flex: 1;
 }
+.shop-kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #70819b;
+}
 .shop-name {
-  font-size: clamp(13px, 1.1vw, 15px);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-  color: var(--bz-text);
+  font-size: clamp(16px, 1.35vw, 20px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: #122544;
 }
 .shop-desc {
-  font-size: 12px;
-  color: var(--bz-muted);
-  line-height: 1.4;
+  font-size: 13px;
+  color: #667892;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -553,64 +671,73 @@ body.magaza-page .bz-search-trigger:hover {
   margin-top: 2px;
 }
 .shop-badges .pill {
-  padding: 4px 10px;
+  padding: 5px 10px;
   font-size: 11px;
   font-weight: 700;
   border-radius: 999px;
-  background: transparent;
-  border: 1px solid rgba(0,0,0,0.12);
-  color: var(--bz-text);
+  background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.4));
+  border: 1px solid rgba(255,255,255,0.74);
+  color: #2b4268;
   letter-spacing: 0.01em;
+  box-shadow: 0 6px 16px rgba(137,157,194,0.1);
 }
 
 .shop-foot {
-  padding: clamp(10px, 1vw, 16px) clamp(12px, 1.2vw, 18px);
-  border-top: 1px solid var(--bz-border);
+  position: relative;
+  z-index: 1;
+  padding: 14px 18px 18px;
+  border-top: 1px solid rgba(255,255,255,0.65);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  background: rgba(0,0,0,0.01);
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.42));
 }
 .shop-price { display: flex; flex-direction: column; }
 .shop-price-main {
-  font-size: clamp(15px, 1.3vw, 18px);
-  font-weight: 800;
-  color: var(--bz-text);
-  letter-spacing: -0.01em;
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 900;
+  color: #102340;
+  letter-spacing: -0.03em;
 }
 .shop-price-sub {
-  font-size: 11px;
-  color: var(--bz-muted);
-  margin-top: 1px;
+  font-size: 12px;
+  color: #6c7d95;
+  margin-top: 3px;
 }
 
 /* Sepete ekle butonu (app.js: class="btn small" ya da "btn primary small") */
 .shop-foot .btn,
 .shop-foot button[data-add-to-cart] {
-  padding: 8px 16px !important;
+  padding: 10px 16px !important;
   font-size: 13px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   border-radius: 999px !important;
   white-space: nowrap;
   flex-shrink: 0;
-  background: var(--bz-dark) !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0)),
+    linear-gradient(135deg, #173056, #315d9e) !important;
   color: #fff !important;
-  border: none !important;
+  border: 1px solid rgba(255,255,255,0.24) !important;
   cursor: pointer;
   transition: all 0.25s var(--bz-transition);
-  box-shadow: none !important;
+  box-shadow: 0 16px 26px rgba(49,93,158,0.26) !important;
 }
 
 .shop-foot .btn:hover,
 .shop-foot button[data-add-to-cart]:hover {
-  background: var(--bz-orange) !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0)),
+    linear-gradient(135deg, #2754a0, #4e82d0) !important;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(255,103,0,0.25) !important;
+  box-shadow: 0 18px 32px rgba(55, 98, 170, 0.3) !important;
 }
 .shop-foot .btn.is-added,
 .shop-foot button[data-add-to-cart].is-added {
-  background: #16a34a !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0)),
+    linear-gradient(135deg, #16945a, #24b56f) !important;
 }
 
 /* Card animation on load */
@@ -779,6 +906,33 @@ body.magaza-page .badge {
   font-size: 11px;
   font-weight: 700;
   margin-left: 4px;
+}
+
+@media (max-width: 720px) {
+  .shop-media {
+    padding: 18px;
+  }
+
+  .shop-media-top,
+  .shop-media-bottom {
+    left: 12px;
+    right: 12px;
+  }
+
+  .shop-body {
+    padding: 16px 16px 12px;
+  }
+
+  .shop-foot {
+    padding: 12px 16px 16px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .shop-foot .btn,
+  .shop-foot button[data-add-to-cart] {
+    width: 100%;
+  }
 }
 
 /* Loading skeleton */
