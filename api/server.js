@@ -204,7 +204,7 @@ app.get("/api/admin/bootstrap", requireAdmin, async (req, res) => {
   }
 });
 
-app.post("/api/admin/:resource(products|categories|leads|customers|orders|tasks|financeAccounts|financeEntries|financeLiabilities)", requireAdmin, async (req, res) => {
+app.post("/api/admin/:resource(products|categories|leads|customers|workflows|orders|tasks|financeAccounts|financeEntries|financeLiabilities)", requireAdmin, async (req, res) => {
   try {
     const record = await saveResource(req.params.resource, req.body || {});
     return res.json({ ok: true, record });
@@ -213,7 +213,7 @@ app.post("/api/admin/:resource(products|categories|leads|customers|orders|tasks|
   }
 });
 
-app.put("/api/admin/:resource(products|categories|leads|customers|orders|tasks|financeAccounts|financeEntries|financeLiabilities)/:id", requireAdmin, async (req, res) => {
+app.put("/api/admin/:resource(products|categories|leads|customers|workflows|orders|tasks|financeAccounts|financeEntries|financeLiabilities)/:id", requireAdmin, async (req, res) => {
   try {
     const record = await saveResource(req.params.resource, {
       ...(req.body || {}),
@@ -225,7 +225,7 @@ app.put("/api/admin/:resource(products|categories|leads|customers|orders|tasks|f
   }
 });
 
-app.delete("/api/admin/:resource(products|categories|leads|customers|orders|tasks|financeAccounts|financeEntries|financeLiabilities)/:id", requireAdmin, async (req, res) => {
+app.delete("/api/admin/:resource(products|categories|leads|customers|workflows|orders|tasks|financeAccounts|financeEntries|financeLiabilities)/:id", requireAdmin, async (req, res) => {
   try {
     const result = await deleteResource(req.params.resource, req.params.id);
     return res.json({ ok: true, ...result });
