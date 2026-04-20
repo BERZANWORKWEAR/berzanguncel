@@ -483,7 +483,7 @@ body.magaza-page .bz-search-trigger:hover {
   position: relative;
   isolation: isolate;
   min-height: 620px;
-  background: linear-gradient(180deg, #ffffff, #fbfcff);
+  background: #ffffff;
   border-radius: 26px;
   border: 1px solid rgba(214, 223, 238, 0.82);
   overflow: hidden;
@@ -521,7 +521,7 @@ body.magaza-page .shop-head {
 
 body.magaza-page .shop-media {
   flex: 1;
-  background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(249,251,255,0.88));
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
