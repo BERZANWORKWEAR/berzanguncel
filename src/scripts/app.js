@@ -1095,13 +1095,11 @@ function matchQuery(p){
     grid.innerHTML = list.map(p => `
       <div class="shop-card">
         <a class="shop-link" href="/urun/?urun=${encodeURIComponent(p.id)}">
-          <div class="shop-media">
-            <div class="shop-glow shop-glow-a"></div>
-            <div class="shop-glow shop-glow-b"></div>
-            ${(()=>{const img=berzanImgFor(p); return img ? `<img class=\"shop-img\" src=\"${img}\" alt=\"${p.name}\" loading=\"lazy\" decoding=\"async\">` : `<div class=\"shop-ph\">${(p.cat||'').toUpperCase()}</div>`;})()}
-          </div>
-          <div class="shop-body">
+          <div class="shop-head">
             <div class="shop-name">${p.name}</div>
+          </div>
+          <div class="shop-media">
+            ${(()=>{const img=berzanImgFor(p); return img ? `<img class=\"shop-img\" src=\"${img}\" alt=\"${p.name}\" loading=\"lazy\" decoding=\"async\">` : `<div class=\"shop-ph\">${(p.cat||'').toUpperCase()}</div>`;})()}
           </div>
         </a>
         <div class="shop-foot">
