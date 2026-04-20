@@ -485,21 +485,23 @@ body.magaza-page .bz-search-trigger:hover {
   min-height: 620px;
   background: #FFFFFF;
   border-radius: 20px;
-  border: 1px solid rgba(214, 223, 238, 0.82);
+  border: 1px solid rgba(228, 228, 228, 0.96);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: transform 0.32s var(--bz-transition), box-shadow 0.32s var(--bz-transition), border-color 0.32s var(--bz-transition);
-  box-shadow: 0 14px 34px rgba(92, 105, 132, 0.12);
+  box-shadow: 0 12px 28px rgba(30, 41, 59, 0.09);
   will-change: transform;
+  cursor: pointer;
 }
 .shop-card::before {
   display: none;
 }
-.shop-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 28px 56px rgba(92, 105, 132, 0.18);
-  border-color: rgba(208, 218, 236, 0.96);
+.shop-card:hover,
+.shop-card:focus-within {
+  transform: translateY(-14px);
+  box-shadow: 0 30px 60px rgba(30, 41, 59, 0.14);
+  border-color: rgba(216, 216, 216, 1);
 }
 
 .shop-link {
@@ -510,6 +512,7 @@ body.magaza-page .bz-search-trigger:hover {
   flex: 1;
   position: relative;
   z-index: 1;
+  background: #FFFFFF;
 }
 
 body.magaza-page .shop-head {
@@ -518,6 +521,7 @@ body.magaza-page .shop-head {
   align-items: flex-start;
   justify-content: flex-start;
   min-height: 116px;
+  background: #FFFFFF;
 }
 
 body.magaza-page .shop-media {
@@ -538,9 +542,11 @@ body.magaza-page .shop-img {
   z-index: 1;
   width: 86%;
   height: 86%;
+  display: block;
   object-fit: contain;
   transition: none;
   filter: none;
+  mix-blend-mode: multiply;
 }
 body.magaza-page .shop-card:hover .shop-img { transform: none; }
 body.magaza-page .shop-ph {
@@ -570,7 +576,7 @@ body.magaza-page .shop-foot {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background: transparent;
+  background: #FFFFFF;
   overflow: hidden;
 }
 
@@ -578,19 +584,7 @@ body.magaza-page .shop-foot::before {
   display: none;
 }
 body.magaza-page .shop-foot::after {
-  content: "";
-  position: absolute;
-  left: auto;
-  right: 12px;
-  bottom: 10px;
-  width: 170px;
-  height: 64px;
-  border-radius: 24px;
-  background:
-    linear-gradient(90deg, rgba(98, 162, 255, 0.24), rgba(208, 176, 255, 0.18));
-  filter: blur(24px);
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
 body.magaza-page .shop-cta {
   display: flex;
