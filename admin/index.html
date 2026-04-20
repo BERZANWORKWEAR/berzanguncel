@@ -32,6 +32,7 @@
           <button class="erp-nav-btn" data-view="catalog">Katalog</button>
           <button class="erp-nav-btn" data-view="leads">Teklif Havuzu</button>
           <button class="erp-nav-btn" data-view="customers">Müşteriler</button>
+          <button class="erp-nav-btn" data-view="workflows">İş Takip</button>
           <button class="erp-nav-btn" data-view="orders">Siparişler</button>
           <button class="erp-nav-btn" data-view="inventory">Stok</button>
           <button class="erp-nav-btn" data-view="finance">Finans</button>
@@ -55,6 +56,7 @@
         <div class="erp-topbar-actions">
           <span class="erp-user" id="userBadge">Yükleniyor</span>
           <button class="erp-primary-btn js-create" data-resource="products" type="button">Yeni Ürün</button>
+          <button class="erp-secondary-btn js-create" data-resource="workflows" type="button">İş Takibi Aç</button>
           <button class="erp-secondary-btn js-create" data-resource="tasks" type="button">Görev Aç</button>
           <button class="erp-secondary-btn" id="refreshBtn" type="button">Yenile</button>
         </div>
@@ -305,6 +307,57 @@
                 </tr>
               </thead>
               <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="erp-view" data-view-panel="workflows">
+        <div class="erp-grid-two">
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Satış Operasyon Akışı</h2>
+                <p>Müşteri teması, numune ve sipariş teslim zinciri</p>
+              </div>
+              <button class="erp-primary-btn js-create" data-resource="workflows" type="button">İş Takibi Ekle</button>
+            </div>
+            <div class="erp-stage-grid" id="workflowStageGrid"></div>
+          </section>
+
+          <section class="erp-card">
+            <div class="erp-card-head">
+              <div>
+                <h2>Sıradaki Hamleler</h2>
+                <p>Bugün aksiyon alınması gereken takipler</p>
+              </div>
+            </div>
+            <div class="erp-list" id="workflowFocusList"></div>
+          </section>
+        </div>
+
+        <div class="erp-card">
+          <div class="erp-card-head">
+            <div>
+              <h2>İş Takip Çizelgesi</h2>
+              <p>Müşteriye gidildi mi, numune istendi mi, sipariş geçti mi tek tabloda gör</p>
+            </div>
+          </div>
+          <div class="erp-table-wrap">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Akış</th>
+                  <th>Aşama</th>
+                  <th>İlerleme</th>
+                  <th>Durum</th>
+                  <th>Sıradaki Adım</th>
+                  <th>Son İşlem</th>
+                  <th>Sorumlu</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="workflowTableBody"></tbody>
             </table>
           </div>
         </div>
