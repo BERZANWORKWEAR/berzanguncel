@@ -1396,6 +1396,82 @@ async function initProductPage(){
     return Array.from(new Set(urls));
   }
 
+  function seasonLabelList(values){
+    return (values || []).map(s => s==='yazlik' ? 'Yazlık' : s==='kislik' ? 'Kışlık' : 'Sezonluk');
+  }
+
+  function renderStory(mediaList = []){
+    const heroKicker = document.getElementById('storyHeroKicker');
+    const heroTitle = document.getElementById('storyHeroTitle');
+    const heroText = document.getElementById('storyHeroText');
+    const heroImg = document.getElementById('storyHeroImg');
+    const featureTitle = document.getElementById('storyFeatureTitle');
+    const featureText = document.getElementById('storyFeatureText');
+    const featurePoints = document.getElementById('storyFeaturePoints');
+    const featureImg = document.getElementById('storyFeatureImg');
+    const useTitle = document.getElementById('storyUseTitle');
+    const useText = document.getElementById('storyUseText');
+    const usePoints = document.getElementById('storyUsePoints');
+    const useImg = document.getElementById('storyUseImg');
+    const ctaTitle = document.getElementById('storyCtaTitle');
+    const ctaText = document.getElementById('storyCtaText');
+    const storyAddBtn = document.getElementById('storyAddToCartBtn');
+
+    const badgeList = (p.badges || []).filter(Boolean);
+    const seasonList = seasonLabelList(p.seasons);
+    const sectorList = (p.sectors || []).map(s => BERZAN_SECTOR_MAP[s] || s).filter(Boolean);
+    const leadBadge = badgeList[0] || 'Saha Ürünü';
+    const leadSector = sectorList[0] || 'Profesyonel kullanım';
+    const productKind = p.cat === 'ayakkabi' ? 'iş ayakkabısı' : 'saha ürünü';
+
+    if (heroKicker) heroKicker.textContent = leadBadge.toUpperCase();
+    if (heroTitle) heroTitle.textContent = `${p.name} sahada nasıl çalışır?`;
+    if (heroText) heroText.textContent = `${p.name}, ${leadSector.toLowerCase()} akışında net görünüm, güçlü duruş ve günlük kullanım konforunu aynı çizgide toplamak için kurgulandı. ${p.desc || ''}`.trim();
+
+    if (featureTitle) featureTitle.textContent = `${p.name} gün boyu ritmi bozmadan ilerler`;
+    if (featureText) featureText.textContent = `${badgeList.join(', ') || 'Dayanım ve konfor'} odağıyla şekillenen bu ${productKind}, uzun vardiyada temiz görünüm ve dengeli kullanım hissi verir.`;
+
+    if (useTitle) useTitle.textContent = `${p.name} en çok hangi senaryoda öne çıkar?`;
+    if (useText) useText.textContent = `${sectorList.join(', ') || 'Saha, operasyon ve kurumsal kullanım'} gibi akışlarda ürünün dili nettir: gereksiz detay yok, doğrudan işin içine oturan bir yapı var.`;
+
+    if (ctaTitle) ctaTitle.textContent = `${p.name} için numune, teklif ve toplu alım akışı hazır`;
+    if (ctaText) ctaText.textContent = `Bu ürün için süreç basit ilerler: ürünü incele, sepete ekle, uzman ekiple toplu sipariş ve teslim planını netleştir.`;
+
+    const pointMarkup = (items) => items.filter(Boolean).map(item => `<span class="story-point">${item}</span>`).join('');
+    if (featurePoints) {
+      featurePoints.innerHTML = pointMarkup([
+        leadBadge,
+        seasonList[0] || 'Sezonluk kullanım',
+        `${Math.round(Number(p.retail || 0))} TL liste fiyatı`
+      ]);
+    }
+    if (usePoints) {
+      usePoints.innerHTML = pointMarkup([
+        sectorList[0] || 'Kurumsal kullanım',
+        sectorList[1] || 'Saha operasyonu',
+        seasonList[0] || 'Günlük vardiya'
+      ]);
+    }
+
+    const imageA = mediaList[0] || p.cover || '';
+    const imageB = mediaList[1] || imageA;
+    const imageC = mediaList[2] || imageA;
+    if (heroImg && imageA) heroImg.src = imageA;
+    if (featureImg && imageB) featureImg.src = imageB;
+    if (useImg && imageC) useImg.src = imageC;
+    [heroImg, featureImg, useImg].forEach((img) => {
+      if (!img) return;
+      img.alt = p.name;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+    });
+
+    storyAddBtn?.addEventListener('click', () => {
+      addToCart(p.id, 1);
+      window.BERZAN.openCart?.();
+    });
+  }
+
   function renderMedia(){
     const list = guessedMedia();
     const mainWrap = mainImg ? mainImg.closest('.pdp-main') : null;
@@ -1411,6 +1487,7 @@ async function initProductPage(){
         thumbsEl.style.display = 'none';
       }
       mainWrap?.classList.add('is-empty');
+      renderStory([]);
       return;
     }
 
@@ -1437,6 +1514,7 @@ async function initProductPage(){
 
     // main
     setMain(list[0]);
+    renderStory(list);
   }
 
   function setMain(src){
