@@ -2514,6 +2514,10 @@ body.magaza-page .shop-price{
   text-align:left;
   align-items:flex-start;
   flex: 1 1 auto;
+  display:block;
+  color:#6e6e73;
+  opacity:1;
+  visibility:visible;
 }
 body.magaza-page .shop-price-sub{opacity:.78}
 body.magaza-page .shop-desc{color: var(--muted)}
