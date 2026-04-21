@@ -54,6 +54,12 @@ function productsSignature(products){
     .join('~');
 }
 
+function berzanPublicProductKey(product){
+  return String(product?.slug || product?.id || '')
+    .trim()
+    .toLowerCase();
+}
+
 async function berzanFetchJson(path, options = {}){
   const res = await fetch(berzanApiUrl(path), options);
   const data = await res.json().catch(() => ({}));
@@ -304,8 +310,11 @@ function berzanFormatTRY(n){
   }
 }
 function berzanFindProduct(id){
+  const key = String(id || '').trim().toLowerCase();
   const live = Array.isArray(window.__LIVE_PRODUCTS__) ? window.__LIVE_PRODUCTS__ : [];
-  return live.find(p => p.id === id || p.slug === id) || BERZAN_CATALOG.find(p => p.id === id) || null;
+  return live.find(p => String(p.id || '').toLowerCase() === key || String(p.slug || '').toLowerCase() === key)
+    || BERZAN_CATALOG.find(p => String(p.id || '').toLowerCase() === key || String(p.slug || '').toLowerCase() === key)
+    || null;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
