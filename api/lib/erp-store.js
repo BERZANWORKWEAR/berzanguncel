@@ -273,6 +273,21 @@ function toBool(value, fallback = false) {
   return Boolean(value ?? fallback);
 }
 
+function normalizeSupportPhone(phone) {
+  const digits = String(phone || "").replace(/\D/g, "");
+  if (!digits) return "+90 542 100 56 49";
+  if (digits === "905421005564" || digits === "05421005564" || digits === "5421005564") return "+90 542 100 56 49";
+  if (digits === "905421005649" || digits === "05421005649" || digits === "5421005649") return "+90 542 100 56 49";
+  return String(phone || "").trim();
+}
+
+function normalizeSupportEmail(email) {
+  const raw = String(email || "").trim().toLowerCase();
+  if (!raw) return "destek@berzan.com.tr";
+  if (raw.includes("&") || !raw.includes("@")) return "destek@berzan.com.tr";
+  return raw;
+}
+
 function buildDefaultDb() {
   const createdAt = nowIso();
   const customers = [
@@ -587,7 +602,7 @@ function buildDefaultDb() {
     },
     settings: {
       companyName: "BERZAN",
-      supportPhone: "+90 542 100 55 64",
+      supportPhone: "+90 542 100 56 49",
       supportEmail: "destek@berzan.com.tr",
       heroBadge: "2026 Yeni Sezon",
       announcement: "Kurumsal toplu alımlarda aynı gün teklif dönüşü için uzman ekibimize yazın.",
@@ -993,8 +1008,8 @@ function sanitizeWorkflow(payload, fallback = {}) {
 function sanitizeSettings(payload, fallback = {}) {
   return {
     companyName: String(payload.companyName || fallback.companyName || "BERZAN").trim(),
-    supportPhone: String(payload.supportPhone || fallback.supportPhone || "").trim(),
-    supportEmail: String(payload.supportEmail || fallback.supportEmail || "").trim(),
+    supportPhone: normalizeSupportPhone(payload.supportPhone || fallback.supportPhone || ""),
+    supportEmail: normalizeSupportEmail(payload.supportEmail || fallback.supportEmail || ""),
     heroBadge: String(payload.heroBadge || fallback.heroBadge || "").trim(),
     announcement: String(payload.announcement || fallback.announcement || "").trim(),
     salesOwner: String(payload.salesOwner || fallback.salesOwner || "Satış Ekibi").trim(),
@@ -1094,8 +1109,8 @@ export async function getPublicSettings() {
   const settings = db.settings || {};
   return {
     companyName: settings.companyName || "BERZAN",
-    supportPhone: settings.supportPhone || "",
-    supportEmail: settings.supportEmail || "",
+    supportPhone: normalizeSupportPhone(settings.supportPhone || ""),
+    supportEmail: normalizeSupportEmail(settings.supportEmail || ""),
     heroBadge: settings.heroBadge || "",
     announcement: settings.announcement || "",
   };
