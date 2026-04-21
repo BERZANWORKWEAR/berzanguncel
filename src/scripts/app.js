@@ -1281,6 +1281,7 @@ async function initProductPage(){
   const params = new URLSearchParams(location.search);
   const id = (params.get('urun') || 'mont').trim().toLowerCase();
   const colorParam = (params.get('renk') || params.get('color') || '').trim().toLowerCase();
+  const sizeParam = (params.get('beden') || params.get('size') || '').trim().toUpperCase();
 
   let p = null;
   try{
@@ -1299,18 +1300,27 @@ async function initProductPage(){
     history.replaceState({}, '', canonicalUrl.toString());
   }
 
+  const categoryLabel = BERZAN_CATEGORIES[p.cat] || 'Profesyonel Ürün';
+  const sectorText = (p.sectors || []).map(s => BERZAN_SECTOR_MAP[s] || s).join(' / ');
+  const seasonText = (p.seasons || []).map(s => s==='yazlik'?'Yazlık':s==='kislik'?'Kışlık':'Sezonluk').join(' / ');
+  const badgeLead = (p.badges || [])[0] || 'Saha ürünü';
+  const leadSector = (p.sectors || []).map(s => BERZAN_SECTOR_MAP[s] || s).filter(Boolean)[0] || 'kurumsal kullanım';
+  const productLead = `${p.name}, ${leadSector.toLowerCase()} akışında konfor, net görünüm ve düzenli tedarik hissini aynı çizgide toplar.`;
+
   // --- product text
+  document.title = `${p.name} — BERZAN`;
   document.getElementById('crumb')?.replaceChildren(document.createTextNode(p.name));
   document.getElementById('productTitle')?.replaceChildren(document.createTextNode(p.name));
+  document.getElementById('productEyebrow')?.replaceChildren(document.createTextNode((badgeLead || categoryLabel).toUpperCase()));
+  document.getElementById('productCategory')?.replaceChildren(document.createTextNode(categoryLabel));
+  document.getElementById('productLead')?.replaceChildren(document.createTextNode(productLead));
   const descEl = document.getElementById('productDesc');
   if (descEl) descEl.textContent = p.desc || 'Premium saha ürünü. Net, dayanıklı, temiz çizgi.';
   const priceEl = document.getElementById('productPrice');
   if (priceEl) priceEl.textContent = berzanFormatTRY(p.retail);
-
-  const sectorText = (p.sectors || []).map(s => BERZAN_SECTOR_MAP[s] || s).join(' / ');
   document.getElementById('specSector')?.replaceChildren(document.createTextNode(sectorText || '—'));
-  document.getElementById('specSeason')?.replaceChildren(document.createTextNode((p.seasons || []).map(s => s==='yazlik'?'Yazlık':s==='kislik'?'Kışlık':'Sezonluk').join(' / ') || '—'));
-  document.getElementById('specFeature')?.replaceChildren(document.createTextNode((p.badges || [])[0] || '—'));
+  document.getElementById('specSeason')?.replaceChildren(document.createTextNode(seasonText || '—'));
+  document.getElementById('specFeature')?.replaceChildren(document.createTextNode(badgeLead || '—'));
 
   // --- tags
   const tagsEl = document.getElementById('productTags');
@@ -1338,9 +1348,15 @@ async function initProductPage(){
 
   const colorList = Array.isArray(p.colors) && p.colors.length ? p.colors : (isPPE ? COLORS_HIVIS : COLORS_APPAREL);
   let activeColor = colorParam && colorList.some(c=>c.key===colorParam) ? colorParam : (colorList[0]?.key || '');
+  const sizeList = p.cat === 'ayakkabi'
+    ? ['39','40','41','42','43','44']
+    : ['S','M','L','XL','2XL'];
+  let activeSize = sizeParam && sizeList.includes(sizeParam) ? sizeParam : (sizeList[1] || sizeList[0] || '');
 
   const swatches = document.getElementById('pdpSwatches');
   const colorLabel = document.getElementById('pdpColorLabel');
+  const sizeLabel = document.getElementById('pdpSizeLabel');
+  const sizeWrap = document.getElementById('pdpSizes');
   function setColor(key){
     activeColor = key;
     const c = colorList.find(x=>x.key===key);
@@ -1354,8 +1370,24 @@ async function initProductPage(){
     const u = new URL(location.href);
     u.searchParams.set('urun', publicProductKey);
     if (key) u.searchParams.set('renk', key);
+    if (activeSize) u.searchParams.set('beden', activeSize);
     history.replaceState({}, '', u.toString());
     renderMedia();
+  }
+
+  function setSize(value){
+    activeSize = value;
+    if (sizeLabel) sizeLabel.textContent = `${value} seçili`;
+    if (sizeWrap){
+      Array.from(sizeWrap.querySelectorAll('button[data-size]')).forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.size === value);
+      });
+    }
+    const u = new URL(location.href);
+    u.searchParams.set('urun', publicProductKey);
+    if (activeColor) u.searchParams.set('renk', activeColor);
+    if (value) u.searchParams.set('beden', value);
+    history.replaceState({}, '', u.toString());
   }
 
   if (swatches){
@@ -1370,6 +1402,17 @@ async function initProductPage(){
       setColor(btn.dataset.color);
     });
   }
+  if (sizeWrap){
+    sizeWrap.innerHTML = sizeList.map(size => `
+      <button class="size-btn" type="button" data-size="${size}">${size}</button>
+    `).join('');
+    sizeWrap.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-size]');
+      if (!btn) return;
+      setSize(btn.dataset.size);
+    });
+  }
+  setSize(activeSize);
   setColor(activeColor);
 
   // --- media gallery
@@ -1481,10 +1524,16 @@ async function initProductPage(){
       img.decoding = 'async';
     });
 
-    storyAddBtn?.addEventListener('click', () => {
-      addToCart(p.id, 1);
-      window.BERZAN.openCart?.();
-    });
+    if (storyAddBtn) {
+      storyAddBtn.onclick = () => {
+        addToCart(p.id, 1);
+        window.BERZAN.openCart?.();
+      };
+    }
+    const storySupportBtn = document.getElementById('storySupportBtn');
+    if (storySupportBtn) {
+      storySupportBtn.href = `/uzman/?urun=${encodeURIComponent(publicProductKey)}`;
+    }
   }
 
   function renderMedia(){
@@ -1572,6 +1621,24 @@ async function initProductPage(){
   quoteBtn?.addEventListener('click', () => {
     addToCart(p.id, 1);
     window.BERZAN.openCart?.();
+  });
+
+  const openChart = document.getElementById('openSizeChartBtn');
+  const closeChart = document.getElementById('closeSizeChartBtn');
+  const chartModal = document.getElementById('sizeChartModal');
+  const chartBackdrop = document.getElementById('sizeChartBackdrop');
+  const toggleChart = (show) => {
+    if (!chartModal || !chartBackdrop) return;
+    chartModal.classList.toggle('is-open', show);
+    chartBackdrop.classList.toggle('is-open', show);
+    chartModal.setAttribute('aria-hidden', show ? 'false' : 'true');
+    chartBackdrop.setAttribute('aria-hidden', show ? 'false' : 'true');
+  };
+  openChart?.addEventListener('click', () => toggleChart(true));
+  closeChart?.addEventListener('click', () => toggleChart(false));
+  chartBackdrop?.addEventListener('click', () => toggleChart(false));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') toggleChart(false);
   });
 }
 initProductPage();
