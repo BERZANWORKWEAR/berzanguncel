@@ -2471,8 +2471,8 @@ body.magaza-page .shop-media{
 }
 body.magaza-page .shop-media .shop-ph{color: var(--muted); opacity:.75}
 body.magaza-page .shop-media img.shop-img{
-  width: 86%;
-  height: 86%;
+  width: 92%;
+  height: 92%;
   object-fit: contain;
   filter: none !important;
   mix-blend-mode: normal !important;
@@ -2484,10 +2484,10 @@ body.magaza-page .shop-body{
 
 /* Kartlar kusursuz eşit: metin/badge uzasa bile ölçü bozulmasın */
 body.magaza-page .shop-name{
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  display: block;
+  overflow: visible;
+  white-space: normal;
+  text-overflow: unset;
 }
 body.magaza-page .shop-desc{
   display: -webkit-box;
@@ -2507,12 +2507,13 @@ body.magaza-page .shop-badges{
 body.magaza-page .shop-foot{
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  gap: 0;
+  justify-content: space-between;
+  gap: 14px;
 }
 body.magaza-page .shop-price{
-  text-align:center;
-  align-items:center;
+  text-align:left;
+  align-items:flex-start;
+  flex: 1 1 auto;
 }
 body.magaza-page .shop-price-sub{opacity:.78}
 body.magaza-page .shop-desc{color: var(--muted)}
