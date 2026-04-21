@@ -463,7 +463,7 @@ body.magaza-page .bz-search-trigger:hover {
 #productsGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(18px, 2vw, 28px);
+  gap: clamp(14px, 1.4vw, 22px);
 }
 @media (min-width: 1800px) {
   #productsGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -482,7 +482,7 @@ body.magaza-page .bz-search-trigger:hover {
 .shop-card {
   position: relative;
   isolation: isolate;
-  min-height: 620px;
+  min-height: 600px;
   background: #FFFFFF;
   border-radius: 20px;
   border: 1px solid rgba(228, 228, 228, 0.96);
@@ -520,7 +520,7 @@ body.magaza-page .shop-head {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  min-height: 116px;
+  min-height: 144px;
   background: #FFFFFF;
 }
 
@@ -532,7 +532,7 @@ body.magaza-page .shop-media {
   justify-content: center;
   position: relative;
   overflow: hidden;
-  padding: 8px 24px 0;
+  padding: 0 20px 0;
 }
 body.magaza-page .shop-media::after {
   display: none;
@@ -540,8 +540,8 @@ body.magaza-page .shop-media::after {
 body.magaza-page .shop-img {
   position: relative;
   z-index: 1;
-  width: 86%;
-  height: 86%;
+  width: 92%;
+  height: 92%;
   display: block;
   object-fit: contain;
   transition: none;
@@ -559,25 +559,27 @@ body.magaza-page .shop-ph {
 }
 
 body.magaza-page .shop-name {
-  max-width: 88%;
-  font-size: clamp(21px, 1.9vw, 28px);
+  max-width: 100%;
+  font-size: clamp(20px, 1.6vw, 26px);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.12;
   color: #1b1f28;
   text-align: left;
+  text-wrap: balance;
 }
 
 body.magaza-page .shop-foot {
   position: relative;
   z-index: 1;
-  padding: 0 26px 26px;
+  padding: 8px 26px 24px;
   border-top: 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   background: #FFFFFF;
   overflow: hidden;
+  gap: 14px;
 }
 
 body.magaza-page .shop-foot::before {
@@ -586,18 +588,32 @@ body.magaza-page .shop-foot::before {
 body.magaza-page .shop-foot::after {
   display: none;
 }
+body.magaza-page .shop-price {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: rgba(27, 31, 40, 0.68);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 body.magaza-page .shop-cta {
   display: flex;
   align-items: center;
   justify-content: center;
   width: auto;
-  min-width: 142px;
-  min-height: 50px;
-  padding: 12px 22px;
-  border-radius: 18px;
+  min-width: 118px;
+  min-height: 42px;
+  padding: 9px 16px;
+  border-radius: 999px;
   text-decoration: none;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   letter-spacing: 0.02em;
   color: #ffffff;
   border: 1px solid rgba(255,255,255,0.18);
@@ -612,6 +628,8 @@ body.magaza-page .shop-cta {
   transition: transform 0.25s var(--bz-transition), box-shadow 0.25s var(--bz-transition), border-color 0.25s var(--bz-transition), color 0.25s var(--bz-transition);
   position: relative;
   z-index: 1;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 body.magaza-page .shop-cta:hover {
@@ -796,32 +814,33 @@ body.magaza-page .badge {
 
 @media (max-width: 720px) {
   .shop-card {
-    min-height: 540px;
+    min-height: 530px;
     border-radius: 18px;
   }
 
   body.magaza-page .shop-head {
-    min-height: 94px;
+    min-height: 118px;
     padding: 22px 20px 0;
   }
 
   body.magaza-page .shop-media {
-    padding: 4px 16px 0;
+    padding: 0 14px 0;
   }
 
   body.magaza-page .shop-name {
     max-width: 100%;
-    font-size: clamp(18px, 6vw, 24px);
+    font-size: clamp(18px, 5.6vw, 23px);
   }
 
   body.magaza-page .shop-foot {
-    padding: 0 20px 20px;
+    padding: 8px 20px 20px;
+    gap: 12px;
   }
 
   body.magaza-page .shop-cta {
-    min-width: 136px;
-    min-height: 46px;
-    font-size: 14px;
+    min-width: 112px;
+    min-height: 40px;
+    font-size: 12px;
   }
 }
 
