@@ -54,30 +54,65 @@
   </div>
  </header>
 
- <section class="section page-fill pdp-light-section">
-  <div class="container">
-   <div class="pdp pdp--light">
-    <div class="pdp-gallery reveal">
-     <div class="pdp-main">
-      <img alt="Ürün görseli" class="pdp-img" decoding="async" fetchpriority="high" id="pdpMainImg" loading="eager" src="" style="display:none"/>
-      <div aria-hidden="true" class="pdp-glow"></div>
+ <section class="section page-fill product-shell-section">
+  <div class="container product-shell">
+   <nav aria-label="Breadcrumb" class="breadcrumb product-breadcrumb">
+    <a href="/">Ana Sayfa</a>
+    <span>•</span>
+    <a href="/magaza/">Mağaza</a>
+    <span>•</span>
+    <span id="crumb">Ürün</span>
+   </nav>
+
+   <section class="product-hero reveal">
+    <div class="product-stage">
+     <div class="product-stage-head">
+      <span class="product-kicker" id="productEyebrow">BERZAN PRODUCT</span>
+      <span class="product-category-pill" id="productCategory">Kategori</span>
      </div>
-     <div aria-label="Ürün görselleri" class="pdp-thumbs" id="pdpThumbs"></div>
+     <div class="product-stage-copy">
+      <h1 class="pdp-title product-title-xl" id="productTitle">Ürün</h1>
+      <p class="product-lead" id="productLead">Saha akışına uyum, premium görünüm ve günlük kullanım konforu aynı çizgide buluşur.</p>
+     </div>
+
+     <div class="pdp-gallery reveal">
+      <div class="pdp-main">
+       <img alt="Ürün görseli" class="pdp-img" decoding="async" fetchpriority="high" id="pdpMainImg" loading="eager" src="" style="display:none"/>
+       <div aria-hidden="true" class="pdp-glow"></div>
+      </div>
+      <div aria-label="Ürün görselleri" class="pdp-thumbs" id="pdpThumbs"></div>
+     </div>
+
+     <div class="product-meta-grid">
+      <article class="product-meta-card">
+       <span class="product-meta-label">Sektör</span>
+       <strong class="product-meta-value" id="specSector">—</strong>
+      </article>
+      <article class="product-meta-card">
+       <span class="product-meta-label">Sezon</span>
+       <strong class="product-meta-value" id="specSeason">—</strong>
+      </article>
+      <article class="product-meta-card">
+       <span class="product-meta-label">Öne çıkan</span>
+       <strong class="product-meta-value" id="specFeature">—</strong>
+      </article>
+      <article class="product-meta-card">
+       <span class="product-meta-label">Tedarik</span>
+       <strong class="product-meta-value" id="productSupplyLabel">Numune ve toplu siparişe uygun</strong>
+      </article>
+     </div>
     </div>
 
     <aside class="pdp-aside reveal">
-     <div class="pdp-top">
-      <h1 class="pdp-title" id="productTitle">Ürün</h1>
-      <div class="pdp-sub" id="productDesc">Premium saha ürünü. Net, dayanıklı, temiz çizgi.</div>
-      <div class="pdp-tags" id="productTags"></div>
-     </div>
+     <div class="pdp-buy product-order-card card">
+      <div class="product-order-top">
+       <div class="pdp-tags" id="productTags"></div>
+       <div class="pdp-sub product-summary" id="productDesc">Premium saha ürünü. Net, dayanıklı, temiz çizgi.</div>
+      </div>
 
-     <div class="pdp-buy card">
-      <div class="pdp-price-row">
-       <div>
-        <div class="pdp-price" id="productPrice">₺ 0</div>
-        <div class="pdp-price-sub">KDV hariç • Kurumsal alımlarda özel fiyat</div>
-       </div>
+      <div class="product-price-block">
+       <div class="pdp-price" id="productPrice">₺ 0</div>
+       <div class="pdp-price-sub">KDV hariç • Kurumsal alımlarda teklif ve numune akışı açılır</div>
       </div>
 
       <div class="pdp-variant">
@@ -88,52 +123,57 @@
        <div class="pdp-swatches" id="pdpSwatches"></div>
       </div>
 
-      <!-- BEDEN SEÇİMİ (Yeni Eklenen) -->
-      <div class="pdp-variant" style="margin-top: 24px;">
+      <div class="pdp-variant">
        <div class="pdp-variant-head">
         <div class="pdp-variant-label">Beden</div>
         <div class="pdp-variant-value" id="pdpSizeLabel">M Seçili</div>
-        <button type="button" class="btn" id="openSizeChartBtn" style="font-size: 12px; padding: 4px 8px; margin-left:auto; background:transparent; border:1px solid #ddd; text-decoration:none;">📏 Beden Tablosu</button>
+        <button class="product-inline-link" id="openSizeChartBtn" type="button">Beden tablosu</button>
        </div>
-       <div class="pdp-sizes" id="pdpSizes" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;">
-           <button type="button" class="size-btn">S</button>
-           <button type="button" class="size-btn is-active">M</button>
-           <button type="button" class="size-btn">L</button>
-           <button type="button" class="size-btn">XL</button>
-           <button type="button" class="size-btn">2XL</button>
-       </div>
+       <div class="pdp-sizes" id="pdpSizes"></div>
       </div>
 
-      <div class="pdp-actions">
+      <div class="pdp-actions product-actions">
        <button class="btn primary" id="addToCartBtn" type="button">Sepete ekle</button>
        <button class="btn" id="quoteBtn" type="button">Teklif al</button>
       </div>
 
-      <div class="pdp-mini">
-       <div class="mini-row"><span>Sektör</span><b id="specSector">—</b></div>
-       <div class="mini-row"><span>Sezon</span><b id="specSeason">—</b></div>
-       <div class="mini-row"><span>Öne çıkan</span><b id="specFeature">—</b></div>
+      <div class="product-order-points">
+       <div class="product-order-point">
+        <strong>Aynı gün dönüş</strong>
+        <span>Talep bırakıldığında uzman ekip hızlıca geri döner.</span>
+       </div>
+       <div class="product-order-point">
+        <strong>Kurumsal tedarik akışı</strong>
+        <span>Numune, fiyat ve teslim planı tek süreçte ilerler.</span>
+       </div>
+       <div class="product-order-point">
+        <strong>Marka uyumu</strong>
+        <span>Kurumsal görünüm için ürün grupları birlikte eşlenebilir.</span>
+       </div>
       </div>
 
-      <div class="pdp-footnote">Ödeme altyapısı (iyzico vb.) yakında. Şimdilik sepet → talep ile ilerliyoruz.</div>
+      <div class="pdp-footnote">Ödeme altyapısı yakında. Şimdilik sepet ve talep akışı üzerinden ilerliyoruz.</div>
      </div>
     </aside>
-   </div>
+   </section>
 
-   <div class="pdp-details reveal">
-    <div class="detail-card">
-     <div class="detail-h">Dayanım</div>
-     <div class="detail-p">Saha kullanımına uygun dikiş, kumaş ve parça seçimi.</div>
-    </div>
-    <div class="detail-card">
-     <div class="detail-h">Konfor</div>
-     <div class="detail-p">Gün boyu giyime uygun kesim — hareketi kısıtlamaz.</div>
-    </div>
-    <div class="detail-card">
-     <div class="detail-h">Kurumsal görünüm</div>
-     <div class="detail-p">Minimal ve net tasarım dili. Logo ve renklerle kolay uyum.</div>
-    </div>
-   </div>
+   <section class="product-benefits reveal">
+    <article class="benefit-card">
+     <span class="benefit-index">01</span>
+     <h2 class="benefit-title">Sahada güçlü duruş</h2>
+     <p class="benefit-text">Ürünün ilk görevi iyi görünmek değil, iyi çalışmaktır. Tasarım dili bu yüzden sade, net ve operasyon odaklı kuruldu.</p>
+    </article>
+    <article class="benefit-card">
+     <span class="benefit-index">02</span>
+     <h2 class="benefit-title">Konforu kesmeyen form</h2>
+     <p class="benefit-text">Uzun vardiya ve yoğun hareket için ürün akışı dengeli tutuldu. Görsel yük yok, kullanım rahatlığı önde.</p>
+    </article>
+    <article class="benefit-card">
+     <span class="benefit-index">03</span>
+     <h2 class="benefit-title">Kurumsal tedarik mantığı</h2>
+     <p class="benefit-text">Tek tek ürün satmaktan çok ekip bazlı alım mantığına göre kurgulandı; bu yüzden siparişe geçiş hissi daha net.</p>
+    </article>
+   </section>
 
    <section class="product-story" id="productStory">
     <div class="story-panel story-panel--hero">
@@ -216,89 +256,54 @@
   </div>
 
   <!-- BEDEN TABLOSU MODAL (Yeni Eklenen) -->
-  <div aria-hidden="true" class="backdrop" id="sizeChartBackdrop" style="display:none; background:rgba(0,0,0,0.6); z-index:9998;"></div>
-  <div aria-hidden="true" class="size-chart-modal" id="sizeChartModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:32px; border-radius:16px; z-index:9999; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 600px; width: 90%;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
-      <h3 style="margin:0; font-size:24px;">Beden Tablosu</h3>
-      <button class="btn" id="closeSizeChartBtn" type="button" style="padding: 6px 12px;">Kapat</button>
+  <div aria-hidden="true" class="size-chart-backdrop" id="sizeChartBackdrop"></div>
+  <div aria-hidden="true" class="size-chart-modal" id="sizeChartModal">
+    <div class="size-chart-dialog">
+      <div class="size-chart-head">
+        <div>
+          <span class="size-chart-kicker">BEDEN REHBERİ</span>
+          <h3 class="size-chart-title">Beden Tablosu</h3>
+        </div>
+        <button class="btn" id="closeSizeChartBtn" type="button">Kapat</button>
+      </div>
+      <table class="size-chart-table">
+        <thead>
+          <tr>
+            <th>Beden</th>
+            <th>Göğüs (cm)</th>
+            <th>Bel (cm)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S</td>
+            <td>92 - 96</td>
+            <td>80 - 84</td>
+          </tr>
+          <tr>
+            <td>M</td>
+            <td>96 - 100</td>
+            <td>84 - 88</td>
+          </tr>
+          <tr>
+            <td>L</td>
+            <td>100 - 104</td>
+            <td>88 - 92</td>
+          </tr>
+          <tr>
+            <td>XL</td>
+            <td>104 - 108</td>
+            <td>92 - 96</td>
+          </tr>
+          <tr>
+            <td>2XL</td>
+            <td>108 - 112</td>
+            <td>96 - 100</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table style="width: 100%; border-collapse: collapse; text-align:left;">
-      <thead>
-        <tr style="border-bottom: 2px solid #ccc;">
-          <th style="padding: 12px 8px;">Beden</th>
-          <th style="padding: 12px 8px;">Göğüs (cm)</th>
-          <th style="padding: 12px 8px;">Bel (cm)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 12px 8px; font-weight: 600;">S</td>
-          <td style="padding: 12px 8px;">92 - 96</td>
-          <td style="padding: 12px 8px;">80 - 84</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 12px 8px; font-weight: 600;">M</td>
-          <td style="padding: 12px 8px;">96 - 100</td>
-          <td style="padding: 12px 8px;">84 - 88</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 12px 8px; font-weight: 600;">L</td>
-          <td style="padding: 12px 8px;">100 - 104</td>
-          <td style="padding: 12px 8px;">88 - 92</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 12px 8px; font-weight: 600;">XL</td>
-          <td style="padding: 12px 8px;">104 - 108</td>
-          <td style="padding: 12px 8px;">92 - 96</td>
-        </tr>
-        <tr>
-          <td style="padding: 12px 8px; font-weight: 600;">2XL</td>
-          <td style="padding: 12px 8px;">108 - 112</td>
-          <td style="padding: 12px 8px;">96 - 100</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Beden Seçimi Butonları
-      const sizeBtns = document.querySelectorAll('.size-btn');
-      const sizeLabel = document.getElementById('pdpSizeLabel');
-      
-      sizeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          sizeBtns.forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          if(sizeLabel) sizeLabel.textContent = btn.textContent + ' Seçili';
-        });
-      });
-
-      // Beden Tablosu Modal
-      const openChart = document.getElementById('openSizeChartBtn');
-      const closeChart = document.getElementById('closeSizeChartBtn');
-      const chartModal = document.getElementById('sizeChartModal');
-      const chartBackdrop = document.getElementById('sizeChartBackdrop');
-
-      const toggleChart = (show) => {
-        if(chartModal && chartBackdrop) {
-          chartModal.style.display = show ? 'block' : 'none';
-          chartBackdrop.style.display = show ? 'block' : 'none';
-        }
-      };
-
-      if(openChart) openChart.addEventListener('click', () => toggleChart(true));
-      if(closeChart) closeChart.addEventListener('click', () => toggleChart(false));
-      if(chartBackdrop) chartBackdrop.addEventListener('click', () => toggleChart(false));
-    });
-  </script>
-  <style>
-    .size-btn {
-      background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px 16px;
-      font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;
-    }
-    .size-btn:hover { border-color: #999; }
-    .size-btn.is-active { background: #131d2e; color: #fff; border-color: #131d2e; }
-  </style>
   <script src="/config.js"></script>
 <script type="module" src="/assets/js/supabaseClient.js"></script>
   <script type="module" src="/src/scripts/app.js"></script>
