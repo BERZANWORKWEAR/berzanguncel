@@ -1292,6 +1292,7 @@ async function initProductPage(){
     }catch(e){}
   }
   p = p || berzanFindProduct(id) || berzanFindProduct('mont') || BERZAN_CATALOG[0];
+  const publicProductKey = berzanPublicProductKey(p) || 'mont';
 
   // --- product text
   document.getElementById('crumb')?.replaceChildren(document.createTextNode(p.name));
@@ -1346,7 +1347,7 @@ async function initProductPage(){
     }
     // url güncelle
     const u = new URL(location.href);
-    u.searchParams.set('urun', p.id);
+    u.searchParams.set('urun', publicProductKey);
     if (key) u.searchParams.set('renk', key);
     history.replaceState({}, '', u.toString());
     renderMedia();
