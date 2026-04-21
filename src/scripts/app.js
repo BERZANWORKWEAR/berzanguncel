@@ -1118,7 +1118,7 @@ function matchQuery(p){
     const list = sortItems(items.slice());
     grid.innerHTML = list.map(p => `
       <div class="shop-card">
-        <a class="shop-link" href="/urun/?urun=${encodeURIComponent(p.id)}">
+        <a class="shop-link" href="/urun/?urun=${encodeURIComponent(berzanPublicProductKey(p))}">
           <div class="shop-head">
             <div class="shop-name">${p.name}</div>
           </div>
@@ -1128,7 +1128,7 @@ function matchQuery(p){
         </a>
         <div class="shop-foot">
           <div class="shop-price">${berzanFormatTRY(p.retail || 0)}</div>
-          <a class="shop-cta" href="/urun/?urun=${encodeURIComponent(p.id)}">Ürünü İncele</a>
+          <a class="shop-cta" href="/urun/?urun=${encodeURIComponent(berzanPublicProductKey(p))}">Ürünü İncele</a>
         </div>
       </div>
     `).join('');
