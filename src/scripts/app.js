@@ -1103,6 +1103,7 @@ function matchQuery(p){
           </div>
         </a>
         <div class="shop-foot">
+          <div class="shop-price">${berzanFormatTRY(p.retail || 0)}</div>
           <a class="shop-cta" href="/urun/?urun=${encodeURIComponent(p.id)}">Ürünü İncele</a>
         </div>
       </div>
