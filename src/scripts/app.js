@@ -118,13 +118,28 @@ function normalizePhone(phone){
   return String(phone || '').replace(/[^\d+]/g, '');
 }
 
+function normalizeSupportPhone(phone){
+  const digits = String(phone || '').replace(/\D/g, '');
+  if (!digits) return '+90 542 100 56 49';
+  if (digits === '905421005564' || digits === '05421005564' || digits === '5421005564') return '+90 542 100 56 49';
+  if (digits === '905421005649' || digits === '05421005649' || digits === '5421005649') return '+90 542 100 56 49';
+  return String(phone || '').trim();
+}
+
+function normalizeSupportEmail(email){
+  const raw = String(email || '').trim().toLowerCase();
+  if (!raw) return 'destek@berzan.com.tr';
+  if (raw.includes('&') || !raw.includes('@')) return 'destek@berzan.com.tr';
+  return raw;
+}
+
 function applySupportRuntimeSettings(settings){
   const phoneDisplay = document.getElementById('supportPhoneDisplay');
   const phoneButton = document.getElementById('supportPhoneButton');
   const emailDisplay = document.getElementById('supportEmailDisplay');
   const emailButton = document.getElementById('supportEmailButton');
-  const phone = settings.supportPhone || '+90 542 100 55 64';
-  const email = settings.supportEmail || 'destek@berzan.com.tr';
+  const phone = normalizeSupportPhone(settings.supportPhone || '+90 542 100 56 49');
+  const email = normalizeSupportEmail(settings.supportEmail || 'destek@berzan.com.tr');
   if (phoneDisplay) phoneDisplay.textContent = phone;
   if (phoneButton) phoneButton.href = `tel:${normalizePhone(phone)}`;
   if (emailDisplay) emailDisplay.textContent = email;
