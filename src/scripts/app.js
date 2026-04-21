@@ -1293,6 +1293,11 @@ async function initProductPage(){
   }
   p = p || berzanFindProduct(id) || berzanFindProduct('mont') || BERZAN_CATALOG[0];
   const publicProductKey = berzanPublicProductKey(p) || 'mont';
+  if (publicProductKey && id !== publicProductKey) {
+    const canonicalUrl = new URL(location.href);
+    canonicalUrl.searchParams.set('urun', publicProductKey);
+    history.replaceState({}, '', canonicalUrl.toString());
+  }
 
   // --- product text
   document.getElementById('crumb')?.replaceChildren(document.createTextNode(p.name));
