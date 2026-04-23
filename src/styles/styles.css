@@ -3108,10 +3108,6 @@ body.urun-page .product-copy-actions .btn:not(.primary){
   background: #fff;
 }
 
-/* PDP: ikinci aksiyon butonu gizle */
-body.urun-page #quoteBtn{display:none !important}
-
-
 /* Final: keep containers wide on desktop */
 @media (min-width:1400px){ .container{max-width:1600px;} }
 @media (min-width:1700px){ .container{max-width:1760px;} }
