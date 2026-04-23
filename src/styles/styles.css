@@ -2626,8 +2626,65 @@ body.magaza-page .shop-desc{min-height: 2.2em;}
 /* =========================
    16) ÜRÜN — Mekap ferahlığı
 ========================= */
+@property --pdp-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #0B1B3A;
+}
+@property --pdp-accent-soft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #2D4C87;
+}
+@property --pdp-accent-glow {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7A99D1;
+}
+@property --pdp-accent-deep {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #081120;
+}
+@property --pdp-accent-darker {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #050A14;
+}
 body.urun-page{
-  background:#0d1730;
+  background:var(--pdp-accent-darker, #050A14);
+  height:100svh;
+  overflow:hidden;
+}
+body.urun-page .footer{display:none !important}
+body.urun-page .nav{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  background:transparent;
+  border-bottom:none;
+  box-shadow:none;
+}
+body.urun-page .brand-logo{
+  filter:brightness(0) invert(1);
+}
+body.urun-page .nav-links a,
+body.urun-page .icon-btn{
+  color:#fff;
+}
+.product-showcase-section,
+.product-showcase-section::before,
+.product-stage-glow,
+.pdp-glow{
+  transition:
+    --pdp-accent .65s ease,
+    --pdp-accent-soft .65s ease,
+    --pdp-accent-glow .65s ease,
+    --pdp-accent-deep .65s ease,
+    --pdp-accent-darker .65s ease,
+    background .65s ease,
+    opacity .45s ease;
 }
 .product-showcase-section{
   --pdp-accent: #0B1B3A;
@@ -2637,12 +2694,12 @@ body.urun-page{
   --pdp-accent-deep: #081120;
   --pdp-accent-darker: #050A14;
   position:relative;
-  min-height:calc(100svh - 84px);
-  padding:24px 0 36px;
+  min-height:100svh;
+  padding:88px 0 22px;
   overflow:hidden;
   background:
-    radial-gradient(720px 380px at 50% 42%, rgba(255,255,255,.15), transparent 48%),
-    radial-gradient(960px 560px at 50% 56%, rgba(var(--pdp-accent-rgb), .58), transparent 58%),
+    radial-gradient(720px 380px at 50% 42%, rgba(255,255,255,.11), transparent 48%),
+    radial-gradient(960px 560px at 50% 56%, color-mix(in srgb, var(--pdp-accent) 58%, transparent), transparent 58%),
     linear-gradient(135deg, var(--pdp-accent-darker) 0%, var(--pdp-accent-deep) 36%, var(--pdp-accent) 100%);
 }
 .product-showcase-section::before{
@@ -2661,6 +2718,7 @@ body.urun-page{
   z-index:1;
   display:grid;
   gap:18px;
+  height:100%;
 }
 .product-breadcrumb{
   margin-top:0;
@@ -2674,12 +2732,13 @@ body.urun-page{
   grid-template-columns:minmax(0, .82fr) minmax(0, 1.16fr) minmax(300px, .72fr);
   gap:clamp(18px, 2.8vw, 34px);
   align-items:center;
-  min-height:calc(100svh - 190px);
+  min-height:calc(100svh - 152px);
 }
 @media (max-width: 1180px){
   .product-showcase{
     grid-template-columns:1fr;
-    min-height:auto;
+    min-height:calc(100svh - 152px);
+    align-content:center;
   }
 }
 .product-copy-col,
@@ -2695,10 +2754,8 @@ body.urun-page{
   padding:0 18px;
   width:max-content;
   border-radius:999px;
-  border:1px solid rgba(255,255,255,.16);
-  background:rgba(255,255,255,.12);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.18);
+  background:transparent;
   font-size:12px;
   font-weight:700;
   letter-spacing:.18em;
@@ -2710,7 +2767,7 @@ body.urun-page{
   flex-wrap:wrap;
 }
 body.urun-page .product-tags-inline .pill{
-  background:rgba(255,255,255,.10);
+  background:rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.14);
   color:#fff;
   box-shadow:none;
@@ -2768,11 +2825,9 @@ body.urun-page .product-copy-actions .btn:not(.primary){
 .product-fact-card{
   padding:16px 18px;
   border-radius:22px;
-  background:rgba(255,255,255,.10);
+  background:rgba(0,0,0,.14);
   border:1px solid rgba(255,255,255,.14);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  box-shadow:0 18px 40px rgba(0,0,0,.10);
+  box-shadow:none;
 }
 .product-fact-card span{
   display:block;
@@ -2806,7 +2861,7 @@ body.urun-page .product-copy-actions .btn:not(.primary){
   inset:6% 10% 12%;
   border-radius:50%;
   background:
-    radial-gradient(circle at center, rgba(255,255,255,.22), rgba(var(--pdp-accent-rgb), .06) 48%, transparent 72%);
+    radial-gradient(circle at center, color-mix(in srgb, var(--pdp-accent-glow) 48%, white 22%), color-mix(in srgb, var(--pdp-accent) 12%, transparent) 48%, transparent 72%);
   filter:blur(18px);
 }
 .pdp-gallery{
@@ -2824,12 +2879,11 @@ body.urun-page .product-copy-actions .btn:not(.primary){
   display:grid;
   place-items:center;
   border-radius:40px;
-  background:
-    radial-gradient(circle at 50% 48%, rgba(255,255,255,.18), rgba(255,255,255,.02) 56%, transparent 72%);
+  background:transparent;
   overflow:hidden;
 }
 .pdp-main.is-empty{
-  background:radial-gradient(circle at 50% 48%, rgba(255,255,255,.20), rgba(255,255,255,.06) 50%, transparent 72%);
+  background:radial-gradient(circle at 50% 48%, rgba(255,255,255,.16), rgba(255,255,255,.04) 50%, transparent 72%);
 }
 .pdp-img{
   width:min(100%, 760px);
@@ -2844,7 +2898,7 @@ body.urun-page .product-copy-actions .btn:not(.primary){
   inset:10% 14% 14%;
   border-radius:50%;
   background:
-    radial-gradient(circle at center, rgba(var(--pdp-accent-rgb), .18), transparent 62%);
+    radial-gradient(circle at center, color-mix(in srgb, var(--pdp-accent-glow) 24%, transparent), transparent 62%);
   filter:blur(36px);
   pointer-events:none;
 }
@@ -2859,9 +2913,7 @@ body.urun-page .product-copy-actions .btn:not(.primary){
   height:72px;
   border-radius:22px;
   border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.12);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  background:rgba(255,255,255,.08);
   overflow:hidden;
   cursor:pointer;
   transition:transform .22s ease, border-color .22s ease, background .22s ease;
@@ -2910,11 +2962,9 @@ body.urun-page .product-copy-actions .btn:not(.primary){
 .product-config-card{
   padding:22px;
   border-radius:30px;
-  background:rgba(255,255,255,.12);
+  background:rgba(0,0,0,.16);
   border:1px solid rgba(255,255,255,.16);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 24px 54px rgba(0,0,0,.12);
+  box-shadow:none;
   display:grid;
   gap:20px;
 }
@@ -2967,13 +3017,11 @@ body.urun-page .product-copy-actions .btn:not(.primary){
   min-height:48px;
   border-radius:16px;
   border:1px solid rgba(255,255,255,.16);
-  background:rgba(255,255,255,.10);
+  background:rgba(255,255,255,.06);
   display:grid;
   place-items:center;
   color:#fff;
   cursor:pointer;
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
   transition:transform .22s ease, border-color .22s ease, background .22s ease, color .22s ease;
 }
 .swatch-dot{
@@ -3029,6 +3077,26 @@ body.urun-page .product-copy-actions .btn:not(.primary){
 .product-consult-card .btn{
   width:100%;
   justify-content:center;
+}
+@media (max-height: 860px){
+  .product-showcase{
+    min-height:calc(100svh - 142px);
+  }
+  .product-showcase-title{
+    font-size:clamp(40px, 4.6vw, 72px);
+  }
+  .product-stage-frame{
+    min-height:clamp(360px, 50svh, 560px);
+  }
+  .pdp-img{
+    max-height:clamp(300px, 48svh, 500px);
+  }
+  .product-copy-facts{
+    gap:10px;
+  }
+  .product-fact-card{
+    padding:14px 16px;
+  }
 }
 .size-chart-backdrop{
   position:fixed;
