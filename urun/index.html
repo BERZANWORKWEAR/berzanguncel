@@ -54,8 +54,8 @@
   </div>
  </header>
 
- <section class="section page-fill product-shell-section">
-  <div class="container product-shell">
+ <section class="section page-fill product-showcase-section" id="productExperience">
+  <div class="container product-showcase-shell">
    <nav aria-label="Breadcrumb" class="breadcrumb product-breadcrumb">
     <a href="/">Ana Sayfa</a>
     <span>•</span>
@@ -64,164 +64,85 @@
     <span id="crumb">Ürün</span>
    </nav>
 
-   <section class="product-hero reveal">
-    <div class="product-stage">
-     <div class="product-stage-head">
-      <span class="product-kicker" id="productEyebrow">BERZAN PRODUCT</span>
-      <span class="product-category-pill" id="productCategory">Kategori</span>
-     </div>
-     <div class="product-stage-copy">
-      <h1 class="pdp-title product-title-xl" id="productTitle">Ürün</h1>
-      <p class="product-lead" id="productLead">Saha akışına uyum, premium görünüm ve günlük kullanım konforu aynı çizgide buluşur.</p>
-     </div>
+   <section class="product-showcase reveal">
+    <aside class="product-copy-col">
+     <span class="product-kicker" id="productEyebrow">BERZAN SELECT</span>
+     <div class="pdp-tags product-tags-inline" id="productTags"></div>
+     <h1 class="product-showcase-title" id="productTitle">Ürün</h1>
+     <p class="product-showcase-desc" id="productDesc">Premium saha ürünü. Net, dayanıklı, temiz çizgi.</p>
 
-     <div class="pdp-gallery reveal">
-      <div class="pdp-main">
-       <img alt="Ürün görseli" class="pdp-img" decoding="async" fetchpriority="high" id="pdpMainImg" loading="eager" src="" style="display:none"/>
-       <div aria-hidden="true" class="pdp-glow"></div>
-      </div>
-      <div aria-label="Ürün görselleri" class="pdp-thumbs" id="pdpThumbs"></div>
+     <div class="product-copy-actions">
+      <button class="btn primary" id="addToCartBtn" type="button">Sepete ekle</button>
+      <button class="btn" id="quoteBtn" type="button">Uzmanla görüş</button>
      </div>
 
-     <div class="product-meta-grid">
-      <article class="product-meta-card">
-       <span class="product-meta-label">Sektör</span>
-       <strong class="product-meta-value" id="specSector">—</strong>
-      </article>
-      <article class="product-meta-card">
-       <span class="product-meta-label">Sezon</span>
-       <strong class="product-meta-value" id="specSeason">—</strong>
-      </article>
-      <article class="product-meta-card">
-       <span class="product-meta-label">Öne çıkan</span>
-       <strong class="product-meta-value" id="specFeature">—</strong>
-      </article>
-      <article class="product-meta-card">
-       <span class="product-meta-label">Tedarik</span>
-       <strong class="product-meta-value" id="productSupplyLabel">Numune ve toplu siparişe uygun</strong>
-      </article>
-     </div>
-    </div>
-
-    <aside class="pdp-aside reveal">
-     <div class="pdp-buy product-order-card card">
-      <div class="product-order-top">
-       <div class="pdp-tags" id="productTags"></div>
-       <div class="pdp-sub product-summary" id="productDesc">Premium saha ürünü. Net, dayanıklı, temiz çizgi.</div>
+     <div class="product-copy-facts">
+      <div class="product-fact-card">
+       <span>Kategori</span>
+       <strong id="productCategory">Kategori</strong>
       </div>
-
-      <div class="product-price-block">
-       <div class="pdp-price" id="productPrice">₺ 0</div>
-       <div class="pdp-price-sub">KDV hariç • Kurumsal alımlarda teklif ve numune akışı açılır</div>
+      <div class="product-fact-card">
+       <span>Sektör</span>
+       <strong id="specSector">—</strong>
       </div>
-
-      <div class="pdp-variant">
-       <div class="pdp-variant-head">
-        <div class="pdp-variant-label">Renk</div>
-        <div class="pdp-variant-value" id="pdpColorLabel">—</div>
-       </div>
-       <div class="pdp-swatches" id="pdpSwatches"></div>
+      <div class="product-fact-card">
+       <span>Sezon</span>
+       <strong id="specSeason">—</strong>
       </div>
-
-      <div class="pdp-variant">
-       <div class="pdp-variant-head">
-        <div class="pdp-variant-label">Beden</div>
-        <div class="pdp-variant-value" id="pdpSizeLabel">M Seçili</div>
-        <button class="product-inline-link" id="openSizeChartBtn" type="button">Beden tablosu</button>
-       </div>
-       <div class="pdp-sizes" id="pdpSizes"></div>
+      <div class="product-fact-card">
+       <span>Öne çıkan</span>
+       <strong id="specFeature">—</strong>
       </div>
-
-      <div class="pdp-actions product-actions">
-       <button class="btn primary" id="addToCartBtn" type="button">Sepete ekle</button>
-       <button class="btn" id="quoteBtn" type="button">Teklif al</button>
-      </div>
-
-      <div class="product-order-points">
-       <div class="product-order-point">
-        <strong>Aynı gün dönüş</strong>
-        <span>Talep bırakıldığında uzman ekip hızlıca geri döner.</span>
-       </div>
-       <div class="product-order-point">
-        <strong>Kurumsal tedarik akışı</strong>
-        <span>Numune, fiyat ve teslim planı tek süreçte ilerler.</span>
-       </div>
-       <div class="product-order-point">
-        <strong>Marka uyumu</strong>
-        <span>Kurumsal görünüm için ürün grupları birlikte eşlenebilir.</span>
-       </div>
-      </div>
-
-      <div class="pdp-footnote">Ödeme altyapısı yakında. Şimdilik sepet ve talep akışı üzerinden ilerliyoruz.</div>
      </div>
     </aside>
-   </section>
 
-   <section class="product-benefits reveal">
-    <article class="benefit-card">
-     <span class="benefit-index">01</span>
-     <h2 class="benefit-title">Sahada güçlü duruş</h2>
-     <p class="benefit-text">Ürünün ilk görevi iyi görünmek değil, iyi çalışmaktır. Tasarım dili bu yüzden sade, net ve operasyon odaklı kuruldu.</p>
-    </article>
-    <article class="benefit-card">
-     <span class="benefit-index">02</span>
-     <h2 class="benefit-title">Konforu kesmeyen form</h2>
-     <p class="benefit-text">Uzun vardiya ve yoğun hareket için ürün akışı dengeli tutuldu. Görsel yük yok, kullanım rahatlığı önde.</p>
-    </article>
-    <article class="benefit-card">
-     <span class="benefit-index">03</span>
-     <h2 class="benefit-title">Kurumsal tedarik mantığı</h2>
-     <p class="benefit-text">Tek tek ürün satmaktan çok ekip bazlı alım mantığına göre kurgulandı; bu yüzden siparişe geçiş hissi daha net.</p>
-    </article>
-   </section>
-
-   <section class="product-story" id="productStory">
-    <div class="story-panel story-panel--hero">
-     <div class="story-copy">
-      <span class="story-kicker" id="storyHeroKicker">BERZAN PRODUCT STORY</span>
-      <h2 class="story-title" id="storyHeroTitle">Ürün sahada nasıl hissedilir?</h2>
-      <p class="story-text" id="storyHeroText">Bu alan ürünün ana kullanım anlatımı için hazırlanır.</p>
+    <div class="product-stage-col">
+     <div class="product-stage-frame">
+      <div class="product-stage-glow"></div>
+      <div class="pdp-gallery">
+       <div class="pdp-main">
+        <img alt="Ürün görseli" class="pdp-img" decoding="async" fetchpriority="high" id="pdpMainImg" loading="eager" src="" style="display:none"/>
+        <div aria-hidden="true" class="pdp-glow"></div>
+       </div>
+       <div aria-label="Ürün görselleri" class="pdp-thumbs" id="pdpThumbs"></div>
+      </div>
      </div>
-     <div class="story-media">
-      <img alt="Ürün anlatım görseli" class="story-img" id="storyHeroImg" src=""/>
+     <div class="product-stage-footer">
+      <span class="product-stage-price-label">Liste fiyatı</span>
+      <strong class="product-stage-price" id="productPrice">₺ 0</strong>
+      <p class="product-stage-note" id="productLead">Kurumsal tedarik, numune ve teklif akışı için hazır.</p>
      </div>
     </div>
 
-    <div class="story-panel">
-      <div class="story-media">
-        <img alt="Ürün detay görseli" class="story-img" id="storyFeatureImg" src=""/>
+    <aside class="product-config-col">
+     <div class="product-config-card">
+      <div class="product-config-block">
+       <div class="product-config-head">
+        <span class="product-config-label">Renk</span>
+        <span class="product-config-value" id="pdpColorLabel">—</span>
+       </div>
+       <div class="pdp-swatches product-swatches" id="pdpSwatches"></div>
       </div>
-      <div class="story-copy">
-        <span class="story-kicker" id="storyFeatureKicker">DETAY</span>
-        <h3 class="story-title story-title--sm" id="storyFeatureTitle">Gün boyu ritmi bozmayan yapı</h3>
-        <p class="story-text" id="storyFeatureText">Konfor, dayanım ve sahadaki görünüm aynı akışta düşünülür.</p>
-        <div class="story-points" id="storyFeaturePoints"></div>
-      </div>
-    </div>
 
-    <div class="story-panel story-panel--reverse">
-      <div class="story-copy">
-        <span class="story-kicker" id="storyUseKicker">SAHADA</span>
-        <h3 class="story-title story-title--sm" id="storyUseTitle">Hangi iş akışında öne çıkar?</h3>
-        <p class="story-text" id="storyUseText">Sektör, sezon ve ürün karakterine göre kullanım anlatımı burada akar.</p>
-        <div class="story-points" id="storyUsePoints"></div>
-      </div>
-      <div class="story-media">
-        <img alt="Ürün kullanım görseli" class="story-img" id="storyUseImg" src=""/>
-      </div>
-    </div>
-
-    <div class="story-panel story-panel--cta">
-      <div class="story-copy story-copy--wide">
-        <span class="story-kicker">TEDARİK</span>
-        <h3 class="story-title story-title--sm" id="storyCtaTitle">Kurumsal siparişe hazır ürün akışı</h3>
-        <p class="story-text" id="storyCtaText">Numune, teklif ve toplu alım süreci için aynı ürünü doğrudan ekibinize anlatacak akış.</p>
-        <div class="story-actions">
-          <button class="btn primary" id="storyAddToCartBtn" type="button">Sepete ekle</button>
-          <a class="btn" href="/uzman/" id="storySupportBtn">Uzman ekibe yaz</a>
+      <div class="product-config-block">
+       <div class="product-config-head">
+        <span class="product-config-label">Beden</span>
+        <div class="product-config-actions">
+         <span class="product-config-value" id="pdpSizeLabel">M seçili</span>
+         <button class="product-inline-link" id="openSizeChartBtn" type="button">Beden tablosu</button>
         </div>
+       </div>
+       <div class="pdp-sizes product-size-grid" id="pdpSizes"></div>
       </div>
-    </div>
+
+      <div class="product-consult-card">
+       <span class="product-consult-kicker">Kurumsal tedarik</span>
+       <strong class="product-consult-title" id="productSupplyLabel">Numune ve toplu siparişe uygun</strong>
+       <p class="product-consult-text">Ekibin için doğru ürün setini netleştir, hızlıca teklif akışını başlat.</p>
+       <a class="btn" href="/uzman/" id="productSupportBtn">Hızlı teklif iste</a>
+      </div>
+     </div>
+    </aside>
    </section>
   </div>
  </section>
