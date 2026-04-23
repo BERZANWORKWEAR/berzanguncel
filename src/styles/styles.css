@@ -2809,8 +2809,6 @@ body.urun-page .product-copy-actions .btn:not(.primary){
   background:rgba(255,255,255,.10);
   color:#fff;
   border-color:rgba(255,255,255,.16);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
 }
 .product-copy-facts{
   display:grid;
