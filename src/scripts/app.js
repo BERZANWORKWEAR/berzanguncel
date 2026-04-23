@@ -309,6 +309,57 @@ function berzanFormatTRY(n){
     return '₺ ' + (Math.round(n)).toString();
   }
 }
+
+function normalizeHexColor(hex){
+  const raw = String(hex || '').trim();
+  if (!raw) return '#0B1B3A';
+  const clean = raw.startsWith('#') ? raw.slice(1) : raw;
+  if (/^[0-9a-f]{3}$/i.test(clean)) {
+    return `#${clean.split('').map(ch => ch + ch).join('')}`.toUpperCase();
+  }
+  if (/^[0-9a-f]{6}$/i.test(clean)) {
+    return `#${clean}`.toUpperCase();
+  }
+  return '#0B1B3A';
+}
+
+function hexToRgbTuple(hex){
+  const safe = normalizeHexColor(hex).slice(1);
+  return [
+    parseInt(safe.slice(0, 2), 16),
+    parseInt(safe.slice(2, 4), 16),
+    parseInt(safe.slice(4, 6), 16)
+  ];
+}
+
+function rgbTupleToHex(tuple){
+  return `#${tuple.map(value => Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, '0')).join('')}`.toUpperCase();
+}
+
+function mixHexColors(source, target, ratio){
+  const from = hexToRgbTuple(source);
+  const to = hexToRgbTuple(target);
+  return rgbTupleToHex(from.map((channel, index) => channel + (to[index] - channel) * ratio));
+}
+
+function applyProductTheme(hex){
+  const root = document.getElementById('productExperience');
+  if (!root) return;
+  const accent = normalizeHexColor(hex);
+  const accentRgb = hexToRgbTuple(accent).join(', ');
+  const deep = mixHexColors(accent, '#081120', 0.45);
+  const darker = mixHexColors(accent, '#020617', 0.68);
+  const soft = mixHexColors(accent, '#FFFFFF', 0.18);
+  const glow = mixHexColors(accent, '#FFFFFF', 0.48);
+  root.style.setProperty('--pdp-accent', accent);
+  root.style.setProperty('--pdp-accent-rgb', accentRgb);
+  root.style.setProperty('--pdp-accent-soft', soft);
+  root.style.setProperty('--pdp-accent-glow', glow);
+  root.style.setProperty('--pdp-accent-deep', deep);
+  root.style.setProperty('--pdp-accent-darker', darker);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', deep);
+}
+
 function berzanFindProduct(id){
   const key = String(id || '').trim().toLowerCase();
   const live = Array.isArray(window.__LIVE_PRODUCTS__) ? window.__LIVE_PRODUCTS__ : [];
@@ -1305,7 +1356,10 @@ async function initProductPage(){
   const seasonText = (p.seasons || []).map(s => s==='yazlik'?'Yazlık':s==='kislik'?'Kışlık':'Sezonluk').join(' / ');
   const badgeLead = (p.badges || [])[0] || 'Saha ürünü';
   const leadSector = (p.sectors || []).map(s => BERZAN_SECTOR_MAP[s] || s).filter(Boolean)[0] || 'kurumsal kullanım';
-  const productLead = `${p.name}, ${leadSector.toLowerCase()} akışında konfor, net görünüm ve düzenli tedarik hissini aynı çizgide toplar.`;
+  const productLead = `${categoryLabel} • ${badgeLead} • ${seasonText || 'Sezonluk kullanım'}`;
+  const supplyLabel = Number(p.retail || 0) >= 2000
+    ? 'Numune ve toplu siparişe uygun'
+    : 'Hızlı teklif ve kurumsal tedarik';
 
   // --- product text
   document.title = `${p.name} — BERZAN`;
@@ -1315,12 +1369,13 @@ async function initProductPage(){
   document.getElementById('productCategory')?.replaceChildren(document.createTextNode(categoryLabel));
   document.getElementById('productLead')?.replaceChildren(document.createTextNode(productLead));
   const descEl = document.getElementById('productDesc');
-  if (descEl) descEl.textContent = p.desc || 'Premium saha ürünü. Net, dayanıklı, temiz çizgi.';
+  if (descEl) descEl.textContent = p.desc || `${p.name}, ${leadSector.toLowerCase()} kullanımında net görünüm ve günlük konfor sağlayan premium saha ürünü.`;
   const priceEl = document.getElementById('productPrice');
   if (priceEl) priceEl.textContent = berzanFormatTRY(p.retail);
   document.getElementById('specSector')?.replaceChildren(document.createTextNode(sectorText || '—'));
   document.getElementById('specSeason')?.replaceChildren(document.createTextNode(seasonText || '—'));
   document.getElementById('specFeature')?.replaceChildren(document.createTextNode(badgeLead || '—'));
+  document.getElementById('productSupplyLabel')?.replaceChildren(document.createTextNode(supplyLabel));
 
   // --- tags
   const tagsEl = document.getElementById('productTags');
@@ -1361,6 +1416,7 @@ async function initProductPage(){
     activeColor = key;
     const c = colorList.find(x=>x.key===key);
     if (colorLabel) colorLabel.textContent = c ? c.label : '—';
+    applyProductTheme(c?.hex || '#0B1B3A');
     if (swatches){
       Array.from(swatches.querySelectorAll('button')).forEach(b=>{
         b.classList.toggle('is-active', b.dataset.color === key);
@@ -1612,6 +1668,7 @@ async function initProductPage(){
   // --- actions
   const addBtn = document.getElementById('addToCartBtn');
   const quoteBtn = document.getElementById('quoteBtn');
+  const productSupportBtn = document.getElementById('productSupportBtn');
 
   addBtn?.addEventListener('click', () => {
     addToCart(p.id, 1);
@@ -1619,9 +1676,11 @@ async function initProductPage(){
   });
 
   quoteBtn?.addEventListener('click', () => {
-    addToCart(p.id, 1);
-    window.BERZAN.openCart?.();
+    window.location.href = `/uzman/?urun=${encodeURIComponent(publicProductKey)}`;
   });
+  if (productSupportBtn) {
+    productSupportBtn.href = `/uzman/?urun=${encodeURIComponent(publicProductKey)}`;
+  }
 
   const openChart = document.getElementById('openSizeChartBtn');
   const closeChart = document.getElementById('closeSizeChartBtn');
