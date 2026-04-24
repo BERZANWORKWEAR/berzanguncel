@@ -1,4 +1,4 @@
-import seedDb from "../../api/data/erp-db.json";
+import seedDb from "../data/erp-db.json";
 import { emitAppSync } from "./live-sync.js";
 
 const LOCAL_DB_KEY = "berzan_erp_local_db_v1";
