@@ -3102,29 +3102,33 @@ body.urun-page{
   min-height:100svh;
   height:100svh;
   overflow:hidden;
+  display:block;
+}
+body.urun-page .page-fill{
+  flex:0 0 auto;
 }
 body.urun-page .nav{
-  height:74px;
+  height:82px;
   z-index:20;
 }
 body.urun-page .nav-inner{
   position:relative;
-  height:74px;
+  height:82px;
   max-width:none;
   padding:0 clamp(24px, 3vw, 54px);
 }
 body.urun-page .brand{
   position:absolute;
-  top:10px;
+  top:8px;
   left:50%;
   transform:translateX(-50%);
   padding:8px;
   border-radius:999px;
 }
 body.urun-page .brand-logo{
-  height:42px;
-  max-height:42px;
-  max-width:156px;
+  height:58px;
+  max-height:58px;
+  max-width:210px;
 }
 body.urun-page .nav-links{
   justify-self:start;
@@ -3153,22 +3157,40 @@ body.urun-page .icon-btn{
   -webkit-backdrop-filter:blur(18px);
 }
 .product-showcase-section{
-  height:100svh;
+  height:100vh;
+  height:100dvh;
   min-height:0;
-  padding:86px clamp(24px, 3vw, 54px) 26px;
+  max-height:100vh;
+  max-height:100dvh;
+  padding:88px clamp(24px, 3vw, 54px) 18px;
   display:grid;
   place-items:center;
+  isolation:isolate;
   background:
-    radial-gradient(760px 500px at 50% 44%, color-mix(in srgb, var(--pdp-accent-glow) 32%, transparent), transparent 62%),
-    radial-gradient(1120px 720px at 50% 52%, color-mix(in srgb, var(--pdp-accent) 62%, transparent), transparent 68%),
-    linear-gradient(135deg, var(--pdp-accent-darker) 0%, var(--pdp-accent-deep) 34%, var(--pdp-accent) 100%);
+    radial-gradient(ellipse 70% 62% at 50% 52%, color-mix(in srgb, var(--pdp-accent-glow) 34%, transparent) 0%, color-mix(in srgb, var(--pdp-accent) 22%, transparent) 42%, transparent 74%),
+    linear-gradient(110deg, var(--pdp-accent-darker) 0%, var(--pdp-accent-deep) 42%, var(--pdp-accent) 100%);
 }
 .product-showcase-section::before{
-  opacity:.07;
+  background:
+    radial-gradient(ellipse 68% 58% at 50% 56%, rgba(255,255,255,.12), transparent 72%),
+    linear-gradient(90deg, rgba(255,255,255,.035), transparent 34%, rgba(255,255,255,.035));
+  filter:blur(24px);
+  transform:scale(1.04);
+  opacity:.72;
+}
+.product-showcase-section::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.075;
+  mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
 }
 .product-showcase-shell{
   width:min(100%, 1520px);
-  height:calc(100svh - 112px);
+  height:calc(100dvh - 106px);
   gap:0;
 }
 .product-breadcrumb{
@@ -3178,8 +3200,11 @@ body.urun-page .icon-btn{
   height:100%;
   min-height:0;
   grid-template-columns:minmax(250px, .72fr) minmax(420px, 1.5fr) minmax(240px, .62fr);
-  gap:clamp(22px, 3.2vw, 58px);
+  gap:clamp(18px, 2.8vw, 48px);
   align-items:stretch;
+}
+.product-showcase > *{
+  min-height:0;
 }
 .product-copy-col{
   align-self:center;
@@ -3237,21 +3262,25 @@ body.urun-page .product-copy-actions .btn{
   line-height:1.3;
 }
 .product-stage-col{
-  height:100%;
+  height:auto;
   min-width:0;
+  min-height:0;
+  max-height:100%;
   grid-template-rows:minmax(0, 1fr) auto;
   align-self:stretch;
   gap:8px;
+  overflow:hidden;
 }
 .product-stage-frame{
   width:100%;
   min-height:0;
-  height:100%;
+  height:auto;
+  max-height:100%;
 }
 .product-stage-glow{
-  inset:10% 7% 8%;
-  opacity:.92;
-  filter:blur(22px);
+  inset:9% 4% 5%;
+  opacity:.62;
+  filter:blur(44px);
 }
 .pdp-gallery{
   height:100%;
@@ -3263,27 +3292,33 @@ body.urun-page .product-copy-actions .btn{
   min-height:0;
   overflow:visible;
   border-radius:0;
+  aspect-ratio:auto;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
 }
 .pdp-main.is-empty{
-  min-height:48svh;
+  min-height:0;
+  background:transparent !important;
 }
 .pdp-img{
   width:auto;
-  max-width:min(100%, 780px);
-  max-height:calc(100svh - 230px);
+  max-width:min(100%, 760px);
+  max-height:calc(100dvh - 260px);
   padding:0;
   object-fit:contain;
   filter:drop-shadow(0 42px 48px rgba(0,0,0,.28));
 }
 .pdp-glow{
   inset:14% 8% 12%;
-  filter:blur(46px);
+  filter:blur(58px);
+  opacity:.72;
 }
 .pdp-thumbs{
   display:none !important;
 }
 .product-stage-footer{
-  min-height:86px;
+  min-height:64px;
   gap:4px;
 }
 .product-stage-price-label{
@@ -3379,11 +3414,11 @@ body.urun-page .product-copy-actions .btn{
 }
 @media (max-height: 760px) and (min-width: 981px){
   .product-showcase-section{
-    padding-top:78px;
-    padding-bottom:18px;
+    padding-top:82px;
+    padding-bottom:12px;
   }
   .product-showcase-shell{
-    height:calc(100svh - 96px);
+    height:calc(100dvh - 94px);
   }
   .product-showcase-title{
     font-size:clamp(42px, 4.4vw, 66px);
@@ -3394,10 +3429,10 @@ body.urun-page .product-copy-actions .btn{
     display:none;
   }
   .pdp-img{
-    max-height:calc(100svh - 190px);
+    max-height:calc(100dvh - 236px);
   }
   .product-stage-footer{
-    min-height:72px;
+    min-height:58px;
   }
 }
 @media (max-width: 980px){
@@ -3405,11 +3440,11 @@ body.urun-page .product-copy-actions .btn{
     padding:0 18px;
   }
   body.urun-page .brand{
-    top:14px;
+    top:12px;
   }
   body.urun-page .brand-logo{
-    height:34px;
-    max-height:34px;
+    height:42px;
+    max-height:42px;
   }
   body.urun-page .nav-links{
     gap:8px;
@@ -3419,10 +3454,10 @@ body.urun-page .product-copy-actions .btn{
     font-size:12px;
   }
   .product-showcase-section{
-    padding:76px 18px 18px;
+    padding:78px 18px 14px;
   }
   .product-showcase-shell{
-    height:calc(100svh - 94px);
+    height:calc(100dvh - 92px);
   }
   .product-showcase{
     grid-template-columns:1fr;
@@ -3460,7 +3495,7 @@ body.urun-page .product-copy-actions .btn{
   }
   .pdp-img{
     max-width:min(86vw, 520px);
-    max-height:calc(100svh - 330px);
+    max-height:calc(100dvh - 326px);
   }
   .product-stage-footer{
     min-height:58px;
@@ -3510,8 +3545,11 @@ body.urun-page .product-copy-actions .btn{
     flex:1;
   }
   .pdp-img{
-    max-height:calc(100svh - 360px);
+    max-height:calc(100dvh - 348px);
   }
+}
+body.urun-page .cookie-banner{
+  display:none;
 }
 .size-chart-backdrop{
   position:fixed;
