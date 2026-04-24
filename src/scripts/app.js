@@ -292,8 +292,16 @@ const BERZAN_CATALOG = [
   { id:'bere', name:'İş Beresi', cat:'aksesuar', sectors:['insaat','lojistik','marine','fabrika'], seasons:['kislik'], retail:190, quote:170, badges:['Sıcak'], desc:'Soğukta basit ama etkili.' },
 ];
 
-// Görsel eşlemesi: boş. (Görsel yoksa asla başka ürün görseli gösterme.)
-const BERZAN_IMG_MAP = {};
+// Ürün sahnesinde sadece katalogdaki ürünün görselini göster.
+const BERZAN_IMG_MAP = {
+  mont: '/img/brz6.webp',
+  'heavy-duty-mont': '/img/brz3.webp',
+  'parka-pro': '/img/parka.webp',
+  'softshell-flex': '/img/brz3.webp',
+  sweatshirt: '/img/brz5.webp',
+  'polo-tisort': '/img/brz5.webp',
+  'pamuk-tisort': '/img/brz5.webp',
+};
 
 function berzanImgFor(product){
   if (!product) return '';
@@ -1400,8 +1408,9 @@ async function initProductPage(){
   ];
   const PPE = ['baret','gozluk','eldiven','maske','kulaklik','kemer','ayakkabi','aksesuar'];
   const isPPE = PPE.includes(p.cat);
+  const isHiVis = /visibility|görünür|reflektör/i.test(`${p.id} ${p.name} ${(p.badges || []).join(' ')}`);
 
-  const colorList = Array.isArray(p.colors) && p.colors.length ? p.colors : (isPPE ? COLORS_HIVIS : COLORS_APPAREL);
+  const colorList = Array.isArray(p.colors) && p.colors.length ? p.colors : (isPPE || isHiVis ? COLORS_HIVIS : COLORS_APPAREL);
   let activeColor = colorParam && colorList.some(c=>c.key===colorParam) ? colorParam : (colorList[0]?.key || '');
   const sizeList = p.cat === 'ayakkabi'
     ? ['39','40','41','42','43','44']
@@ -1482,6 +1491,8 @@ async function initProductPage(){
 
   function guessedMedia(){
     const urls = [];
+    const mappedImage = berzanImgFor(p);
+    if (mappedImage) urls.push(mappedImage);
     if (p.cover) urls.push(p.cover);
     // 1) katalogda tanımlı ise
     if (p.media){
