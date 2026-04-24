@@ -1,0 +1,113 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "BERZAN" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Ana Sayfa" [ref=e6] [cursor=pointer]:
+          - /url: /
+        - link "Mağaza" [ref=e7] [cursor=pointer]:
+          - /url: /magaza/
+      - generic [ref=e8]:
+        - button "Ara" [ref=e9]
+        - button "Sepet 0" [ref=e10]:
+          - text: Sepet
+          - generic [ref=e11]: "0"
+  - generic [ref=e14]:
+    - complementary [ref=e15]:
+      - generic [ref=e16]: EN/CE
+      - heading "High Visibility Mont" [level=1] [ref=e17]
+      - paragraph [ref=e18]: Saha koşulları için net görünürlük + sağlam kumaş.
+      - generic [ref=e19]:
+        - button "Sepete ekle" [ref=e20]
+        - button "Uzmanla görüş" [ref=e21]
+    - generic [ref=e22]:
+      - img "High Visibility Mont" [ref=e27]
+      - generic [ref=e28]:
+        - strong [ref=e29]: ₺ 1.990
+        - paragraph [ref=e30]: Mont & Dış giyim • EN/CE • Kışlık / Sezonluk
+    - complementary [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - generic [ref=e35]: Renk
+            - generic [ref=e36]: Sarı
+          - generic [ref=e37]:
+            - button "Sarı" [ref=e38] [cursor=pointer]
+            - button "Turuncu" [ref=e40] [cursor=pointer]
+            - button "Lacivert" [ref=e42] [cursor=pointer]
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - generic [ref=e46]: Beden
+            - generic [ref=e47]:
+              - generic [ref=e48]: M seçili
+              - button "Beden tablosu" [ref=e49] [cursor=pointer]
+          - generic [ref=e50]:
+            - button "S" [ref=e51] [cursor=pointer]
+            - button "M" [ref=e52] [cursor=pointer]
+            - button "L" [ref=e53] [cursor=pointer]
+            - button "XL" [ref=e54] [cursor=pointer]
+            - button "2XL" [ref=e55] [cursor=pointer]
+        - generic [ref=e56]:
+          - generic [ref=e57]: Kurumsal tedarik
+          - strong [ref=e58]: Hızlı teklif ve kurumsal tedarik
+          - link "Hızlı teklif iste" [ref=e59] [cursor=pointer]:
+            - /url: /uzman/?urun=mont
+  - generic:
+    - generic:
+      - generic:
+        - textbox:
+          - /placeholder: "Ara: mont, pantolon, yelek…"
+      - button: Kapat
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: BEDEN REHBERİ
+          - heading [level=3]: Beden Tablosu
+        - button: Kapat
+      - table:
+        - rowgroup:
+          - row:
+            - columnheader: Beden
+            - columnheader: Göğüs (cm)
+            - columnheader: Bel (cm)
+        - rowgroup:
+          - row:
+            - cell: S
+            - cell: 92 - 96
+            - cell: 80 - 84
+          - row:
+            - cell: M
+            - cell: 96 - 100
+            - cell: 84 - 88
+          - row:
+            - cell: L
+            - cell: 100 - 104
+            - cell: 88 - 92
+          - row:
+            - cell: XL
+            - cell: 104 - 108
+            - cell: 92 - 96
+          - row:
+            - cell: 2XL
+            - cell: 108 - 112
+            - cell: 96 - 100
+  - generic [ref=e60]:
+    - generic [ref=e61]:
+      - generic [ref=e62]: Sepet
+      - button [ref=e63]: Kapat
+    - generic [ref=e65]:
+      - generic [ref=e66]: Sepet boş.
+      - generic [ref=e67]: Ürünleri gez, beğendiklerini sepete at.
+    - generic [ref=e68]:
+      - generic [ref=e69]:
+        - generic [ref=e70]: Mağaza toplamı
+        - strong [ref=e71]: ₺ 0
+      - generic [ref=e72]:
+        - generic [ref=e73]: Tahmini teklif (ortalama)
+        - strong [ref=e74]: ₺ 0
+      - generic [ref=e75]: Ödeme altyapısı (iyzico vb.) yakında. Şimdilik sepetteki listeyi talep olarak gönderiyoruz.
+      - link [ref=e77] [cursor=pointer]:
+        - /url: /uzman/
+        - text: Talep gönder
