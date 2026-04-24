@@ -3126,9 +3126,16 @@ body.urun-page .brand{
   border-radius:999px;
 }
 body.urun-page .brand-logo{
-  height:58px;
-  max-height:58px;
-  max-width:210px;
+  display:none;
+}
+body.urun-page .brand::after{
+  content:"BERZAN";
+  display:block;
+  color:#fff;
+  font-size:22px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-.04em;
 }
 body.urun-page .nav-links{
   justify-self:start;
@@ -3219,7 +3226,7 @@ body.urun-page .icon-btn{
   letter-spacing:.14em;
 }
 .product-tags-inline{
-  margin-top:-4px;
+  display:none;
 }
 .product-showcase-title{
   max-width:9.5ch;
@@ -3441,6 +3448,10 @@ body.urun-page .product-copy-actions .btn{
   }
   body.urun-page .brand{
     top:12px;
+    left:44%;
+  }
+  body.urun-page .brand::after{
+    font-size:20px;
   }
   body.urun-page .brand-logo{
     height:42px;
@@ -3534,8 +3545,21 @@ body.urun-page .product-copy-actions .btn{
     padding:0;
     font-size:0;
   }
-  body.urun-page .icon-btn::before{
+  body.urun-page #openSearch::before{
     content:"Ara";
+    font-size:11px;
+  }
+  body.urun-page #openCart::before{
+    content:"Sepet";
+    font-size:11px;
+  }
+  body.urun-page #openCart{
+    width:auto;
+    min-width:52px;
+    padding:0 8px;
+    gap:5px;
+  }
+  body.urun-page #openCart .badge{
     font-size:11px;
   }
   .product-copy-actions{
