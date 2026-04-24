@@ -1,0 +1,80 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "BERZAN" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "BERZAN" [ref=e5]
+      - navigation [ref=e6]:
+        - link "Ana Sayfa" [ref=e7] [cursor=pointer]:
+          - /url: /
+        - link "Mağaza" [ref=e8] [cursor=pointer]:
+          - /url: /magaza/
+      - button "Ara" [ref=e10]
+  - generic [ref=e13]:
+    - complementary [ref=e14]:
+      - generic [ref=e15]: EN/CE
+      - heading "High Visibility Mont" [level=1] [ref=e16]
+      - paragraph [ref=e17]: Saha koşulları için net görünürlük ve sağlam kumaş.
+      - generic [ref=e18]:
+        - button "Sepete ekle" [ref=e19]
+        - button "Uzmanla görüş" [ref=e20]
+    - generic [ref=e21]:
+      - img "High Visibility Mont" [ref=e26]
+      - generic [ref=e27]:
+        - strong [ref=e28]: ₺ 1.990
+        - paragraph [ref=e29]: Mont & Dış giyim • EN/CE • Kışlık / Sezonluk
+    - complementary [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: Renk
+          - generic [ref=e35]: Sarı
+        - generic [ref=e37]:
+          - generic [ref=e38]: Beden
+          - generic [ref=e39]:
+            - generic [ref=e40]: M seçili
+            - button "Beden tablosu" [ref=e41] [cursor=pointer]
+        - generic [ref=e42]:
+          - generic [ref=e43]: Kurumsal tedarik
+          - strong [ref=e44]: Hızlı teklif ve kurumsal tedarik
+          - link "Hızlı teklif iste" [ref=e45] [cursor=pointer]:
+            - /url: /uzman/
+  - generic:
+    - generic:
+      - generic:
+        - textbox:
+          - /placeholder: "Ara: mont, pantolon, yelek…"
+      - button: Kapat
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: BEDEN REHBERİ
+          - heading [level=3]: Beden Tablosu
+        - button: Kapat
+      - table:
+        - rowgroup:
+          - row:
+            - columnheader: Beden
+            - columnheader: Göğüs (cm)
+            - columnheader: Bel (cm)
+        - rowgroup:
+          - row:
+            - cell: S
+            - cell: 92 - 96
+            - cell: 80 - 84
+          - row:
+            - cell: M
+            - cell: 96 - 100
+            - cell: 84 - 88
+          - row:
+            - cell: L
+            - cell: 100 - 104
+            - cell: 88 - 92
+          - row:
+            - cell: XL
+            - cell: 104 - 108
+            - cell: 92 - 96
+          - row:
+            - cell: 2XL
+            - cell: 108 - 112
+            - cell: 96 - 100
