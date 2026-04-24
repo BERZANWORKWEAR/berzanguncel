@@ -377,7 +377,11 @@ function berzanFindProduct(id){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  berzanApplyRuntimeSettings();
+  if (document.body.classList.contains('urun-page')) {
+    try { applyRuntimeSettings(getLocalPublicSettings()); } catch(e) {}
+  } else {
+    berzanApplyRuntimeSettings();
+  }
   // JS aktif bayrağı (CSS ile uyumlu)
   document.documentElement.classList.add('js');
 
@@ -1342,16 +1346,23 @@ async function initProductPage(){
   const colorParam = (params.get('renk') || params.get('color') || '').trim().toLowerCase();
   const sizeParam = (params.get('beden') || params.get('size') || '').trim().toUpperCase();
 
-  let p = null;
-  try{
-    p = await berzanLoadSupabaseProduct(id);
-  }catch(e){}
+  let p = berzanFindProduct(id);
+  if (!p) {
+    try{
+      p = getLocalPublicProduct(id);
+    }catch(e){}
+  }
+  if (!p) {
+    try{
+      p = await berzanLoadSupabaseProduct(id);
+    }catch(e){}
+  }
   if (!p) {
     try{
       p = await berzanLoadApiProduct(id);
     }catch(e){}
   }
-  p = p || berzanFindProduct(id) || berzanFindProduct('mont') || BERZAN_CATALOG[0];
+  p = p || berzanFindProduct('mont') || BERZAN_CATALOG[0];
   const publicProductKey = berzanPublicProductKey(p) || 'mont';
   if (publicProductKey && id !== publicProductKey) {
     const canonicalUrl = new URL(location.href);
@@ -1421,6 +1432,8 @@ async function initProductPage(){
   const colorLabel = document.getElementById('pdpColorLabel');
   const sizeLabel = document.getElementById('pdpSizeLabel');
   const sizeWrap = document.getElementById('pdpSizes');
+  const mainImg = document.getElementById('pdpMainImg');
+  const thumbsEl = document.getElementById('pdpThumbs');
   function setColor(key){
     activeColor = key;
     const c = colorList.find(x=>x.key===key);
@@ -1477,13 +1490,6 @@ async function initProductPage(){
       setSize(btn.dataset.size);
     });
   }
-  setSize(activeSize);
-  setColor(activeColor);
-
-  // --- media gallery
-  const mainImg = document.getElementById('pdpMainImg');
-  const thumbsEl = document.getElementById('pdpThumbs');
-
   function fallbackMedia(){
     // Görsel yoksa asla başka ürünün görselini gösterme.
     return [];
@@ -1504,17 +1510,7 @@ async function initProductPage(){
       }
     }
 
-    // 2) dosya isim kuralı (sen görsel koyunca otomatik yakalasın)
-    // ./images/products/<id>/<renk>/1.webp ... 4.webp
-    for (let i=1;i<=4;i++){
-      urls.push(`./images/products/${p.id}/${activeColor}/${i}.webp`);
-    }
-    // ./images/products/<id>/1.webp ... 4.webp
-    for (let i=1;i<=4;i++){
-      urls.push(`./images/products/${p.id}/${i}.webp`);
-    }
-
-    // 3) son çare
+    // son çare
     urls.push(...fallbackMedia());
 
     // uniq
@@ -1675,6 +1671,8 @@ async function initProductPage(){
     }
   }
   renderMedia();
+  setSize(activeSize);
+  setColor(activeColor);
 
   // --- actions
   const addBtn = document.getElementById('addToCartBtn');
