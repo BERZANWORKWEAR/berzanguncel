@@ -2477,7 +2477,7 @@ body.urun-page .nav{
   box-shadow:none;
 }
 body.urun-page .brand-logo{
-  filter:brightness(0) invert(1);
+  filter:var(--pdp-logo-filter, brightness(0) invert(1));
 }
 body.urun-page .nav-links a,
 body.urun-page .icon-btn{
@@ -2488,13 +2488,13 @@ body.urun-page .icon-btn{
 .product-stage-glow,
 .pdp-glow{
   transition:
-    --pdp-accent .65s ease,
-    --pdp-accent-soft .65s ease,
-    --pdp-accent-glow .65s ease,
-    --pdp-accent-deep .65s ease,
-    --pdp-accent-darker .65s ease,
-    background .65s ease,
-    opacity .45s ease;
+    --pdp-accent .28s cubic-bezier(.22, 1, .36, 1),
+    --pdp-accent-soft .28s cubic-bezier(.22, 1, .36, 1),
+    --pdp-accent-glow .28s cubic-bezier(.22, 1, .36, 1),
+    --pdp-accent-deep .28s cubic-bezier(.22, 1, .36, 1),
+    --pdp-accent-darker .28s cubic-bezier(.22, 1, .36, 1),
+    background .28s cubic-bezier(.22, 1, .36, 1),
+    opacity .22s ease;
 }
 .product-showcase-section{
   --pdp-accent: #0B1B3A;
@@ -2503,6 +2503,7 @@ body.urun-page .icon-btn{
   --pdp-accent-glow: #7A99D1;
   --pdp-accent-deep: #081120;
   --pdp-accent-darker: #050A14;
+  --pdp-logo-filter: brightness(0) invert(1);
   position:relative;
   min-height:100svh;
   padding:88px 0 22px;
@@ -2936,16 +2937,18 @@ body.urun-page .brand{
   border-radius:999px;
 }
 body.urun-page .brand-logo{
-  display:none;
+  display:block;
+  width:128px;
+  height:42px;
+  max-width:none;
+  max-height:none;
+  object-fit:cover;
+  object-position:center;
+  filter:var(--pdp-logo-filter, brightness(0) invert(1));
+  transition:filter .18s ease;
 }
 body.urun-page .brand::after{
-  content:"BERZAN";
-  display:block;
-  color:#fff;
-  font-size:22px;
-  line-height:1;
-  font-weight:800;
-  letter-spacing:-.04em;
+  content:none;
 }
 body.urun-page .nav-links{
   justify-self:start;
@@ -2984,16 +2987,16 @@ body.urun-page .icon-btn{
   place-items:center;
   isolation:isolate;
   background:
-    radial-gradient(ellipse 70% 62% at 50% 52%, color-mix(in srgb, var(--pdp-accent-glow) 34%, transparent) 0%, color-mix(in srgb, var(--pdp-accent) 22%, transparent) 42%, transparent 74%),
+    radial-gradient(ellipse 74% 60% at 50% 53%, rgba(255,255,255,.20) 0%, color-mix(in srgb, var(--pdp-accent-glow) 30%, transparent) 30%, color-mix(in srgb, var(--pdp-accent) 24%, transparent) 54%, transparent 78%),
     linear-gradient(110deg, var(--pdp-accent-darker) 0%, var(--pdp-accent-deep) 42%, var(--pdp-accent) 100%);
 }
 .product-showcase-section::before{
   background:
-    radial-gradient(ellipse 68% 58% at 50% 56%, rgba(255,255,255,.12), transparent 72%),
-    linear-gradient(90deg, rgba(255,255,255,.035), transparent 34%, rgba(255,255,255,.035));
-  filter:blur(24px);
-  transform:scale(1.04);
-  opacity:.72;
+    radial-gradient(ellipse 58% 44% at 50% 54%, rgba(255,255,255,.24) 0%, rgba(255,255,255,.10) 36%, transparent 74%),
+    radial-gradient(ellipse 78% 64% at 50% 58%, color-mix(in srgb, var(--pdp-accent-glow) 16%, transparent) 0%, transparent 76%);
+  filter:blur(42px);
+  transform:scale(1.12);
+  opacity:.82;
 }
 .product-showcase-section::after{
   content:"";
@@ -3001,9 +3004,9 @@ body.urun-page .icon-btn{
   inset:0;
   z-index:0;
   pointer-events:none;
-  opacity:.075;
-  mix-blend-mode:soft-light;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  opacity:.16;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.028), transparent 28%, rgba(255,255,255,.022) 72%, transparent);
 }
 .product-showcase-shell{
   width:min(100%, 1520px);
@@ -3034,6 +3037,22 @@ body.urun-page .icon-btn{
   background:rgba(255,255,255,.12);
   font-size:11px;
   letter-spacing:.14em;
+}
+.product-kicker.is-logo{
+  width:132px;
+  height:38px;
+  padding:0;
+  border-color:transparent;
+  background:transparent;
+  overflow:hidden;
+}
+.product-kicker-logo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  filter:var(--pdp-logo-filter, brightness(0) invert(1));
+  transition:filter .18s ease;
 }
 .product-tags-inline{
   display:none;
@@ -3096,8 +3115,10 @@ body.urun-page .product-copy-actions .btn{
 }
 .product-stage-glow{
   inset:9% 4% 5%;
-  opacity:.62;
-  filter:blur(44px);
+  opacity:.78;
+  filter:blur(72px);
+  background:
+    radial-gradient(ellipse 54% 42% at 50% 50%, rgba(255,255,255,.30) 0%, color-mix(in srgb, var(--pdp-accent-glow) 34%, transparent) 38%, color-mix(in srgb, var(--pdp-accent) 18%, transparent) 58%, transparent 78%);
 }
 .pdp-gallery{
   height:100%;
@@ -3128,8 +3149,10 @@ body.urun-page .product-copy-actions .btn{
 }
 .pdp-glow{
   inset:14% 8% 12%;
-  filter:blur(58px);
-  opacity:.72;
+  filter:blur(76px);
+  opacity:.86;
+  background:
+    radial-gradient(ellipse 50% 44% at center, rgba(255,255,255,.22) 0%, color-mix(in srgb, var(--pdp-accent-glow) 30%, transparent) 45%, transparent 76%);
 }
 .pdp-thumbs{
   display:none !important;
@@ -3210,9 +3233,12 @@ body.urun-page .product-copy-actions .btn{
 .product-consult-card{
   justify-self:end;
   width:min(100%, 300px);
-  padding:18px;
-  border-radius:20px;
-  gap:10px;
+  padding:0;
+  border-radius:0;
+  background:transparent;
+  color:inherit;
+  box-shadow:none;
+  gap:0;
 }
 .product-consult-title{
   font-size:17px;
@@ -3225,9 +3251,10 @@ body.urun-page .product-copy-actions .btn{
 .product-consult-card .btn{
   min-height:46px;
   padding:0 16px;
-  background:var(--pdp-accent);
-  color:#fff;
+  background:#fff;
+  color:#111827;
   border-color:transparent;
+  box-shadow:0 18px 38px rgba(0,0,0,.16);
 }
 @media (max-height: 760px) and (min-width: 981px){
   .product-showcase-section{
@@ -3260,12 +3287,9 @@ body.urun-page .product-copy-actions .btn{
     top:12px;
     left:44%;
   }
-  body.urun-page .brand::after{
-    font-size:20px;
-  }
   body.urun-page .brand-logo{
-    height:42px;
-    max-height:42px;
+    width:118px;
+    height:40px;
   }
   body.urun-page .nav-links{
     gap:8px;
@@ -3290,7 +3314,6 @@ body.urun-page .product-copy-actions .btn{
     align-self:start;
     gap:8px;
   }
-  .product-kicker,
   .product-tags-inline,
   .product-copy-facts,
   .product-config-block:nth-child(2),
@@ -3342,7 +3365,9 @@ body.urun-page .product-copy-actions .btn{
     justify-content:center;
   }
   .product-consult-card{
-    display:none;
+    display:grid;
+    justify-self:center;
+    width:min(100%, 250px);
   }
 }
 @media (max-width: 640px){
