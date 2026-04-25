@@ -3161,6 +3161,7 @@ body.urun-page .product-copy-actions .btn{
 .pdp-img.pdp-img--cutout{
   mix-blend-mode:multiply;
   filter:none;
+  transform:none;
 }
 .pdp-glow{
   inset:14% 8% 12%;
