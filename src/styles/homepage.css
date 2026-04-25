@@ -373,34 +373,6 @@ body.berzan-home {
   transform: translateY(-2px);
 }
 
-.bz-btn-cart {
-  width: 42px;
-  height: 42px;
-  padding: 0;
-  border-radius: 14px;
-  background: rgba(0,0,0,0.04);
-  border: 1px solid var(--bz-border);
-  color: var(--bz-text);
-  flex-shrink: 0;
-}
-.bz-btn-cart:hover {
-  background: var(--bz-orange);
-  color: #fff;
-  border-color: var(--bz-orange);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255,103,0,0.25);
-}
-.bz-btn-cart.is-added {
-  background: var(--bz-orange);
-  color: #fff;
-  border-color: var(--bz-orange);
-  animation: bz-bounce 0.4s var(--bz-transition);
-}
-@keyframes bz-bounce {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-}
-
 /* ═══════════════════════════════════════
    SECTIONS
    ═══════════════════════════════════════ */
