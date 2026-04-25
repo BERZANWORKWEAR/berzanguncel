@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "created_at": "2026-04-10T19:26:18.731Z",
-    "updated_at": "2026-04-20T19:00:47.906Z"
+    "updated_at": "2026-04-25T18:18:49.843Z"
   },
   "categories": [
     {
@@ -3071,6 +3071,919 @@
       "is_active": true,
       "created_at": "2026-04-20T19:00:27.829Z",
       "updated_at": "2026-04-20T19:00:27.829Z"
+    },
+    {
+      "id": "prd_yds_nepp_1701",
+      "sku": "YDS-NEPP-1701",
+      "slug": "yds-nepp-1701-bot-siyah-yesil",
+      "name": "YDS NEPP 1701 Bot Siyah Yeşil",
+      "category_id": "cat_ayakkabi",
+      "short_desc": "Burun ve taban korumalı ultra hafif iş güvenliği botu.",
+      "description": "EN ISO 20345 odağında, metal olmayan burun koruması ve kayma direnciyle günlük saha vardiyaları için dengeli YDS iş botu.",
+      "cover_image_url": "https://static.ticimax.cloud/cdn-cgi/image/width=1000,quality=85,format=webp/36487/Uploads/UrunResimleri/buyuk/yds-nepp-1701-bot-siyah-yesil-f1c3b-.jpg",
+      "price_try": 2639,
+      "quote_price_try": 2481,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "YDS",
+        "S3",
+        "Policap"
+      ],
+      "sectors": [
+        "insaat",
+        "lojistik",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "siyah",
+          "label": "Siyah",
+          "hex": "#101114"
+        },
+        {
+          "key": "yesil",
+          "label": "Yeşil",
+          "hex": "#76A84F"
+        }
+      ],
+      "sort": 720,
+      "featured": true,
+      "is_active": true,
+      "source_url": "https://www.ydsshop.com/yds-nepp-1701-mesa--siyah-yesil-1595",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_yds_nepp_1703",
+      "sku": "YDS-NEPP-1703",
+      "slug": "yds-nepp-1703-ayakkabi-siyah-yesil",
+      "name": "YDS NEPP 1703 Ayakkabı Siyah Yeşil",
+      "category_id": "cat_ayakkabi",
+      "short_desc": "Hafif yapılı, burun korumalı iş güvenliği ayakkabısı.",
+      "description": "Uzun vardiyada daha düşük bilek profili isteyen ekipler için hafif, kaymaz tabanlı YDS iş güvenliği ayakkabısı.",
+      "cover_image_url": "https://static.ticimax.cloud/cdn-cgi/image/width=1000,quality=85,format=webp/36487/Uploads/UrunResimleri/buyuk/yds-nepp-1703-ayakkabi-siyah-yesil-8937cd.jpg",
+      "price_try": 2399,
+      "quote_price_try": 2255,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "YDS",
+        "S1P",
+        "Hafif"
+      ],
+      "sectors": [
+        "lojistik",
+        "fabrika",
+        "insaat"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "siyah",
+          "label": "Siyah",
+          "hex": "#101114"
+        },
+        {
+          "key": "yesil",
+          "label": "Yeşil",
+          "hex": "#76A84F"
+        }
+      ],
+      "sort": 730,
+      "featured": true,
+      "is_active": true,
+      "source_url": "https://www.ydsshop.com/is-guvenligi",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_yds_el_150_ddr",
+      "sku": "YDS-EL-150-DDR",
+      "slug": "yds-el-150-ddr-ayakkabi-siyah",
+      "name": "YDS EL 150 DDR Ayakkabı Siyah",
+      "category_id": "cat_ayakkabi",
+      "short_desc": "Günlük fabrika ve depo kullanımı için korumalı iş ayakkabısı.",
+      "description": "Kayma direnci, darbe koruması ve sade siyah görünümüyle standart saha kıyafetlerine uyum sağlayan YDS iş ayakkabısı.",
+      "cover_image_url": "https://static.ticimax.cloud/cdn-cgi/image/width=1000,quality=85,format=webp/36487/Uploads/UrunResimleri/buyuk/el-150-ddr-ayakkabi-siyah-4fa861.jpg",
+      "price_try": 2399,
+      "quote_price_try": 2255,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "YDS",
+        "S3",
+        "Kaymaz"
+      ],
+      "sectors": [
+        "fabrika",
+        "lojistik",
+        "isletme"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "siyah",
+          "label": "Siyah",
+          "hex": "#101114"
+        }
+      ],
+      "sort": 740,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.ydsshop.com/is-guvenligi",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_yds_el_170_ddr_st",
+      "sku": "YDS-EL-170-DDR-ST",
+      "slug": "yds-el-170-ddr-s3-st-bot-siyah",
+      "name": "YDS EL 170 DDR S3 ST Bot Siyah",
+      "category_id": "cat_ayakkabi",
+      "short_desc": "S3 standartlı, yoğun saha koşullarına uygun iş botu.",
+      "description": "İnşaat, üretim ve bakım ekipleri için dayanıklı saya yapısı ve güvenlik tabanıyla dengeli koruma sunar.",
+      "cover_image_url": "https://static.ticimax.cloud/cdn-cgi/image/width=1000,quality=85,format=webp/36487/Uploads/UrunResimleri/buyuk/el-170-ddr-s3-st-bot-siyah-e0eadd.jpg",
+      "price_try": 2519,
+      "quote_price_try": 2368,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "YDS",
+        "S3",
+        "Darbe koruma"
+      ],
+      "sectors": [
+        "insaat",
+        "fabrika",
+        "marine"
+      ],
+      "seasons": [
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "siyah",
+          "label": "Siyah",
+          "hex": "#101114"
+        }
+      ],
+      "sort": 750,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.ydsshop.com/isg-botlari",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_yds_atst_1006_lp",
+      "sku": "YDS-ATST-1006-LP",
+      "slug": "yds-atst-1006-s3-lp-bot-siyah",
+      "name": "YDS ATST 1006 S3 LP Bot Siyah",
+      "category_id": "cat_ayakkabi",
+      "short_desc": "S3 koruma seviyeli, sade siyah iş güvenliği botu.",
+      "description": "Klasik siyah iş kıyafetiyle uyumlu, taban ve burun koruması arayan ekipler için güçlü YDS bot seçeneği.",
+      "cover_image_url": "https://static.ticimax.cloud/cdn-cgi/image/width=1000,quality=85,format=webp/36487/Uploads/UrunResimleri/buyuk/atst-1006-s3-lp-bot-siyah--e562-.jpg",
+      "price_try": 2439,
+      "quote_price_try": 2293,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "YDS",
+        "S3",
+        "Standart"
+      ],
+      "sectors": [
+        "insaat",
+        "lojistik",
+        "fabrika"
+      ],
+      "seasons": [
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "siyah",
+          "label": "Siyah",
+          "hex": "#101114"
+        }
+      ],
+      "sort": 760,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.ydsshop.com/isg-botlari",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_yds_ul_110_s3",
+      "sku": "YDS-UL-110-S3",
+      "slug": "yds-ul-110-s3-bot-siyah",
+      "name": "YDS UL 110 S3 Bot Siyah",
+      "category_id": "cat_ayakkabi",
+      "short_desc": "Ekonomik, S3 sınıfı siyah iş botu.",
+      "description": "Toplu alım ve standart vardiya kullanımı için uygun, güvenlik odaklı YDS S3 iş botu.",
+      "cover_image_url": "https://static.ticimax.cloud/cdn-cgi/image/width=1000,quality=85,format=webp/36487/Uploads/UrunResimleri/buyuk/ul-110-s3-bot-siyah-9-a0e6.jpg",
+      "price_try": 1999,
+      "quote_price_try": 1879,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "YDS",
+        "S3",
+        "Toplu alım"
+      ],
+      "sectors": [
+        "lojistik",
+        "fabrika",
+        "insaat"
+      ],
+      "seasons": [
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "siyah",
+          "label": "Siyah",
+          "hex": "#101114"
+        }
+      ],
+      "sort": 770,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.ydsshop.com/isg-botlari",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_yds_pl_170_s3",
+      "sku": "YDS-PL-170-S3",
+      "slug": "yds-pl-170-s3-bot-siyah",
+      "name": "YDS PL 170 S3 Bot Siyah",
+      "category_id": "cat_ayakkabi",
+      "short_desc": "S3 güvenlik seviyeli uygun maliyetli iş botu.",
+      "description": "Saha ekiplerinde standartlaştırmaya uygun, siyah görünüm ve güvenlik gereksinimlerini bir araya getiren iş botu.",
+      "cover_image_url": "https://static.ticimax.cloud/cdn-cgi/image/width=1000,quality=85,format=webp/36487/Uploads/UrunResimleri/buyuk/pl-170-s3-bot-siyah--4ac0-.jpg",
+      "price_try": 1749,
+      "quote_price_try": 1644,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "YDS",
+        "S3",
+        "Ekonomik"
+      ],
+      "sectors": [
+        "insaat",
+        "lojistik",
+        "fabrika"
+      ],
+      "seasons": [
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "siyah",
+          "label": "Siyah",
+          "hex": "#101114"
+        }
+      ],
+      "sort": 780,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.ydsshop.com/isg-botlari",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_3m_securefit_200",
+      "sku": "3M-SF200",
+      "slug": "3m-securefit-200-koruyucu-gozluk",
+      "name": "3M SecureFit 200 Koruyucu Gözlük",
+      "category_id": "cat_kkd",
+      "short_desc": "Anti-fog lensli hafif koruyucu gözlük.",
+      "description": "Göz koruması gereken fabrika, bakım ve inşaat ekipleri için hafif, net görüşlü 3M SecureFit serisi.",
+      "cover_image_url": "https://multimedia.3m.com/mws/media/1577181J/3m-securefit.jpg",
+      "price_try": 390,
+      "quote_price_try": 367,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "3M",
+        "Anti-sis",
+        "Göz koruma"
+      ],
+      "sectors": [
+        "insaat",
+        "fabrika",
+        "lojistik"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "seffaf",
+          "label": "Şeffaf",
+          "hex": "#E5E7EB"
+        }
+      ],
+      "sort": 520,
+      "featured": true,
+      "is_active": true,
+      "source_url": "https://www.3m.com/3M/en_US/p/c/ppe/i/consumer/personal-safety/",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_3m_securefit_400",
+      "sku": "3M-SF400",
+      "slug": "3m-securefit-400-gri-koruyucu-gozluk",
+      "name": "3M SecureFit 400 Gri Koruyucu Gözlük",
+      "category_id": "cat_kkd",
+      "short_desc": "Gri lensli, hafif ve dengeli koruyucu gözlük.",
+      "description": "Dış saha ve parlak ışıkta çalışan ekipler için daha konforlu görüş sağlayan 3M SecureFit 400 koruyucu gözlük.",
+      "cover_image_url": "https://multimedia.3m.com/mws/media/1303099J/3m-tm-securefit-tm-400-safety-eyewear-sf400g-lv-4-ps-gray.jpg",
+      "price_try": 520,
+      "quote_price_try": 489,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "3M",
+        "Gri lens",
+        "Göz koruma"
+      ],
+      "sectors": [
+        "insaat",
+        "fabrika",
+        "marine"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "gri",
+          "label": "Gri",
+          "hex": "#6B7280"
+        }
+      ],
+      "sort": 530,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.3m.com/3M/en_US/p/c/ppe/i/consumer/personal-safety/",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_3m_earplug_92800",
+      "sku": "3M-92800",
+      "slug": "3m-disposable-earplugs-92800",
+      "name": "3M Disposable Earplugs 92800",
+      "category_id": "cat_kkd",
+      "short_desc": "Gürültülü alanlar için tek kullanımlık kulak tıkacı.",
+      "description": "Üretim, kesim, bakım ve yoğun gürültü içeren vardiyalarda hızlı dağıtıma uygun 3M kulak koruma çözümü.",
+      "cover_image_url": "https://multimedia.3m.com/mws/media/2200580J/3m-disposable-earplugs-80-pairs.jpg",
+      "price_try": 180,
+      "quote_price_try": 169,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "3M",
+        "Kulak koruma",
+        "Tek kullanımlık"
+      ],
+      "sectors": [
+        "fabrika",
+        "insaat",
+        "lojistik"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "beyaz",
+          "label": "Beyaz",
+          "hex": "#F8FAFC"
+        }
+      ],
+      "sort": 540,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.3m.com/3M/en_US/p/c/ppe/i/consumer/personal-safety/",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_3m_8210_n95",
+      "sku": "3M-8210",
+      "slug": "3m-8210-n95-partikul-maskesi",
+      "name": "3M 8210 N95 Partikül Maskesi",
+      "category_id": "cat_kkd",
+      "short_desc": "Toz ve partikül ortamları için N95 maske.",
+      "description": "Taşlama, kesim, temizlik ve tozlu operasyonlarda solunum koruması için kullanılan klasik 3M partikül respiratörü.",
+      "cover_image_url": "https://multimedia.3m.com/mws/media/2601032J/3m-particulate-respirator-8210-n95.jpg",
+      "price_try": 140,
+      "quote_price_try": 132,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "3M",
+        "N95",
+        "Solunum"
+      ],
+      "sectors": [
+        "insaat",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "beyaz",
+          "label": "Beyaz",
+          "hex": "#F8FAFC"
+        }
+      ],
+      "sort": 550,
+      "featured": true,
+      "is_active": true,
+      "source_url": "https://www.3m.com/3M/en_US/p/c/ppe/i/consumer/personal-safety/",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_3m_aura_9210",
+      "sku": "3M-9210",
+      "slug": "3m-aura-9210-n95-partikul-maskesi",
+      "name": "3M Aura 9210+ N95 Partikül Maskesi",
+      "category_id": "cat_kkd",
+      "short_desc": "Katlanabilir formda N95 solunum koruması.",
+      "description": "Konforlu yüz oturumu ve katlanabilir yapısıyla uzun vardiyada solunum koruması isteyen ekipler için 3M Aura çözümü.",
+      "cover_image_url": "https://multimedia.3m.com/mws/media/811724J/3m-aura-particulate-respirator-9210-n95.jpg",
+      "price_try": 190,
+      "quote_price_try": 179,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "3M",
+        "Aura",
+        "N95"
+      ],
+      "sectors": [
+        "fabrika",
+        "insaat",
+        "lojistik"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "beyaz",
+          "label": "Beyaz",
+          "hex": "#F8FAFC"
+        }
+      ],
+      "sort": 560,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.3m.com/3M/en_US/p/c/ppe/i/consumer/personal-safety/",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_3m_peltor_rangeguard",
+      "sku": "3M-PELTOR-RG",
+      "slug": "3m-peltor-rangeguard-kulaklik",
+      "name": "3M Peltor RangeGuard Kulak Koruyucu",
+      "category_id": "cat_kkd",
+      "short_desc": "Gürültülü ortamlarda kulak koruması.",
+      "description": "Atölye, üretim ve makine alanlarında tekrar kullanılabilir, rahat baş bantlı 3M Peltor kulak koruma çözümü.",
+      "cover_image_url": "https://multimedia.3m.com/mws/media/1890900J/3m-peltor-sport-rangeguard-hearing-protecor.jpg",
+      "price_try": 1590,
+      "quote_price_try": 1495,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "3M",
+        "Peltor",
+        "Kulak koruma"
+      ],
+      "sectors": [
+        "fabrika",
+        "insaat",
+        "marine"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "siyah",
+          "label": "Siyah",
+          "hex": "#101114"
+        }
+      ],
+      "sort": 570,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.3m.com/3M/en_US/p/c/ppe/i/consumer/personal-safety/",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_3m_vflex_9105",
+      "sku": "3M-9105",
+      "slug": "3m-vflex-9105-n95-maskesi",
+      "name": "3M VFlex 9105 N95 Maskesi",
+      "category_id": "cat_kkd",
+      "short_desc": "V katlı tasarımda N95 partikül maskesi.",
+      "description": "Daha geniş nefes alma alanı isteyen ekipler için V katlı forma sahip 3M VFlex solunum koruması.",
+      "cover_image_url": "https://multimedia.3m.com/mws/media/658519J/3m-tm-vflex-tm-particulate-respirator-9105-n95.jpg",
+      "price_try": 160,
+      "quote_price_try": 150,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "3M",
+        "VFlex",
+        "N95"
+      ],
+      "sectors": [
+        "fabrika",
+        "insaat",
+        "lojistik"
+      ],
+      "seasons": [
+        "yazlik",
+        "kislik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "beyaz",
+          "label": "Beyaz",
+          "hex": "#F8FAFC"
+        }
+      ],
+      "sort": 580,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.3m.com/3M/en_US/p/c/ppe/i/consumer/personal-safety/",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_tee_portwest_s170",
+      "sku": "PW-S170",
+      "slug": "portwest-s170-hi-vis-cotton-comfort-tisort",
+      "name": "Portwest S170 Hi-Vis Cotton Comfort Tişört",
+      "category_id": "cat_ust",
+      "short_desc": "Pamuk konforlu, reflektif kısa kollu iş tişörtü.",
+      "description": "55% pamuk karışımlı kumaşı ve reflektif bantlarıyla yaz vardiyaları için görünürlük ve konfor sunar.",
+      "cover_image_url": "https://d11ak7fd9ypfb7.cloudfront.net/styles1100px/S170YER.jpg",
+      "price_try": 790,
+      "quote_price_try": 743,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "Portwest",
+        "Hi-Vis",
+        "Pamuk konfor"
+      ],
+      "sectors": [
+        "lojistik",
+        "insaat",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "sari",
+          "label": "Sarı",
+          "hex": "#F6C945"
+        },
+        {
+          "key": "lacivert",
+          "label": "Lacivert",
+          "hex": "#0B1B3A"
+        }
+      ],
+      "sort": 320,
+      "featured": true,
+      "is_active": true,
+      "source_url": "https://www.portwest.com/products/view/S170/YER/R/1",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_tee_portwest_s478",
+      "sku": "PW-S478",
+      "slug": "portwest-s478-hi-vis-tisort",
+      "name": "Portwest S478 Hi-Vis Tişört",
+      "category_id": "cat_ust",
+      "short_desc": "Hafif, nefes alan yüksek görünürlüklü tişört.",
+      "description": "Sıcak çalışma günleri için hafif polyester yapı, hızlı kuruma ve reflektif bantla dengeli görünürlük sağlar.",
+      "cover_image_url": "https://d11ak7fd9ypfb7.cloudfront.net/styles1100px/S478YET.jpg",
+      "price_try": 690,
+      "quote_price_try": 649,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "Portwest",
+        "Hi-Vis",
+        "Hafif"
+      ],
+      "sectors": [
+        "lojistik",
+        "insaat",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "sari",
+          "label": "Sarı",
+          "hex": "#F6C945"
+        },
+        {
+          "key": "lacivert",
+          "label": "Lacivert",
+          "hex": "#0B1B3A"
+        }
+      ],
+      "sort": 330,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://portwest.com/products/view/S478/YET",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_tee_portwest_s479",
+      "sku": "PW-S479",
+      "slug": "portwest-s479-hi-vis-kontrast-polo",
+      "name": "Portwest S479 Hi-Vis Kontrast Polo",
+      "category_id": "cat_ust",
+      "short_desc": "Kontrast panelli, kısa kollu yüksek görünürlüklü polo.",
+      "description": "Kir göstermeyi azaltan kontrast paneller ve reflektif bantlarla saha ve depo ekipleri için daha kurumsal görünüm sunar.",
+      "cover_image_url": "https://d11ak7fd9ypfb7.cloudfront.net/styles1100px/S479ONR.jpg",
+      "price_try": 940,
+      "quote_price_try": 884,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "Portwest",
+        "Polo",
+        "Kontrast"
+      ],
+      "sectors": [
+        "lojistik",
+        "fabrika",
+        "insaat"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "turuncu",
+          "label": "Turuncu",
+          "hex": "#F97316"
+        },
+        {
+          "key": "lacivert",
+          "label": "Lacivert",
+          "hex": "#0B1B3A"
+        }
+      ],
+      "sort": 340,
+      "featured": true,
+      "is_active": true,
+      "source_url": "https://portwest.com/products/view/S479/ONR",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_tee_portwest_t181",
+      "sku": "PW-T181",
+      "slug": "portwest-t181-pw3-hi-vis-cotton-tisort",
+      "name": "Portwest T181 PW3 Hi-Vis Cotton Tişört",
+      "category_id": "cat_ust",
+      "short_desc": "PW3 çizgisinde pamuk konforlu yüksek görünürlüklü tişört.",
+      "description": "Daha modern kesim isteyen saha ekipleri için reflektif bantlı, pamuk konforlu Portwest PW3 tişört.",
+      "cover_image_url": "https://d11ak7fd9ypfb7.cloudfront.net/styles1100px/T181YER.jpg",
+      "price_try": 890,
+      "quote_price_try": 837,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "Portwest",
+        "PW3",
+        "Hi-Vis"
+      ],
+      "sectors": [
+        "insaat",
+        "lojistik",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "sari",
+          "label": "Sarı",
+          "hex": "#F6C945"
+        },
+        {
+          "key": "lacivert",
+          "label": "Lacivert",
+          "hex": "#0B1B3A"
+        }
+      ],
+      "sort": 350,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.portwest.com/products/view/T181/YER",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_tee_portwest_pw311",
+      "sku": "PW-PW311",
+      "slug": "portwest-pw311-class-1-hi-vis-tisort",
+      "name": "Portwest PW311 Class 1 Hi-Vis Tişört",
+      "category_id": "cat_ust",
+      "short_desc": "Class 1 görünürlük isteyen ekipler için modern tişört.",
+      "description": "Servis, depo ve düşük riskli saha operasyonlarında görünürlük sağlayan modern kesimli Portwest tişört.",
+      "cover_image_url": "https://d11ak7fd9ypfb7.cloudfront.net/styles1100px/PW311YBR.jpg",
+      "price_try": 860,
+      "quote_price_try": 808,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "Portwest",
+        "Class 1",
+        "Reflektör"
+      ],
+      "sectors": [
+        "lojistik",
+        "isletme",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "sari",
+          "label": "Sarı",
+          "hex": "#F6C945"
+        },
+        {
+          "key": "lacivert",
+          "label": "Lacivert",
+          "hex": "#0B1B3A"
+        }
+      ],
+      "sort": 360,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.portwest.com/products/view/PW311/YBR",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_tee_portwest_dx413",
+      "sku": "PW-DX413",
+      "slug": "portwest-dx413-dx4-hi-vis-tisort",
+      "name": "Portwest DX413 DX4 Hi-Vis Tişört",
+      "category_id": "cat_ust",
+      "short_desc": "DX4 serisi sportif kesimli yüksek görünürlüklü tişört.",
+      "description": "Aktif hareket isteyen ekipler için daha sportif kesim, reflektif detay ve gün boyu rahatlık sağlayan Portwest DX4 tişört.",
+      "cover_image_url": "https://d11ak7fd9ypfb7.cloudfront.net/styles1100px/DX413YBR.jpg",
+      "price_try": 990,
+      "quote_price_try": 931,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "Portwest",
+        "DX4",
+        "Sportif"
+      ],
+      "sectors": [
+        "lojistik",
+        "insaat",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "sari",
+          "label": "Sarı",
+          "hex": "#F6C945"
+        },
+        {
+          "key": "lacivert",
+          "label": "Lacivert",
+          "hex": "#0B1B3A"
+        }
+      ],
+      "sort": 370,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.portwest.com/products/view/DX413/YBR",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
+    },
+    {
+      "id": "prd_tee_portwest_s190",
+      "sku": "PW-S190",
+      "slug": "portwest-s190-hi-vis-cepli-tisort",
+      "name": "Portwest S190 Hi-Vis Cepli Tişört",
+      "category_id": "cat_ust",
+      "short_desc": "Cepli, reflektif kısa kollu iş tişörtü.",
+      "description": "Küçük saha notları ve pratik kullanım için göğüs cebi eklenen yüksek görünürlüklü Portwest iş tişörtü.",
+      "cover_image_url": "https://d11ak7fd9ypfb7.cloudfront.net/styles1100px/S190YER.jpg",
+      "price_try": 760,
+      "quote_price_try": 714,
+      "stock": 24,
+      "reorder_point": 6,
+      "badges": [
+        "Portwest",
+        "Cepli",
+        "Hi-Vis"
+      ],
+      "sectors": [
+        "lojistik",
+        "insaat",
+        "fabrika"
+      ],
+      "seasons": [
+        "yazlik",
+        "sezonluk"
+      ],
+      "colors": [
+        {
+          "key": "sari",
+          "label": "Sarı",
+          "hex": "#F6C945"
+        },
+        {
+          "key": "lacivert",
+          "label": "Lacivert",
+          "hex": "#0B1B3A"
+        }
+      ],
+      "sort": 380,
+      "featured": false,
+      "is_active": true,
+      "source_url": "https://www.portwest.com/products/view/S190/YER",
+      "created_at": "2026-04-25T00:00:00.000Z",
+      "updated_at": "2026-04-25T00:00:00.000Z"
     }
   ],
   "leads": [
