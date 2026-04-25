@@ -99,17 +99,21 @@ function decodePng(buffer) {
   return { width, height, rgba };
 }
 
-function isEdgeWhite(rgba, pixelOffset) {
+function isEdgeWhite(rgba, pixelOffset, options) {
   const red = rgba[pixelOffset];
   const green = rgba[pixelOffset + 1];
   const blue = rgba[pixelOffset + 2];
   const alpha = rgba[pixelOffset + 3];
   const max = Math.max(red, green, blue);
   const min = Math.min(red, green, blue);
-  return alpha > 0 && red >= 248 && green >= 248 && blue >= 248 && max - min <= 7;
+  return alpha > 0
+    && red >= options.threshold
+    && green >= options.threshold
+    && blue >= options.threshold
+    && max - min <= options.maxChannelDiff;
 }
 
-function removeConnectedWhite({ width, height, rgba }) {
+function removeConnectedWhite({ width, height, rgba }, options) {
   const queue = [];
   const seen = new Uint8Array(width * height);
   const push = (x, y) => {
@@ -117,7 +121,7 @@ function removeConnectedWhite({ width, height, rgba }) {
     const index = y * width + x;
     if (seen[index]) return;
     seen[index] = 1;
-    if (isEdgeWhite(rgba, index * 4)) queue.push(index);
+    if (isEdgeWhite(rgba, index * 4, options)) queue.push(index);
   };
 
   for (let x = 0; x < width; x += 1) {
@@ -209,6 +213,13 @@ function shouldProcess(product) {
   return PROCESS_PREFIXES.some((prefix) => id.startsWith(prefix)) && /^https?:\/\//i.test(image);
 }
 
+function cutoutOptions(product) {
+  const id = String(product?.id || "");
+  if (id.startsWith("prd_yds_")) return { threshold: 232, maxChannelDiff: 30 };
+  if (id.startsWith("prd_3m_") || id.startsWith("prd_tee_")) return { threshold: 242, maxChannelDiff: 18 };
+  return { threshold: 248, maxChannelDiff: 7 };
+}
+
 function localPathFor(product) {
   const hash = crypto.createHash("sha1").update(String(product.cover_image_url || "")).digest("hex").slice(0, 10);
   return `/img/catalog-cutouts/${String(product.id).replace(/[^a-z0-9_-]/gi, "-")}-${hash}.png`;
@@ -228,6 +239,7 @@ async function processImage(product) {
   const publicPath = localPathFor(product);
   const absoluteOut = path.join(ROOT, "public", publicPath.replace(/^\//, ""));
   try {
+    if (process.env.CUTOUT_FORCE === "1") throw new Error("force");
     await fs.access(absoluteOut);
     return publicPath;
   } catch {}
@@ -236,7 +248,7 @@ async function processImage(product) {
   try {
     const pngBuffer = await convertToPng(product.cover_image_url, tempDir);
     const decoded = decodePng(pngBuffer);
-    const cutout = cropTransparent(removeConnectedWhite(decoded));
+    const cutout = cropTransparent(removeConnectedWhite(decoded, cutoutOptions(product)));
     await fs.mkdir(path.dirname(absoluteOut), { recursive: true });
     await fs.writeFile(absoluteOut, encodePng(cutout));
     return publicPath;
