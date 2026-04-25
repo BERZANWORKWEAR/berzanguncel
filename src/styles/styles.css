@@ -3166,7 +3166,7 @@ body.urun-page .product-copy-actions .btn{
 .pdp-img.pdp-img--yds{
   mix-blend-mode:multiply;
   filter:contrast(1.08) saturate(1.05) drop-shadow(0 42px 48px rgba(0,0,0,.28));
-  max-height:calc(100dvh - 318px);
+  max-height:min(44svh, calc(100dvh - 360px));
 }
 .pdp-glow{
   inset:14% 8% 12%;
@@ -3361,6 +3361,9 @@ body.urun-page .product-copy-actions .btn{
   .pdp-img{
     max-width:min(86vw, 520px);
     max-height:calc(100dvh - 326px);
+  }
+  .pdp-img.pdp-img--yds{
+    max-height:min(36svh, 260px);
   }
   .product-stage-footer{
     min-height:58px;
