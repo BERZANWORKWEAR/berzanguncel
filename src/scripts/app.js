@@ -577,7 +577,7 @@ input?.addEventListener('keydown', (e) => {
 
 
 /* =========================
-   4) CART (Bireysel + Kurumsal)
+   4) LEGACY PURCHASE UI CLEANUP
 ========================= */
 
 window.BERZAN = window.BERZAN || {};
