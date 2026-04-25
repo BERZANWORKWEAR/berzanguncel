@@ -147,6 +147,28 @@ function removeConnectedWhite({ width, height, rgba }, options) {
   return { width, height, rgba };
 }
 
+function removeLooseWhite({ width, height, rgba }, options) {
+  if (!options.looseThreshold) return { width, height, rgba };
+  for (let index = 0; index < width * height; index += 1) {
+    const offset = index * 4;
+    if (rgba[offset + 3] === 0) continue;
+    const red = rgba[offset];
+    const green = rgba[offset + 1];
+    const blue = rgba[offset + 2];
+    const max = Math.max(red, green, blue);
+    const min = Math.min(red, green, blue);
+    if (
+      red >= options.looseThreshold
+      && green >= options.looseThreshold
+      && blue >= options.looseThreshold
+      && max - min <= options.looseMaxChannelDiff
+    ) {
+      rgba[offset + 3] = 0;
+    }
+  }
+  return { width, height, rgba };
+}
+
 function cropTransparent({ width, height, rgba }, padding = 28) {
   let minX = width;
   let minY = height;
@@ -215,7 +237,9 @@ function shouldProcess(product) {
 
 function cutoutOptions(product) {
   const id = String(product?.id || "");
-  if (id.startsWith("prd_yds_")) return { threshold: 232, maxChannelDiff: 30 };
+  if (id.startsWith("prd_yds_")) {
+    return { threshold: 232, maxChannelDiff: 30, looseThreshold: 216, looseMaxChannelDiff: 46 };
+  }
   if (id.startsWith("prd_3m_") || id.startsWith("prd_tee_")) return { threshold: 242, maxChannelDiff: 18 };
   return { threshold: 248, maxChannelDiff: 7 };
 }
@@ -248,7 +272,8 @@ async function processImage(product) {
   try {
     const pngBuffer = await convertToPng(product.cover_image_url, tempDir);
     const decoded = decodePng(pngBuffer);
-    const cutout = cropTransparent(removeConnectedWhite(decoded, cutoutOptions(product)));
+    const options = cutoutOptions(product);
+    const cutout = cropTransparent(removeLooseWhite(removeConnectedWhite(decoded, options), options));
     await fs.mkdir(path.dirname(absoluteOut), { recursive: true });
     await fs.writeFile(absoluteOut, encodePng(cutout));
     return publicPath;
