@@ -350,6 +350,11 @@ function mixHexColors(source, target, ratio){
   return rgbTupleToHex(from.map((channel, index) => channel + (to[index] - channel) * ratio));
 }
 
+function isBrightAccent(hex){
+  const [red, green, blue] = hexToRgbTuple(hex);
+  return ((red * 299) + (green * 587) + (blue * 114)) / 1000 > 138;
+}
+
 function applyProductTheme(hex){
   const root = document.getElementById('productExperience');
   if (!root) return;
@@ -359,12 +364,15 @@ function applyProductTheme(hex){
   const darker = mixHexColors(accent, '#020617', 0.68);
   const soft = mixHexColors(accent, '#FFFFFF', 0.18);
   const glow = mixHexColors(accent, '#FFFFFF', 0.48);
+  const logoFilter = isBrightAccent(accent) ? 'brightness(0)' : 'brightness(0) invert(1)';
   root.style.setProperty('--pdp-accent', accent);
   root.style.setProperty('--pdp-accent-rgb', accentRgb);
   root.style.setProperty('--pdp-accent-soft', soft);
   root.style.setProperty('--pdp-accent-glow', glow);
   root.style.setProperty('--pdp-accent-deep', deep);
   root.style.setProperty('--pdp-accent-darker', darker);
+  root.style.setProperty('--pdp-logo-filter', logoFilter);
+  document.body.style.setProperty('--pdp-logo-filter', logoFilter);
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', deep);
 }
 
@@ -374,6 +382,16 @@ function berzanFindProduct(id){
   return live.find(p => String(p.id || '').toLowerCase() === key || String(p.slug || '').toLowerCase() === key)
     || BERZAN_CATALOG.find(p => String(p.id || '').toLowerCase() === key || String(p.slug || '').toLowerCase() === key)
     || null;
+}
+
+function berzanIsMekapProduct(product){
+  const text = [
+    product?.id,
+    product?.slug,
+    product?.name,
+    ...(Array.isArray(product?.badges) ? product.badges : [])
+  ].filter(Boolean).join(' ').toLowerCase();
+  return text.includes('mekap');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -562,286 +580,28 @@ input?.addEventListener('keydown', (e) => {
    4) CART (Bireysel + Kurumsal)
 ========================= */
 
-const CART_KEY = 'berzan_cart_v1';
-const CART_NOTE_KEY = 'berzan_cart_note_v1';
-
-function safeJSONParse(v, fallback){
-  try{ return JSON.parse(v); }catch(e){ return fallback; }
-}
-
-function getCart(){
-  const raw = localStorage.getItem(CART_KEY);
-  const items = safeJSONParse(raw, []);
-  if (!Array.isArray(items)) return [];
-  return items.filter(x => x && typeof x.id === 'string' && Number.isFinite(Number(x.qty)) && Number(x.qty) > 0);
-}
-
-function setCart(items){
-  localStorage.setItem(CART_KEY, JSON.stringify(items));
-  window.dispatchEvent(new CustomEvent('berzan:cart-updated'));
-}
-
-// Bireysel / kurumsal ayrımı kaldırıldı: tek sepet akışı
-function getMode(){ return 'tek'; }
-function setMode(){ /* noop */ }
-
-function cartCount(){
-  return getCart().reduce((s, it) => s + Number(it.qty || 0), 0);
-}
-
-function addToCart(id, qty=1){
-  const p = berzanFindProduct(id);
-  if (!p) return;
-
-  const items = getCart();
-  const idx = items.findIndex(x => x.id === id);
-  if (idx >= 0) {
-    items[idx].qty = Math.min(999, Number(items[idx].qty) + qty);
-    items[idx].name = p.name;
-    items[idx].retail = p.retail || 0;
-    items[idx].quote = p.quote || p.retail || 0;
-  } else {
-    items.push({
-      id,
-      qty: Math.min(999, qty),
-      name: p.name,
-      retail: p.retail || 0,
-      quote: p.quote || p.retail || 0
-    });
-  }
-
-  setCart(items);
-}
-
-function setQty(id, qty){
-  qty = Math.max(0, Math.min(999, Number(qty) || 0));
-  const items = getCart();
-  const idx = items.findIndex(x => x.id === id);
-  if (idx < 0) return;
-  if (qty <= 0) items.splice(idx, 1);
-  else items[idx].qty = qty;
-  setCart(items);
-}
-
-function clearCart(){
-  setCart([]);
-}
-
-function cartTotals(){
-  const items = getCart();
-  let retail = 0;
-  let quote = 0;
-  items.forEach(it => {
-    const p = berzanFindProduct(it.id) || it;
-    if(!p) return;
-    retail += (p.retail || 0) * it.qty;
-    quote  += (p.quote  || p.retail || 0) * it.qty;
-  });
-  return { retail, quote };
-}
-
-function cartSummaryText(){
-  const items = getCart();
-  if(!items.length) return '';
-  const lines = [];
-  items.forEach(it => {
-    const p = berzanFindProduct(it.id) || it;
-    if(!p) return;
-    lines.push(`• ${it.qty} × ${p.name}`);
-  });
-
-  const t = cartTotals();
-  return `SEPET\n\n${lines.join('\n')}\n\nToplam: ${berzanFormatTRY(t.retail)}\nTahmini teklif: ${berzanFormatTRY(t.quote)}`;
-}
-
-// global erişim (urun sayfası / shop sayfası kullanır)
 window.BERZAN = window.BERZAN || {};
 window.BERZAN.catalog = BERZAN_CATALOG;
 window.BERZAN.categories = BERZAN_CATEGORIES;
 window.BERZAN.sectors = BERZAN_SECTOR_MAP;
 window.BERZAN.money = berzanFormatTRY;
 window.BERZAN.find = berzanFindProduct;
-window.BERZAN.cart = { getCart, addToCart, setQty, clearCart, cartTotals };
+delete window.BERZAN.cart;
+delete window.BERZAN.openCart;
 
-function ensureCartUI(){
-  // Nav action alanını garanti et (grid bozulmasın)
-  const navInner = document.querySelector('.nav .nav-inner');
-  if (!navInner) return;
-
+function removeLegacyCartArtifacts(){
   removeProductExampleNavLink();
-
-  // actions wrapper yoksa oluştur, aramayı içine taşı
-  let actions = navInner.querySelector('.nav-actions');
-  if (!actions) {
-    actions = document.createElement('div');
-    actions.className = 'nav-actions';
-    const searchBtn = navInner.querySelector('#openSearch');
-    if (searchBtn) actions.appendChild(searchBtn);
-    navInner.appendChild(actions);
-  }
-
-  if (!document.getElementById('openCart')) {
-    const btn = document.createElement('button');
-    btn.className = 'icon-btn';
-    btn.id = 'openCart';
-    btn.type = 'button';
-    btn.innerHTML = `Sepet <span class="badge" id="cartCount">0</span>`;
-    actions.appendChild(btn);
-  }
-
-let drawer = document.getElementById('cartDrawer');
-  let backdrop = document.getElementById('cartBackdrop');
-
-  if (!backdrop) {
-    backdrop = document.createElement('div');
-    backdrop.className = 'backdrop cart-backdrop';
-    backdrop.id = 'cartBackdrop';
-    backdrop.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(backdrop);
-  }
-
-  if (!drawer) {
-    drawer = document.createElement('div');
-    drawer.className = 'cart-drawer';
-    drawer.id = 'cartDrawer';
-    drawer.setAttribute('aria-hidden', 'true');
-    drawer.innerHTML = `
-      <div class="cart-head">
-        <div class="cart-title">Sepet</div>
-        <button class="icon-btn ghost" id="closeCart" type="button">Kapat</button>
-      </div>
-
-      <div class="cart-items" id="cartItems"></div>
-
-      <div class="cart-summary">
-        <div class="sum-line">
-          <span>Mağaza toplamı</span>
-          <strong id="cartTotalRetail">₺ 0</strong>
-        </div>
-        <div class="sum-line">
-          <span>Tahmini teklif (ortalama)</span>
-          <strong id="cartTotalQuote">₺ 0</strong>
-        </div>
-        <div class="cart-note">
-          Ödeme altyapısı (iyzico vb.) yakında. Şimdilik sepetteki listeyi <b>talep</b> olarak gönderiyoruz.
-        </div>
-        <div class="cart-actions">
-          <a class="btn primary" id="cartRequest" href="/uzman/">Talep gönder</a>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(drawer);
-  }
-
-  const openBtn = document.getElementById('openCart');
-  const closeBtn = document.getElementById('closeCart');
-
-  function openCart(){
-    document.body.classList.add('cart-open');
-    drawer.classList.add('open');
-    backdrop.classList.add('open');
-    drawer.setAttribute('aria-hidden', 'false');
-  }
-  function closeCart(){
-    document.body.classList.remove('cart-open');
-    drawer.classList.remove('open');
-    backdrop.classList.remove('open');
-    drawer.setAttribute('aria-hidden', 'true');
-  }
-
-  openBtn?.addEventListener('click', openCart);
-  closeBtn?.addEventListener('click', closeCart);
-  backdrop.addEventListener('click', closeCart);
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeCart();
-  });
-
-  // dışarı aç (urun sayfası için)
-  window.BERZAN.openCart = openCart;
-
-  function renderCart(){
-    const countEl = document.getElementById('cartCount');
-    if (countEl) countEl.textContent = String(cartCount());
-
-    const itemsEl = document.getElementById('cartItems');
-    const items = getCart();
-
-    if (!items.length) {
-      itemsEl.innerHTML = `
-        <div class="cart-empty">
-          <div class="cart-empty-title">Sepet boş.</div>
-          <div class="cart-empty-sub">Ürünleri gez, beğendiklerini sepete at.</div>
-        </div>
-      `;
-    } else {
-      itemsEl.innerHTML = items.map(it => {
-        const p = berzanFindProduct(it.id) || it;
-        if (!p) return '';
-        return `
-          <div class="cart-item">
-            <div class="cart-item-main">
-              <div class="cart-item-name">${p.name}</div>
-              <div class="cart-item-sub">${berzanFormatTRY(p.retail)} <span class="muted">• teklif: ${berzanFormatTRY(p.quote || p.retail)}</span></div>
-            </div>
-            <div class="cart-item-qty">
-              <button class="qty-btn" type="button" data-qty-dec="${p.id}">-</button>
-              <input class="qty-input" inputmode="numeric" value="${it.qty}" data-qty-input="${p.id}" />
-              <button class="qty-btn" type="button" data-qty-inc="${p.id}">+</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    const t = cartTotals();
-    document.getElementById('cartTotalRetail').textContent = berzanFormatTRY(t.retail);
-    document.getElementById('cartTotalQuote').textContent  = berzanFormatTRY(t.quote);
-
-    // uzman sayfasına not bırak (butonlara tıklanınca)
-    const note = cartSummaryText();
-    localStorage.setItem(CART_NOTE_KEY, note);
-  }
-
-  // qty events
-  drawer.addEventListener('click', (e) => {
-    const dec = e.target?.getAttribute?.('data-qty-dec');
-    const inc = e.target?.getAttribute?.('data-qty-inc');
-    if (dec) {
-      const it = getCart().find(x => x.id === dec);
-      setQty(dec, (it?.qty || 1) - 1);
-    }
-    if (inc) {
-      const it = getCart().find(x => x.id === inc);
-      setQty(inc, (it?.qty || 0) + 1);
-    }
-  });
-
-  drawer.addEventListener('change', (e) => {
-    const id = e.target?.getAttribute?.('data-qty-input');
-    if (!id) return;
-    setQty(id, e.target.value);
-  });
-
-  window.addEventListener('berzan:cart-updated', renderCart);
-  renderCart();
+  document.body.classList.remove('cart-open');
+  document.getElementById('openCart')?.remove();
+  document.getElementById('cartDrawer')?.remove();
+  document.getElementById('cartBackdrop')?.remove();
+  try{
+    localStorage.removeItem('berzan_cart_v1');
+    localStorage.removeItem('berzan_cart_note_v1');
+  }catch(e){}
 }
 
-ensureCartUI();
-
-// Sepete ekle (global)
-document.addEventListener('click', (e) => {
-  const btn = e.target?.closest?.('[data-add-to-cart]');
-  if (!btn) return;
-  const id = btn.getAttribute('data-add-to-cart');
-  if (!id) return;
-
-  addToCart(id, 1);
-
-  // küçük feedback
-  btn.classList.add('is-added');
-  setTimeout(() => btn.classList.remove('is-added'), 650);
-});
+removeLegacyCartArtifacts();
 
 /* =========================
    5) SHOP PAGE (Mağaza)
