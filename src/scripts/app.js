@@ -25,7 +25,7 @@ const BERZAN_CFG = Object.assign({
   notifyTo: '905421005649',
   apiBaseUrl: ''
 }, window.BERZAN_CFG || {});
-const LIVE_PRODUCTS_CACHE_KEY = 'berzan_live_products_cache_v2';
+const LIVE_PRODUCTS_CACHE_KEY = 'berzan_live_products_cache_v3';
 
 function berzanApiUrl(path){
   const base = String(BERZAN_CFG.apiBaseUrl || '').replace(/\/$/, '');
@@ -364,7 +364,7 @@ function applyProductTheme(hex){
   const darker = mixHexColors(accent, '#020617', 0.68);
   const soft = mixHexColors(accent, '#FFFFFF', 0.18);
   const glow = mixHexColors(accent, '#FFFFFF', 0.48);
-  const logoFilter = isBrightAccent(accent) ? 'brightness(0)' : 'brightness(0) invert(1)';
+  const logoFilter = 'brightness(0) invert(1)';
   root.style.setProperty('--pdp-accent', accent);
   root.style.setProperty('--pdp-accent-rgb', accentRgb);
   root.style.setProperty('--pdp-accent-soft', soft);
@@ -384,14 +384,37 @@ function berzanFindProduct(id){
     || null;
 }
 
-function berzanIsMekapProduct(product){
+function berzanProductBrand(product){
   const text = [
     product?.id,
     product?.slug,
     product?.name,
+    product?.cover,
     ...(Array.isArray(product?.badges) ? product.badges : [])
   ].filter(Boolean).join(' ').toLowerCase();
-  return text.includes('mekap');
+  if (text.includes('mekap') || text.includes('cdn.myikas.com')) {
+    return { key: 'mekap', label: 'Mekap', logo: '/img/mekap-logo.svg' };
+  }
+  if (text.includes('yds') || text.includes('ticimax.cloud')) {
+    return { key: 'yds', label: 'YDS', logo: '/img/yds-logo.svg' };
+  }
+  if (text.includes('3m') || text.includes('multimedia.3m.com')) {
+    return { key: '3m', label: '3M', logo: '/img/3m-logo.svg' };
+  }
+  if (text.includes('portwest') || text.includes('cloudfront.net/styles')) {
+    return { key: 'portwest', label: 'Portwest', logo: '/img/portwest-logo.svg' };
+  }
+  return null;
+}
+
+function berzanIsMekapProduct(product){
+  return berzanProductBrand(product)?.key === 'mekap';
+}
+
+function berzanUsesCutoutProductImage(product){
+  const image = String(berzanImgFor(product) || product?.cover || '').toLowerCase();
+  return Boolean(berzanProductBrand(product))
+    || /cdn\.myikas\.com|ticimax\.cloud|multimedia\.3m\.com|cloudfront\.net\/styles|merchrobot\.com\/products/.test(image);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -670,7 +693,7 @@ async function berzanLoadApiProducts(){
     desc: r.description || r.short_desc || '',
     retail: Number(r.price_try) || 0,
     quote: Number(r.quote_price_try || r.price_try) || 0,
-    colors: [],
+    colors: Array.isArray(r.colors) ? r.colors : [],
     cover: r.cover_image_url || '',
     cat: (r.category_slug || 'mont').toLowerCase(),
     seasons: Array.isArray(r.seasons) ? r.seasons : [],
@@ -692,7 +715,7 @@ function berzanNormalizePublicProduct(r, source = 'erp-api'){
     desc: r.description || r.short_desc || '',
     retail: Number(r.price_try) || 0,
     quote: Number(r.quote_price_try || r.price_try) || 0,
-    colors: [],
+    colors: Array.isArray(r.colors) ? r.colors : [],
     cover: r.cover_image_url || '',
     cat: (r.category_slug || 'mont').toLowerCase(),
     seasons: Array.isArray(r.seasons) ? r.seasons : [],
@@ -716,7 +739,7 @@ function berzanLoadInstantProducts(){
     desc: r.description || r.short_desc || '',
     retail: Number(r.price_try) || 0,
     quote: Number(r.quote_price_try || r.price_try) || 0,
-    colors: [],
+    colors: Array.isArray(r.colors) ? r.colors : [],
     cover: r.cover_image_url || '',
     cat: (r.category_slug || 'mont').toLowerCase(),
     seasons: Array.isArray(r.seasons) ? r.seasons : [],
@@ -951,7 +974,7 @@ function matchQuery(p){
             <div class="shop-name">${p.name}</div>
           </div>
           <div class="shop-media">
-            ${(()=>{const img=berzanImgFor(p); return img ? `<img class=\"shop-img\" src=\"${img}\" alt=\"${p.name}\" loading=\"lazy\" decoding=\"async\">` : `<div class=\"shop-ph\">${(p.cat||'').toUpperCase()}</div>`;})()}
+            ${(()=>{const img=berzanImgFor(p); const cutout=berzanUsesCutoutProductImage(p); return img ? `<img class=\"shop-img${cutout ? ' is-cutout' : ''}\" src=\"${img}\" alt=\"${p.name}\" loading=\"lazy\" decoding=\"async\">` : `<div class=\"shop-ph\">${(p.cat||'').toUpperCase()}</div>`;})()}
           </div>
         </a>
         <div class="shop-foot">
@@ -1141,7 +1164,7 @@ async function initProductPage(){
   const badgeLead = (p.badges || [])[0] || 'Saha ürünü';
   const leadSector = (p.sectors || []).map(s => BERZAN_SECTOR_MAP[s] || s).filter(Boolean)[0] || 'kurumsal kullanım';
   const productLead = `${categoryLabel} • ${badgeLead} • ${seasonText || 'Sezonluk kullanım'}`;
-  const productIsMekap = berzanIsMekapProduct(p);
+  const productBrand = berzanProductBrand(p);
 
   // --- product text
   document.title = `${p.name} — BERZAN`;
@@ -1149,12 +1172,12 @@ async function initProductPage(){
   document.getElementById('productTitle')?.replaceChildren(document.createTextNode(p.name));
   const eyebrowEl = document.getElementById('productEyebrow');
   if (eyebrowEl) {
-    eyebrowEl.classList.toggle('is-logo', productIsMekap);
-    if (productIsMekap) {
+    eyebrowEl.classList.toggle('is-logo', Boolean(productBrand?.logo));
+    if (productBrand?.logo) {
       const logo = document.createElement('img');
       logo.className = 'product-kicker-logo';
-      logo.src = '/img/mekap-logo.svg';
-      logo.alt = 'Mekap';
+      logo.src = productBrand.logo;
+      logo.alt = productBrand.label;
       logo.decoding = 'async';
       eyebrowEl.replaceChildren(logo);
     } else {
@@ -1208,6 +1231,10 @@ async function initProductPage(){
   const sizeWrap = document.getElementById('pdpSizes');
   const mainImg = document.getElementById('pdpMainImg');
   const thumbsEl = document.getElementById('pdpThumbs');
+  const productUsesCutoutImage = berzanUsesCutoutProductImage(p);
+  document.body.classList.toggle('pdp-white-backdrop-image', productUsesCutoutImage);
+  mainImg?.classList.toggle('pdp-img--cutout', productUsesCutoutImage);
+  mainImg?.closest('.pdp-main')?.classList.toggle('has-cutout-image', productUsesCutoutImage);
   function setColor(key){
     activeColor = key;
     const c = colorList.find(x=>x.key===key);
@@ -1422,6 +1449,8 @@ async function initProductPage(){
     }
 
     mainImg.style.display = '';
+    mainImg.classList.toggle('pdp-img--cutout', productUsesCutoutImage);
+    mainWrap?.classList.toggle('has-cutout-image', productUsesCutoutImage);
     if (mainImg.getAttribute('src') !== src) mainImg.src = src;
     mainImg.onerror = () => {
       // fallback yok: görsel yoksa boş kalsın
