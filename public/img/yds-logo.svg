@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 72" role="img" aria-labelledby="title">
   <title id="title">YDS</title>
-  <path fill="#111" d="M19 13h31l23 23 23-23h29L86 51v8H60v-8L19 13Zm116 0h37c21 0 36 12 36 29s-15 30-36 30h-37V13Zm26 18v23h9c8 0 13-4 13-12s-5-11-13-11h-9Zm-26-18h-26v59h26V13Z"/>
+  <text x="8" y="52" fill="#111" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="56" font-weight="900" letter-spacing="-3">YDS</text>
 </svg>
