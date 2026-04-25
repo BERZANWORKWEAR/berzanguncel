@@ -2291,8 +2291,8 @@ body.magaza-page .shop-media img.shop-img{
   mix-blend-mode: normal !important;
 }
 body.magaza-page .shop-media img.shop-img.is-cutout{
-  filter: contrast(1.04) saturate(1.04) !important;
-  mix-blend-mode: multiply !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
 body.magaza-page .shop-body{
@@ -3159,8 +3159,8 @@ body.urun-page .product-copy-actions .btn{
   overflow:visible;
 }
 .pdp-img.pdp-img--cutout{
-  mix-blend-mode:multiply;
-  filter:none;
+  mix-blend-mode:normal;
+  filter:drop-shadow(0 42px 48px rgba(0,0,0,.28));
   transform:none;
 }
 .pdp-glow{
