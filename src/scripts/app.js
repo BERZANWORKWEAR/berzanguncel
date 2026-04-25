@@ -1136,15 +1136,26 @@ async function initProductPage(){
   const badgeLead = (p.badges || [])[0] || 'Saha ürünü';
   const leadSector = (p.sectors || []).map(s => BERZAN_SECTOR_MAP[s] || s).filter(Boolean)[0] || 'kurumsal kullanım';
   const productLead = `${categoryLabel} • ${badgeLead} • ${seasonText || 'Sezonluk kullanım'}`;
-  const supplyLabel = Number(p.retail || 0) >= 2000
-    ? 'Numune ve toplu siparişe uygun'
-    : 'Hızlı teklif ve kurumsal tedarik';
+  const productIsMekap = berzanIsMekapProduct(p);
 
   // --- product text
   document.title = `${p.name} — BERZAN`;
   document.getElementById('crumb')?.replaceChildren(document.createTextNode(p.name));
   document.getElementById('productTitle')?.replaceChildren(document.createTextNode(p.name));
-  document.getElementById('productEyebrow')?.replaceChildren(document.createTextNode((badgeLead || categoryLabel).toUpperCase()));
+  const eyebrowEl = document.getElementById('productEyebrow');
+  if (eyebrowEl) {
+    eyebrowEl.classList.toggle('is-logo', productIsMekap);
+    if (productIsMekap) {
+      const logo = document.createElement('img');
+      logo.className = 'product-kicker-logo';
+      logo.src = '/img/mekap-logo.svg';
+      logo.alt = 'Mekap';
+      logo.decoding = 'async';
+      eyebrowEl.replaceChildren(logo);
+    } else {
+      eyebrowEl.replaceChildren(document.createTextNode((badgeLead || categoryLabel).toUpperCase()));
+    }
+  }
   document.getElementById('productCategory')?.replaceChildren(document.createTextNode(categoryLabel));
   document.getElementById('productLead')?.replaceChildren(document.createTextNode(productLead));
   const descEl = document.getElementById('productDesc');
@@ -1154,7 +1165,6 @@ async function initProductPage(){
   document.getElementById('specSector')?.replaceChildren(document.createTextNode(sectorText || '—'));
   document.getElementById('specSeason')?.replaceChildren(document.createTextNode(seasonText || '—'));
   document.getElementById('specFeature')?.replaceChildren(document.createTextNode(badgeLead || '—'));
-  document.getElementById('productSupplyLabel')?.replaceChildren(document.createTextNode(supplyLabel));
 
   // --- tags
   const tagsEl = document.getElementById('productTags');
@@ -1189,7 +1199,6 @@ async function initProductPage(){
   let activeSize = sizeParam && sizeList.includes(sizeParam) ? sizeParam : (sizeList[1] || sizeList[0] || '');
 
   const swatches = document.getElementById('pdpSwatches');
-  const colorLabel = document.getElementById('pdpColorLabel');
   const sizeLabel = document.getElementById('pdpSizeLabel');
   const sizeWrap = document.getElementById('pdpSizes');
   const mainImg = document.getElementById('pdpMainImg');
@@ -1197,7 +1206,6 @@ async function initProductPage(){
   function setColor(key){
     activeColor = key;
     const c = colorList.find(x=>x.key===key);
-    if (colorLabel) colorLabel.textContent = c ? c.label : '—';
     applyProductTheme(c?.hex || '#0B1B3A');
     if (swatches){
       Array.from(swatches.querySelectorAll('button')).forEach(b=>{
@@ -1296,7 +1304,6 @@ async function initProductPage(){
     const useImg = document.getElementById('storyUseImg');
     const ctaTitle = document.getElementById('storyCtaTitle');
     const ctaText = document.getElementById('storyCtaText');
-    const storyAddBtn = document.getElementById('storyAddToCartBtn');
 
     const badgeList = (p.badges || []).filter(Boolean);
     const seasonList = seasonLabelList(p.seasons);
@@ -1316,7 +1323,7 @@ async function initProductPage(){
     if (useText) useText.textContent = `${sectorList.join(', ') || 'Saha, operasyon ve kurumsal kullanım'} gibi akışlarda ürünün dili nettir: gereksiz detay yok, doğrudan işin içine oturan bir yapı var.`;
 
     if (ctaTitle) ctaTitle.textContent = `${p.name} için numune, teklif ve toplu alım akışı hazır`;
-    if (ctaText) ctaText.textContent = `Bu ürün için süreç basit ilerler: ürünü incele, sepete ekle, uzman ekiple toplu sipariş ve teslim planını netleştir.`;
+    if (ctaText) ctaText.textContent = `Bu ürün için süreç basit ilerler: ürünü incele, uzman ekiple toplu sipariş ve teslim planını netleştir.`;
 
     const pointMarkup = (items) => items.filter(Boolean).map(item => `<span class="story-point">${item}</span>`).join('');
     if (featurePoints) {
@@ -1347,12 +1354,6 @@ async function initProductPage(){
       img.decoding = 'async';
     });
 
-    if (storyAddBtn) {
-      storyAddBtn.onclick = () => {
-        addToCart(p.id, 1);
-        window.BERZAN.openCart?.();
-      };
-    }
     const storySupportBtn = document.getElementById('storySupportBtn');
     if (storySupportBtn) {
       storySupportBtn.href = `/uzman/?urun=${encodeURIComponent(publicProductKey)}`;
@@ -1416,7 +1417,7 @@ async function initProductPage(){
     }
 
     mainImg.style.display = '';
-    mainImg.src = src;
+    if (mainImg.getAttribute('src') !== src) mainImg.src = src;
     mainImg.onerror = () => {
       // fallback yok: görsel yoksa boş kalsın
       mainImg.removeAttribute('src');
@@ -1435,18 +1436,7 @@ async function initProductPage(){
   setColor(activeColor);
 
   // --- actions
-  const addBtn = document.getElementById('addToCartBtn');
-  const quoteBtn = document.getElementById('quoteBtn');
   const productSupportBtn = document.getElementById('productSupportBtn');
-
-  addBtn?.addEventListener('click', () => {
-    addToCart(p.id, 1);
-    window.BERZAN.openCart?.();
-  });
-
-  quoteBtn?.addEventListener('click', () => {
-    window.location.href = `/uzman/?urun=${encodeURIComponent(publicProductKey)}`;
-  });
   if (productSupportBtn) {
     productSupportBtn.href = `/uzman/?urun=${encodeURIComponent(publicProductKey)}`;
   }
@@ -1472,7 +1462,7 @@ async function initProductPage(){
 initProductPage();
 
 /* =========================
-   7) UZMAN FORM PREFILL (sepet notu)
+   7) UZMAN FORM
 ========================= */
 function initUzmanPrefill(){
   const form = document.querySelector('form');
@@ -1497,14 +1487,12 @@ function initUzmanPrefill(){
     const companyMatch = msg.match(/firma[:\s-]+([^\n]+)/i);
     const company = (companyMatch?.[1] || '').trim();
 
-    const items = getCart?.() || [];
-    const totals = cartTotals?.() || { retail: 0, quote: 0 };
+    const items = [];
+    const totals = { retail: 0, quote: 0 };
 
     berzanNotifyLead('talep', {
       name, phone, email,
-      message: msg,
-      cart: items,
-      totals
+      message: msg
     });
 
     e.preventDefault();
@@ -1523,15 +1511,7 @@ function initUzmanPrefill(){
           email,
           company,
           note: msg,
-          items: items.map(it => {
-            const product = berzanFindProduct(it.id) || it || {};
-            return {
-              id: it.id,
-              name: product.name || it.id,
-              qty: Number(it.qty || 1),
-              price: Number(product.quote || product.retail || 0),
-            };
-          }),
+          items,
           totals,
           source: 'Web Form',
           page: location.pathname,
@@ -1547,15 +1527,7 @@ function initUzmanPrefill(){
           email,
           company,
           note: msg,
-          items: items.map(it => {
-            const product = berzanFindProduct(it.id) || it || {};
-            return {
-              id: it.id,
-              name: product.name || it.id,
-              qty: Number(it.qty || 1),
-              price: Number(product.quote || product.retail || 0),
-            };
-          }),
+          items,
           totals,
           source: 'Web Form',
           page: location.pathname,
@@ -1574,10 +1546,6 @@ function initUzmanPrefill(){
     }
   }, { capture: true });
 
-  const note = localStorage.getItem(CART_NOTE_KEY) || '';
-  if (note && textarea.value.trim().length === 0){
-    textarea.value = note + '\n\nNot: Ödeme altyapısı yakında (iyzico vb.). Şimdilik talep olarak iletiyorum.';
-  }
 }
 initUzmanPrefill();
 
