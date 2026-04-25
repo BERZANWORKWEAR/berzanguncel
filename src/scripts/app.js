@@ -681,6 +681,28 @@ async function berzanLoadApiProducts(){
   }));
 }
 
+function berzanNormalizePublicProduct(r, source = 'erp-api'){
+  if (!r) return null;
+  return {
+    __source: source,
+    id: r.id,
+    slug: (r.slug || '').toLowerCase(),
+    name: r.name || 'Ürün',
+    mini: r.short_desc || '',
+    desc: r.description || r.short_desc || '',
+    retail: Number(r.price_try) || 0,
+    quote: Number(r.quote_price_try || r.price_try) || 0,
+    colors: [],
+    cover: r.cover_image_url || '',
+    cat: (r.category_slug || 'mont').toLowerCase(),
+    seasons: Array.isArray(r.seasons) ? r.seasons : [],
+    sectors: Array.isArray(r.sectors) ? r.sectors : [],
+    badges: Array.isArray(r.badges) ? r.badges : [],
+    badge: Array.isArray(r.badges) ? r.badges[0] || null : null,
+    rating: null,
+  };
+}
+
 function berzanLoadInstantProducts(){
   const cached = readProductsCache();
   if (cached.length) return cached;
@@ -717,24 +739,7 @@ async function berzanLoadApiProduct(idOrSlug){
     r = getLocalPublicProduct(idOrSlug);
   }
   if (!r) return null;
-  return {
-    __source: 'erp-api',
-    id: r.id,
-    slug: (r.slug || '').toLowerCase(),
-    name: r.name || 'Ürün',
-    mini: r.short_desc || '',
-    desc: r.description || r.short_desc || '',
-    retail: Number(r.price_try) || 0,
-    quote: Number(r.quote_price_try || r.price_try) || 0,
-    colors: [],
-    cover: r.cover_image_url || '',
-    cat: (r.category_slug || 'mont').toLowerCase(),
-    seasons: Array.isArray(r.seasons) ? r.seasons : [],
-    sectors: Array.isArray(r.sectors) ? r.sectors : [],
-    badges: Array.isArray(r.badges) ? r.badges : [],
-    badge: Array.isArray(r.badges) ? r.badges[0] || null : null,
-    rating: null,
-  };
+  return berzanNormalizePublicProduct(r, 'erp-api');
 }
 
 async function berzanLoadSupabaseProduct(idOrSlug){
@@ -1109,7 +1114,7 @@ async function initProductPage(){
   let p = berzanFindProduct(id);
   if (!p) {
     try{
-      p = getLocalPublicProduct(id);
+      p = berzanNormalizePublicProduct(getLocalPublicProduct(id), 'local-erp');
     }catch(e){}
   }
   if (!p) {
