@@ -1,5 +1,5 @@
 # BERZAN API (Email + PDF)
-Bu klasör, sepetteki "Talep gönder" butonuna basınca siparis@berzan.com.tr adresine PDF ekli mail göndermek içindir.
+Bu klasör, web formlarından gelen ürün ve uzman taleplerini işlemek içindir.
 
 ## Kurulum
 1) Terminal:
