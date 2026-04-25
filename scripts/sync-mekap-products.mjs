@@ -6,7 +6,10 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, "..");
-const DB_PATH = path.join(ROOT, "api", "data", "erp-db.json");
+const DB_PATHS = [
+  path.join(ROOT, "api", "data", "erp-db.json"),
+  path.join(ROOT, "src", "data", "erp-db.json"),
+];
 const SITEMAP_URL = "https://storemekap.com/products.xml";
 const USER_AGENT =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36";
@@ -189,7 +192,7 @@ async function scrapeProducts(urls) {
 }
 
 async function main() {
-  const raw = await fs.readFile(DB_PATH, "utf8");
+  const raw = await fs.readFile(DB_PATHS[0], "utf8");
   const db = JSON.parse(raw);
   const urls = await loadProductUrls();
   const importedProducts = await scrapeProducts(urls);
@@ -199,7 +202,7 @@ async function main() {
   db.meta = db.meta || {};
   db.meta.updated_at = new Date().toISOString();
 
-  await fs.writeFile(DB_PATH, `${JSON.stringify(db, null, 2)}\n`, "utf8");
+  await Promise.all(DB_PATHS.map((dbPath) => fs.writeFile(dbPath, `${JSON.stringify(db, null, 2)}\n`, "utf8")));
 
   console.log(`[mekap-sync] ${importedProducts.length} urun senkronlandi.`);
 }
