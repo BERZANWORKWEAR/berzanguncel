@@ -3155,12 +3155,12 @@ body.urun-page .product-copy-actions .btn{
   filter:drop-shadow(0 42px 48px rgba(0,0,0,.28));
 }
 .pdp-main.has-cutout-image{
-  isolation:isolate;
+  isolation:auto;
   overflow:visible;
 }
 .pdp-img.pdp-img--cutout{
   mix-blend-mode:multiply;
-  filter:contrast(1.04) saturate(1.04) drop-shadow(0 42px 48px rgba(0,0,0,.28));
+  filter:none;
 }
 .pdp-glow{
   inset:14% 8% 12%;
