@@ -1233,7 +1233,9 @@ async function initProductPage(){
   const thumbsEl = document.getElementById('pdpThumbs');
   const productUsesCutoutImage = berzanUsesCutoutProductImage(p);
   document.body.classList.toggle('pdp-white-backdrop-image', productUsesCutoutImage);
+  document.body.classList.toggle('pdp-brand-yds', productBrand?.key === 'yds');
   mainImg?.classList.toggle('pdp-img--cutout', productUsesCutoutImage);
+  mainImg?.classList.toggle('pdp-img--yds', productBrand?.key === 'yds');
   mainImg?.closest('.pdp-main')?.classList.toggle('has-cutout-image', productUsesCutoutImage);
   function setColor(key){
     activeColor = key;
@@ -1450,6 +1452,7 @@ async function initProductPage(){
 
     mainImg.style.display = '';
     mainImg.classList.toggle('pdp-img--cutout', productUsesCutoutImage);
+    mainImg.classList.toggle('pdp-img--yds', productBrand?.key === 'yds');
     mainWrap?.classList.toggle('has-cutout-image', productUsesCutoutImage);
     if (mainImg.getAttribute('src') !== src) mainImg.src = src;
     mainImg.onerror = () => {
