@@ -9,6 +9,7 @@ const pages = [
   'index.html',
   'admin/index.html',
   'admin/login.html',
+  'kurumsal/index.html',
   'magaza/index.html',
   'urun/index.html',
   'urunler/index.html',
