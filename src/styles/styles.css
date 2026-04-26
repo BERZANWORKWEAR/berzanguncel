@@ -3421,6 +3421,432 @@ body.urun-page .product-copy-actions .btn{
 body.urun-page .cookie-banner{
   display:none;
 }
+
+/* Kurumsal page: product-detail language adapted for the company story. */
+body.kurumsal-page{
+  min-height:100svh;
+  background:#050a14;
+  color:#fff;
+  display:block;
+}
+body.kurumsal-page .footer{
+  display:none;
+}
+body.kurumsal-page .nav{
+  position:fixed;
+  inset:0 0 auto;
+  height:82px;
+  z-index:30;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+body.kurumsal-page .nav-inner{
+  position:relative;
+  height:82px;
+  max-width:none;
+  padding:0 clamp(24px, 3vw, 54px);
+}
+body.kurumsal-page .brand{
+  position:absolute;
+  top:8px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:8px;
+  border-radius:999px;
+}
+body.kurumsal-page .brand-logo{
+  width:128px;
+  height:42px;
+  max-width:none;
+  max-height:none;
+  object-fit:cover;
+  object-position:center;
+  filter:brightness(0) invert(1);
+}
+body.kurumsal-page .nav-links{
+  justify-self:start;
+  gap:18px;
+}
+body.kurumsal-page .nav-links a{
+  color:rgba(255,255,255,.84);
+  padding:9px 18px;
+}
+body.kurumsal-page .nav-links a[aria-current="page"],
+body.kurumsal-page .nav-links a[href="/"]:hover,
+body.kurumsal-page .nav-links a:hover{
+  background:#fff;
+  color:#111827;
+}
+body.kurumsal-page .nav-actions{
+  justify-self:end;
+}
+body.kurumsal-page .icon-btn{
+  min-width:42px;
+  height:42px;
+  padding:0 16px;
+  border-color:rgba(255,255,255,.20);
+  background:rgba(0,0,0,.16);
+  color:#fff;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.about-showcase-section{
+  --pdp-accent:#10284f;
+  --pdp-accent-rgb:16, 40, 79;
+  --pdp-accent-soft:#294a82;
+  --pdp-accent-glow:#8ba9dc;
+  --pdp-accent-deep:#081120;
+  --pdp-accent-darker:#050a14;
+  min-height:100dvh;
+  padding:88px clamp(24px, 3vw, 54px) 18px;
+  display:grid;
+  place-items:center;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse 72% 60% at 50% 52%, rgba(255,255,255,.19) 0%, color-mix(in srgb, var(--pdp-accent-glow) 24%, transparent) 30%, color-mix(in srgb, var(--pdp-accent) 26%, transparent) 54%, transparent 78%),
+    linear-gradient(110deg, var(--pdp-accent-darker) 0%, var(--pdp-accent-deep) 42%, var(--pdp-accent) 100%);
+}
+.about-showcase-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.82;
+  filter:blur(42px);
+  transform:scale(1.12);
+  background:
+    radial-gradient(ellipse 58% 44% at 50% 54%, rgba(255,255,255,.22) 0%, rgba(255,255,255,.10) 36%, transparent 74%),
+    radial-gradient(ellipse 78% 64% at 50% 58%, color-mix(in srgb, var(--pdp-accent-glow) 16%, transparent) 0%, transparent 76%);
+}
+.about-showcase-section::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.16;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.028), transparent 28%, rgba(255,255,255,.022) 72%, transparent);
+}
+.about-showcase-shell{
+  position:relative;
+  z-index:1;
+  width:min(100%, 1520px);
+  min-height:calc(100dvh - 106px);
+  display:grid;
+  align-items:center;
+}
+.about-showcase{
+  display:grid;
+  grid-template-columns:minmax(260px, .76fr) minmax(420px, 1.38fr) minmax(270px, .68fr);
+  gap:clamp(18px, 2.8vw, 48px);
+  align-items:center;
+}
+.about-copy-col,
+.about-config-col{
+  display:grid;
+  gap:clamp(14px, 1.7svh, 22px);
+}
+.about-copy-col{
+  max-width:420px;
+}
+.about-kicker{
+  width:132px;
+  height:38px;
+  min-height:38px;
+  padding:0;
+  border-color:transparent;
+  background:transparent;
+  overflow:hidden;
+}
+.about-showcase-title{
+  margin:0;
+  max-width:10ch;
+  font-size:clamp(48px, 5.2vw, 82px);
+  line-height:.98;
+  letter-spacing:-.04em;
+  color:#fff;
+  text-wrap:balance;
+}
+.about-showcase-desc{
+  margin:0;
+  max-width:39ch;
+  font-size:clamp(14px, 1vw, 16px);
+  line-height:1.65;
+  color:rgba(255,255,255,.82);
+}
+.about-fact-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.about-fact-card{
+  padding:13px 15px;
+  border-radius:18px;
+  background:rgba(255,255,255,.09);
+  border-color:rgba(255,255,255,.14);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.about-fact-card span{
+  font-size:10px;
+  letter-spacing:.13em;
+}
+.about-fact-card strong{
+  margin-top:5px;
+  font-size:14px;
+  line-height:1.32;
+}
+.about-stage-col{
+  display:grid;
+  justify-items:center;
+  gap:8px;
+  min-width:0;
+}
+.about-stage-frame{
+  width:min(100%, 820px);
+  min-height:clamp(440px, 62svh, 720px);
+  position:relative;
+  display:grid;
+  place-items:center;
+}
+.about-stage-glow{
+  position:absolute;
+  inset:8% 5% 8%;
+  border-radius:50%;
+  opacity:.82;
+  filter:blur(72px);
+  background:
+    radial-gradient(ellipse 54% 42% at 50% 50%, rgba(255,255,255,.30) 0%, color-mix(in srgb, var(--pdp-accent-glow) 34%, transparent) 38%, color-mix(in srgb, var(--pdp-accent) 18%, transparent) 58%, transparent 78%);
+}
+.about-stage-mark{
+  position:relative;
+  z-index:3;
+  width:min(58%, 430px);
+  min-height:160px;
+  display:grid;
+  place-items:center;
+}
+.about-stage-mark img{
+  width:100%;
+  height:auto;
+  filter:brightness(0) invert(1) drop-shadow(0 34px 56px rgba(0,0,0,.22));
+}
+.about-product{
+  position:absolute;
+  z-index:2;
+  width:min(34%, 260px);
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 34px 46px rgba(0,0,0,.28));
+}
+.about-product-shoe{
+  left:3%;
+  bottom:7%;
+  width:min(40%, 320px);
+}
+.about-product-tee{
+  right:3%;
+  bottom:10%;
+  width:min(30%, 250px);
+}
+.about-product-ppe{
+  right:8%;
+  top:8%;
+  width:min(24%, 180px);
+}
+.about-stage-footer{
+  display:grid;
+  justify-items:center;
+  gap:5px;
+  text-align:center;
+}
+.about-stage-footer span{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.62);
+}
+.about-stage-footer strong{
+  font-size:clamp(26px, 2.6vw, 44px);
+  line-height:1;
+  letter-spacing:-.05em;
+}
+.about-config-card{
+  padding:22px;
+  border-radius:30px;
+  background:rgba(0,0,0,.16);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:none;
+  display:grid;
+  gap:18px;
+}
+.about-config-label{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.62);
+}
+.about-flow{
+  display:grid;
+  gap:12px;
+}
+.about-flow-step{
+  padding:14px 15px;
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+}
+.about-flow-step span{
+  display:block;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.16em;
+  color:rgba(255,215,0,.84);
+}
+.about-flow-step strong{
+  display:block;
+  margin-top:7px;
+  font-size:16px;
+  line-height:1.2;
+}
+.about-flow-step p{
+  margin:6px 0 0;
+  color:rgba(255,255,255,.68);
+  font-size:13px;
+  line-height:1.5;
+}
+.about-config-cta{
+  width:100%;
+  min-height:56px;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  background:#fff;
+  color:#101828;
+  border-color:#fff;
+  box-shadow:0 18px 44px rgba(0,0,0,.16);
+}
+@media (max-height: 820px) and (min-width: 981px){
+  .about-showcase-title{
+    font-size:clamp(42px, 4.4vw, 66px);
+  }
+  .about-stage-frame{
+    min-height:clamp(360px, 52svh, 560px);
+  }
+  .about-flow-step p{
+    display:none;
+  }
+}
+@media (max-width: 1180px){
+  body.kurumsal-page .nav{
+    position:absolute;
+  }
+  .about-showcase-section{
+    min-height:100svh;
+    padding-top:104px;
+  }
+  .about-showcase-shell{
+    min-height:0;
+  }
+  .about-showcase{
+    grid-template-columns:1fr;
+    align-content:center;
+  }
+  .about-copy-col,
+  .about-config-col{
+    max-width:760px;
+    justify-self:center;
+  }
+  .about-showcase-title,
+  .about-showcase-desc{
+    max-width:100%;
+  }
+  .about-stage-frame{
+    min-height:420px;
+  }
+}
+@media (max-width: 760px){
+  body.kurumsal-page .nav-inner{
+    padding:0 18px;
+  }
+  body.kurumsal-page .brand{
+    top:12px;
+    left:44%;
+  }
+  body.kurumsal-page .brand-logo{
+    width:118px;
+    height:40px;
+  }
+  body.kurumsal-page .nav-links{
+    gap:8px;
+    min-height:44px;
+    padding:0;
+    font-size:13px;
+  }
+  body.kurumsal-page .nav-links a:not([href="/"]){
+    display:none;
+  }
+  body.kurumsal-page .icon-btn{
+    width:44px;
+    min-width:44px;
+    padding:0;
+    color:transparent;
+    position:relative;
+  }
+  body.kurumsal-page #openSearch::before{
+    content:"Ara";
+    color:#fff;
+    position:absolute;
+  }
+  .about-showcase-section{
+    padding:100px 18px 28px;
+  }
+  .about-showcase{
+    gap:24px;
+  }
+  .about-showcase-title{
+    font-size:clamp(38px, 11vw, 56px);
+  }
+  .about-showcase-desc{
+    font-size:14px;
+    line-height:1.55;
+  }
+  .about-fact-grid{
+    display:none;
+  }
+  .about-stage-frame{
+    min-height:300px;
+  }
+  .about-stage-mark{
+    width:min(68%, 330px);
+    min-height:120px;
+  }
+  .about-product-shoe{
+    width:48%;
+    left:-4%;
+    bottom:4%;
+  }
+  .about-product-tee{
+    width:34%;
+    right:-2%;
+    bottom:7%;
+  }
+  .about-product-ppe{
+    width:26%;
+    right:5%;
+    top:3%;
+  }
+  .about-stage-footer strong{
+    font-size:30px;
+  }
+}
 .size-chart-backdrop{
   position:fixed;
   inset:0;
