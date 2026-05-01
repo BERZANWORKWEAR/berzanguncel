@@ -365,3 +365,503 @@ body.legal-page .footer a {
     max-width: 124px;
   }
 }
+
+/* Scoped migration: Corporate Page */
+body.kurumsal-page {
+  min-height: 100vh;
+  color-scheme: light;
+  font-family: var(--berzan-font-family-base);
+  color: var(--berzan-text-primary);
+  background-color: var(--berzan-color-gray-50);
+  background:
+    radial-gradient(circle at 12% 6%, rgba(255, 215, 0, 0.12), transparent 26rem),
+    radial-gradient(circle at 88% 0%, rgba(19, 29, 46, 0.07), transparent 30rem),
+    linear-gradient(180deg, #ffffff 0%, var(--berzan-color-gray-50) 46%, #ffffff 100%);
+}
+
+body.kurumsal-page,
+body.kurumsal-page * {
+  box-sizing: border-box;
+}
+
+body.kurumsal-page .nav {
+  position: sticky;
+  top: 0;
+  inset: auto;
+  z-index: var(--berzan-navbar-z-index);
+  height: var(--berzan-navbar-height);
+  min-height: var(--berzan-navbar-height);
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: var(--berzan-navbar-border);
+  box-shadow: none;
+  backdrop-filter: blur(var(--berzan-navbar-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--berzan-navbar-blur)) saturate(1.2);
+}
+
+body.kurumsal-page .nav-inner {
+  height: var(--berzan-navbar-height);
+  min-height: var(--berzan-navbar-height);
+  max-width: var(--berzan-container-max-lg);
+  margin-inline: auto;
+  padding-inline: var(--berzan-container-gutter);
+}
+
+body.kurumsal-page .brand {
+  position: static;
+  top: auto;
+  left: auto;
+  transform: none;
+  padding: var(--berzan-space-2);
+  border-radius: var(--berzan-radius-pill);
+}
+
+body.kurumsal-page .brand-logo {
+  width: 132px;
+  height: 38px;
+  max-width: 132px;
+  max-height: 38px;
+  object-fit: cover;
+  object-position: center;
+  filter: none;
+}
+
+body.kurumsal-page .nav-links {
+  justify-self: center;
+  gap: var(--berzan-space-2);
+  color: var(--berzan-navbar-link-color);
+  font-size: var(--berzan-navbar-link-font-size);
+}
+
+body.kurumsal-page .nav-links a {
+  color: var(--berzan-navbar-link-color);
+  padding: 8px 14px;
+  border-radius: var(--berzan-radius-pill);
+  transition:
+    background var(--berzan-duration-fast) var(--berzan-ease-standard),
+    color var(--berzan-duration-fast) var(--berzan-ease-standard);
+}
+
+body.kurumsal-page .nav-links a[aria-current="page"],
+body.kurumsal-page .nav-links a[href="/"]:hover,
+body.kurumsal-page .nav-links a:hover {
+  color: var(--berzan-color-brand-ink);
+  background: rgba(19, 29, 46, 0.07);
+}
+
+body.kurumsal-page .icon-btn {
+  min-width: 44px;
+  height: 40px;
+  padding-inline: 16px;
+  color: var(--berzan-text-primary);
+  background: var(--berzan-button-secondary-bg);
+  border-color: var(--berzan-button-secondary-border);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+body.kurumsal-page .corporate-shell {
+  --pdp-accent: var(--berzan-color-brand-navy);
+  --pdp-accent-rgb: 19, 29, 46;
+  --pdp-accent-soft: var(--berzan-color-gray-100);
+  --pdp-accent-glow: var(--berzan-color-brand-gold);
+  --pdp-accent-deep: var(--berzan-color-gray-50);
+  --pdp-accent-darker: #ffffff;
+  min-height: calc(100vh - var(--berzan-navbar-height));
+  padding: var(--berzan-section-gap-sm) 0 var(--berzan-section-gap-md);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: transparent;
+}
+
+body.kurumsal-page .corporate-shell::before {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  background:
+    radial-gradient(circle at 48% 48%, rgba(255, 255, 255, 0.88), transparent 20rem),
+    radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.11), transparent 31rem);
+}
+
+body.kurumsal-page .corporate-shell::after {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(19, 29, 46, 0.04), transparent 32%);
+}
+
+body.kurumsal-page .about-showcase-shell {
+  width: var(--berzan-container-width-wide);
+  max-width: var(--berzan-container-max-xl);
+  min-height: auto;
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+body.kurumsal-page .corporate-hero {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.12fr) minmax(280px, 0.84fr);
+  gap: var(--berzan-space-8);
+  align-items: center;
+}
+
+body.kurumsal-page .corporate-copy {
+  max-width: 460px;
+  gap: var(--berzan-space-5);
+}
+
+body.kurumsal-page .about-kicker {
+  width: 124px;
+  height: 32px;
+  min-height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+body.kurumsal-page .product-kicker-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: none;
+}
+
+body.kurumsal-page .corporate-title {
+  max-width: 11ch;
+  color: var(--berzan-color-brand-ink);
+  font-family: var(--berzan-font-family-display);
+  font-size: var(--berzan-font-size-5xl);
+  font-weight: var(--berzan-font-weight-bold);
+  line-height: var(--berzan-line-height-tight);
+  letter-spacing: 0;
+}
+
+body.kurumsal-page .corporate-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin-top: var(--berzan-space-6);
+  border-radius: var(--berzan-radius-pill);
+  background: var(--berzan-color-brand-gold);
+}
+
+body.kurumsal-page .corporate-lede {
+  max-width: 44ch;
+  color: var(--berzan-text-secondary);
+  font-size: var(--berzan-font-size-lg);
+  line-height: var(--berzan-line-height-body);
+}
+
+body.kurumsal-page .corporate-proof-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--berzan-space-3);
+}
+
+body.kurumsal-page .corporate-proof-card {
+  min-height: 118px;
+  padding: var(--berzan-space-5);
+  background: rgba(255, 255, 255, 0.9);
+  border: var(--berzan-card-border);
+  border-radius: var(--berzan-radius-xl);
+  box-shadow: var(--berzan-shadow-xs);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+body.kurumsal-page .corporate-proof-card span {
+  color: var(--berzan-text-muted);
+  font-size: var(--berzan-font-size-2xs);
+  font-weight: var(--berzan-font-weight-bold);
+  letter-spacing: var(--berzan-letter-spacing-wide);
+}
+
+body.kurumsal-page .corporate-proof-card strong {
+  margin-top: var(--berzan-space-3);
+  color: var(--berzan-color-brand-ink);
+  font-size: var(--berzan-font-size-md);
+  line-height: var(--berzan-line-height-heading);
+}
+
+body.kurumsal-page .about-stage-col {
+  gap: var(--berzan-space-4);
+}
+
+body.kurumsal-page .corporate-media-panel {
+  width: 100%;
+  min-height: 560px;
+  padding: var(--berzan-space-8);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, #ffffff 0%, rgba(245, 245, 247, 0.82) 100%);
+  border: var(--berzan-card-border);
+  border-radius: var(--berzan-radius-panel);
+  box-shadow: var(--berzan-shadow-md);
+}
+
+body.kurumsal-page .about-stage-glow {
+  inset: 16% 12%;
+  opacity: 0.24;
+  filter: blur(34px);
+  background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.34), transparent 58%);
+}
+
+body.kurumsal-page .about-stage-mark {
+  width: min(46%, 340px);
+  min-height: 120px;
+}
+
+body.kurumsal-page .about-stage-mark img {
+  filter: none;
+  opacity: 0.94;
+}
+
+body.kurumsal-page .about-product {
+  filter: drop-shadow(0 24px 34px rgba(5, 10, 20, 0.16));
+}
+
+body.kurumsal-page .about-product-shoe {
+  left: 6%;
+  bottom: 8%;
+  width: min(38%, 300px);
+}
+
+body.kurumsal-page .about-product-tee {
+  right: 6%;
+  bottom: 11%;
+  width: min(28%, 230px);
+}
+
+body.kurumsal-page .about-product-ppe {
+  right: 10%;
+  top: 10%;
+  width: min(22%, 170px);
+}
+
+body.kurumsal-page .about-stage-footer span {
+  color: var(--berzan-text-muted);
+  letter-spacing: var(--berzan-letter-spacing-wide);
+}
+
+body.kurumsal-page .about-stage-footer strong {
+  color: var(--berzan-color-brand-navy);
+  font-size: var(--berzan-font-size-3xl);
+  line-height: var(--berzan-line-height-heading);
+  letter-spacing: 0;
+}
+
+body.kurumsal-page .corporate-process-card {
+  padding: var(--berzan-space-6);
+  background: #ffffff;
+  border: var(--berzan-card-border);
+  border-radius: var(--berzan-radius-panel);
+  box-shadow: var(--berzan-shadow-sm);
+  gap: var(--berzan-space-5);
+}
+
+body.kurumsal-page .about-config-label {
+  color: var(--berzan-text-muted);
+  letter-spacing: var(--berzan-letter-spacing-wide);
+}
+
+body.kurumsal-page .about-flow {
+  gap: var(--berzan-space-3);
+}
+
+body.kurumsal-page .about-flow-step {
+  padding: var(--berzan-space-5);
+  background: var(--berzan-color-gray-50);
+  border: 1px solid var(--berzan-border-subtle);
+  border-radius: var(--berzan-radius-lg);
+}
+
+body.kurumsal-page .about-flow-step span {
+  color: var(--berzan-color-brand-gold-active);
+  letter-spacing: var(--berzan-letter-spacing-wide);
+}
+
+body.kurumsal-page .about-flow-step strong {
+  color: var(--berzan-color-brand-ink);
+  font-size: var(--berzan-font-size-lg);
+  line-height: var(--berzan-line-height-heading);
+}
+
+body.kurumsal-page .about-flow-step p {
+  display: block;
+  color: var(--berzan-text-secondary);
+  font-size: var(--berzan-font-size-sm);
+  line-height: var(--berzan-line-height-body);
+}
+
+body.kurumsal-page .corporate-cta-row {
+  display: flex;
+}
+
+body.kurumsal-page .about-config-cta {
+  width: 100%;
+  min-height: var(--berzan-button-height-lg);
+  color: var(--berzan-button-primary-text);
+  background: var(--berzan-button-primary-bg);
+  border-color: var(--berzan-button-primary-border);
+  box-shadow: var(--berzan-button-primary-shadow);
+}
+
+body.kurumsal-page .about-config-cta:hover {
+  background: var(--berzan-color-brand-gold-hover);
+}
+
+@media (max-width: 1180px) {
+  body.kurumsal-page .nav {
+    position: sticky;
+  }
+
+  body.kurumsal-page .corporate-shell {
+    min-height: auto;
+    padding-top: var(--berzan-section-gap-sm);
+  }
+
+  body.kurumsal-page .corporate-hero {
+    grid-template-columns: 1fr;
+    gap: var(--berzan-space-7);
+  }
+
+  body.kurumsal-page .corporate-copy,
+  body.kurumsal-page .about-config-col {
+    max-width: 760px;
+    justify-self: center;
+  }
+
+  body.kurumsal-page .corporate-title,
+  body.kurumsal-page .corporate-lede {
+    max-width: 100%;
+  }
+
+  body.kurumsal-page .corporate-media-panel {
+    max-width: 760px;
+    min-height: 430px;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 760px) {
+  body.kurumsal-page .nav-inner {
+    padding-inline: var(--berzan-space-4);
+  }
+
+  body.kurumsal-page .brand {
+    position: static;
+    transform: none;
+  }
+
+  body.kurumsal-page .brand-logo {
+    width: 118px;
+    height: 36px;
+    max-width: 118px;
+    max-height: 36px;
+  }
+
+  body.kurumsal-page .nav-links {
+    gap: var(--berzan-space-1);
+    min-height: 0;
+    font-size: var(--berzan-font-size-xs);
+  }
+
+  body.kurumsal-page .nav-links a:not([href="/"]) {
+    display: inline-flex;
+  }
+
+  body.kurumsal-page .nav-links a {
+    padding: 7px 9px;
+  }
+
+  body.kurumsal-page .icon-btn {
+    width: 40px;
+    min-width: 40px;
+    padding: 0;
+    color: transparent;
+    position: relative;
+  }
+
+  body.kurumsal-page #openSearch::before {
+    color: var(--berzan-text-primary);
+  }
+
+  body.kurumsal-page .corporate-shell {
+    padding: var(--berzan-space-8) 0 var(--berzan-space-10);
+  }
+
+  body.kurumsal-page .about-showcase-shell {
+    width: min(calc(100% - 32px), var(--berzan-container-max-sm));
+  }
+
+  body.kurumsal-page .corporate-title {
+    font-size: var(--berzan-font-size-4xl);
+  }
+
+  body.kurumsal-page .corporate-lede {
+    font-size: var(--berzan-font-size-md);
+  }
+
+  body.kurumsal-page .corporate-proof-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  body.kurumsal-page .corporate-media-panel {
+    min-height: 330px;
+    padding: var(--berzan-space-5);
+    border-radius: var(--berzan-radius-2xl);
+  }
+
+  body.kurumsal-page .about-stage-mark {
+    width: min(58%, 260px);
+    min-height: 96px;
+  }
+
+  body.kurumsal-page .about-product-shoe {
+    left: 0;
+    bottom: 6%;
+    width: 46%;
+  }
+
+  body.kurumsal-page .about-product-tee {
+    right: 1%;
+    bottom: 8%;
+    width: 32%;
+  }
+
+  body.kurumsal-page .about-product-ppe {
+    right: 8%;
+    top: 7%;
+    width: 23%;
+  }
+
+  body.kurumsal-page .about-stage-footer strong {
+    font-size: var(--berzan-font-size-2xl);
+  }
+
+  body.kurumsal-page .corporate-process-card {
+    padding: var(--berzan-space-5);
+    border-radius: var(--berzan-radius-2xl);
+  }
+}
+
+@media (max-width: 520px) {
+  body.kurumsal-page .nav-inner {
+    grid-template-columns: auto 1fr;
+    gap: var(--berzan-space-2);
+  }
+
+  body.kurumsal-page .nav-links {
+    display: none;
+  }
+
+  body.kurumsal-page .corporate-title {
+    font-size: var(--berzan-font-size-3xl);
+  }
+
+  body.kurumsal-page .corporate-proof-card {
+    min-height: auto;
+  }
+}
