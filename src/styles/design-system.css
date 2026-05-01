@@ -205,3 +205,136 @@
   --berzan-navbar-link-color: var(--berzan-text-secondary);
   --berzan-navbar-link-color-hover: var(--berzan-text-primary);
 }
+
+/* Scoped first migration: Cookie Policy */
+body.legal-page {
+  min-height: 100vh;
+  color-scheme: light;
+  font-family: var(--berzan-font-family-base);
+  color: var(--berzan-text-primary);
+  background:
+    radial-gradient(circle at 14% 0%, rgba(255, 215, 0, 0.16), transparent 28rem),
+    radial-gradient(circle at 86% 6%, rgba(19, 29, 46, 0.08), transparent 30rem),
+    linear-gradient(180deg, var(--berzan-color-white) 0%, var(--berzan-surface-page) 58%, var(--berzan-color-white) 100%);
+}
+
+body.legal-page .nav {
+  min-height: var(--berzan-navbar-height);
+  background: var(--berzan-navbar-bg);
+  border-bottom: var(--berzan-navbar-border);
+  box-shadow: none;
+  backdrop-filter: blur(var(--berzan-navbar-blur)) saturate(1.25);
+  -webkit-backdrop-filter: blur(var(--berzan-navbar-blur)) saturate(1.25);
+}
+
+body.legal-page .nav-inner {
+  min-height: var(--berzan-navbar-height);
+}
+
+body.legal-page .legal-shell {
+  padding: clamp(56px, 8vw, 112px) 0 clamp(64px, 9vw, 128px);
+}
+
+body.legal-page .legal-document {
+  width: var(--berzan-container-width);
+  max-width: 900px;
+  margin-inline: auto;
+  padding: clamp(28px, 5vw, 56px);
+  position: relative;
+  overflow: hidden;
+  background: var(--berzan-card-bg);
+  border: var(--berzan-card-border);
+  border-radius: var(--berzan-card-radius);
+  box-shadow: var(--berzan-card-shadow);
+}
+
+body.legal-page .legal-document::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, var(--berzan-color-brand-navy), var(--berzan-color-brand-gold));
+}
+
+body.legal-page .legal-title {
+  margin: 0;
+  max-width: 760px;
+  color: var(--berzan-text-primary);
+  font-family: var(--berzan-font-family-display);
+  font-size: clamp(34px, 5vw, var(--berzan-font-size-5xl));
+  font-weight: var(--berzan-font-weight-bold);
+  line-height: var(--berzan-line-height-tight);
+  letter-spacing: var(--berzan-letter-spacing-tight);
+}
+
+body.legal-page .legal-title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-top: var(--berzan-space-5);
+  border-radius: var(--berzan-radius-pill);
+  background: var(--berzan-color-brand-gold);
+}
+
+body.legal-page .legal-content {
+  display: grid;
+  gap: var(--berzan-space-5);
+  margin-top: var(--berzan-space-7);
+  color: var(--berzan-text-secondary);
+  font-size: var(--berzan-font-size-md);
+  line-height: var(--berzan-line-height-body);
+}
+
+body.legal-page .legal-content h2 {
+  margin: var(--berzan-space-4) 0 0;
+  padding-top: var(--berzan-space-5);
+  color: var(--berzan-text-primary);
+  border-top: 1px solid var(--berzan-border-subtle);
+  font-size: var(--berzan-font-size-xl);
+  font-weight: var(--berzan-font-weight-semibold);
+  line-height: var(--berzan-line-height-heading);
+  letter-spacing: var(--berzan-letter-spacing-normal);
+}
+
+body.legal-page .legal-content p,
+body.legal-page .legal-content ul {
+  margin: 0;
+}
+
+body.legal-page .legal-content ul {
+  display: grid;
+  gap: var(--berzan-space-3);
+  padding-left: var(--berzan-space-6);
+}
+
+body.legal-page .legal-content li::marker {
+  color: var(--berzan-color-brand-gold);
+}
+
+body.legal-page .legal-content strong {
+  color: var(--berzan-text-primary);
+  font-weight: var(--berzan-font-weight-semibold);
+}
+
+body.legal-page .footer {
+  background: transparent;
+  color: var(--berzan-text-muted);
+  border-top: 1px solid var(--berzan-border-subtle);
+}
+
+body.legal-page .footer a {
+  color: var(--berzan-text-secondary);
+}
+
+@media (max-width: 640px) {
+  body.legal-page .legal-shell {
+    padding-top: var(--berzan-space-8);
+  }
+
+  body.legal-page .legal-document {
+    width: calc(100% - 32px);
+    padding: var(--berzan-space-6);
+    border-radius: var(--berzan-radius-xl);
+  }
+}
