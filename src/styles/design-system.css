@@ -251,14 +251,15 @@ body.legal-page .brand-logo {
 }
 
 body.legal-page .legal-shell {
+  display: block;
   padding: clamp(56px, 8vw, 112px) 0 clamp(64px, 9vw, 128px);
 }
 
 body.legal-page .legal-document {
-  width: var(--berzan-container-width);
-  max-width: 900px;
+  width: min(calc(100% - 32px), 920px) !important;
+  max-width: 920px !important;
   margin-inline: auto;
-  padding: clamp(28px, 5vw, 56px);
+  padding: clamp(28px, 5vw, 56px) !important;
   position: relative;
   overflow: hidden;
   background: #ffffff;
@@ -353,8 +354,8 @@ body.legal-page .footer a {
   }
 
   body.legal-page .legal-document {
-    width: calc(100% - 32px);
-    padding: var(--berzan-space-6);
+    width: calc(100% - 32px) !important;
+    padding: var(--berzan-space-6) !important;
     border-radius: var(--berzan-radius-xl);
   }
 
