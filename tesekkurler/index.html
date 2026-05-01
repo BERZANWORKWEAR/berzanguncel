@@ -7,10 +7,258 @@
    Teşekkürler — BERZAN
   </title>
   <link href="/src/styles/styles.css" rel="stylesheet"/>
+  <link href="/src/styles/design-system.css" rel="stylesheet"/>
+  <style>
+   body.thanks-page {
+    min-height: 100vh;
+    color-scheme: light;
+    font-family: var(--berzan-font-family-base);
+    color: #101722;
+    background-color: #f5f5f7;
+    background:
+     radial-gradient(circle at 18% 0%, rgba(255, 215, 0, 0.16), transparent 28rem),
+     radial-gradient(circle at 84% 12%, rgba(19, 29, 46, 0.08), transparent 30rem),
+     linear-gradient(180deg, #ffffff 0%, #f5f5f7 54%, #ffffff 100%);
+   }
+   body.thanks-page,
+   body.thanks-page * {
+    box-sizing: border-box;
+   }
+   body.thanks-page .nav {
+    min-height: var(--berzan-navbar-height);
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: var(--berzan-navbar-border);
+    box-shadow: none;
+    backdrop-filter: blur(var(--berzan-navbar-blur)) saturate(1.25);
+    -webkit-backdrop-filter: blur(var(--berzan-navbar-blur)) saturate(1.25);
+   }
+   body.thanks-page .nav-inner {
+    min-height: var(--berzan-navbar-height);
+   }
+   body.thanks-page .brand {
+    text-decoration: none;
+   }
+   body.thanks-page .brand-logo {
+    display: block;
+    width: auto;
+    height: 34px;
+    max-width: 150px;
+    max-height: 34px;
+    object-fit: contain;
+   }
+   body.thanks-page .nav-links a {
+    color: var(--berzan-text-secondary);
+   }
+   body.thanks-page .nav-links a:hover {
+    color: var(--berzan-text-primary);
+   }
+   body.thanks-page .icon-btn {
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--berzan-border-subtle);
+    color: var(--berzan-text-primary);
+   }
+   body.thanks-page .thanks-shell {
+    min-height: calc(100vh - var(--berzan-navbar-height));
+    display: grid;
+    align-items: center;
+    padding: clamp(48px, 7vw, 96px) 0;
+   }
+   body.thanks-page .thanks-container {
+    width: min(calc(100% - 32px), 980px) !important;
+    max-width: 980px !important;
+    margin-inline: auto;
+    padding: 0 !important;
+   }
+   body.thanks-page .thanks-card {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(28px, 5vw, 58px) !important;
+    border: 1px solid rgba(5, 10, 20, 0.08);
+    border-radius: 28px;
+    background: #ffffff;
+    box-shadow: 0 24px 76px rgba(5, 10, 20, 0.1);
+   }
+   body.thanks-page .thanks-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--berzan-color-brand-navy), var(--berzan-color-brand-gold));
+   }
+   body.thanks-page .thanks-glow {
+    position: absolute;
+    inset: -42%;
+    background:
+     radial-gradient(circle at 20% 25%, rgba(255, 215, 0, 0.18), transparent 44%),
+     radial-gradient(circle at 82% 70%, rgba(19, 29, 46, 0.08), transparent 54%);
+    opacity: 0.9;
+    pointer-events: none;
+   }
+   body.thanks-page .thanks-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: var(--berzan-space-7);
+   }
+   body.thanks-page .thanks-status-row {
+    display: flex;
+    align-items: center;
+    gap: var(--berzan-space-3);
+    flex-wrap: wrap;
+   }
+   body.thanks-page .thanks-pill {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--berzan-border-subtle);
+    border-radius: var(--berzan-radius-pill);
+    background: rgba(245, 245, 247, 0.78);
+    color: var(--berzan-text-secondary);
+    font-size: var(--berzan-font-size-sm);
+    font-weight: var(--berzan-font-weight-semibold);
+   }
+   body.thanks-page .thanks-pill.is-success {
+    background: rgba(255, 215, 0, 0.16);
+    border-color: rgba(255, 215, 0, 0.38);
+    color: var(--berzan-color-brand-ink);
+   }
+   body.thanks-page .thanks-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--berzan-color-brand-gold);
+    box-shadow: 0 0 0 6px rgba(255, 215, 0, 0.16);
+   }
+   body.thanks-page .thanks-copy {
+    display: grid;
+    gap: var(--berzan-space-4);
+   }
+   body.thanks-page .thanks-title {
+    margin: 0;
+    color: #101722;
+    font-family: var(--berzan-font-family-display), sans-serif;
+    font-size: clamp(42px, 7vw, 76px);
+    font-weight: var(--berzan-font-weight-bold);
+    line-height: var(--berzan-line-height-tight);
+    letter-spacing: var(--berzan-letter-spacing-tight);
+   }
+   body.thanks-page .thanks-desc {
+    margin: 0;
+    max-width: 760px;
+    color: #4b505a;
+    font-family: var(--berzan-font-family-base), sans-serif;
+    font-size: clamp(16px, 1.2vw, 19px);
+    line-height: var(--berzan-line-height-body);
+   }
+   body.thanks-page .thanks-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--berzan-space-4);
+   }
+   body.thanks-page .thanks-step {
+    min-height: 150px;
+    display: grid;
+    align-content: start;
+    gap: var(--berzan-space-3);
+    padding: var(--berzan-space-5);
+    border: 1px solid var(--berzan-border-subtle);
+    border-radius: var(--berzan-radius-xl);
+    background: rgba(251, 251, 252, 0.86);
+    box-shadow: none;
+   }
+   body.thanks-page .thanks-step h3 {
+    margin: 0;
+    color: #131d2e;
+    font-size: var(--berzan-font-size-lg);
+    font-weight: var(--berzan-font-weight-semibold);
+    line-height: var(--berzan-line-height-heading);
+   }
+   body.thanks-page .thanks-step p {
+    margin: 0;
+    color: var(--berzan-text-secondary);
+    line-height: var(--berzan-line-height-body);
+   }
+   body.thanks-page .thanks-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: auto;
+   }
+   body.thanks-page .thanks-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 10px;
+    border-radius: var(--berzan-radius-pill);
+    background: #ffffff;
+    border: 1px solid var(--berzan-border-subtle);
+    color: var(--berzan-text-muted);
+    font-size: var(--berzan-font-size-xs);
+    font-weight: var(--berzan-font-weight-semibold);
+   }
+   body.thanks-page .thanks-actions {
+    display: flex;
+    gap: var(--berzan-space-3);
+    flex-wrap: wrap;
+   }
+   body.thanks-page .thanks-actions .btn {
+    min-height: var(--berzan-button-height-md);
+    border-radius: var(--berzan-button-radius);
+    font-weight: var(--berzan-button-font-weight);
+   }
+   body.thanks-page .thanks-actions .btn.primary {
+    background: var(--berzan-button-primary-bg);
+    color: var(--berzan-button-primary-text);
+    border-color: var(--berzan-button-primary-border);
+    box-shadow: 0 12px 30px rgba(255, 215, 0, 0.22);
+   }
+   body.thanks-page .thanks-note {
+    margin: 0;
+    color: var(--berzan-text-muted);
+    font-size: var(--berzan-font-size-sm);
+    line-height: var(--berzan-line-height-body);
+   }
+   body.thanks-page .footer {
+    background: transparent;
+    color: var(--berzan-text-muted);
+    border-top: 1px solid var(--berzan-border-subtle);
+   }
+   body.thanks-page .footer a {
+    color: var(--berzan-text-secondary);
+   }
+   @media (max-width: 820px) {
+    body.thanks-page .thanks-steps {
+     grid-template-columns: 1fr;
+    }
+   }
+   @media (max-width: 640px) {
+    body.thanks-page .brand-logo {
+     height: 28px;
+     max-height: 28px;
+     max-width: 124px;
+    }
+    body.thanks-page .nav-links {
+     display: none;
+    }
+    body.thanks-page .thanks-shell {
+     align-items: start;
+     padding: var(--berzan-space-8) 0 var(--berzan-space-9);
+    }
+    body.thanks-page .thanks-card {
+     padding: var(--berzan-space-6) !important;
+     border-radius: var(--berzan-radius-xl);
+    }
+    body.thanks-page .thanks-title {
+     font-size: clamp(38px, 13vw, 52px);
+    }
+   }
+  </style>
   <meta content="Talebin alındı. BERZAN ekibi en kısa sürede dönüş sağlayacak." name="description"/>
   <meta content="noindex,follow" name="robots"/>
   <meta content="#131D2E" name="theme-color"/>
-  <meta content="light dark" name="color-scheme"/>
+  <meta content="light" name="color-scheme"/>
   <link href="https://berzan.com.tr/tesekkurler/" rel="canonical"/>
   <link href="/images/favicon.ico" rel="icon" sizes="any"/>
   <link href="/img/logo.svg" rel="icon" type="image/svg+xml"/>
@@ -34,11 +282,11 @@
   <meta content="Talebin alındı. BERZAN ekibi en kısa sürede dönüş sağlayacak." name="twitter:description"/>
   <meta content="https://berzan.com.tr/images/og-berzan.jpg" name="twitter:image"/>
  </head>
- <body>
+ <body class="thanks-page">
   <header class="nav">
    <div class="container nav-inner">
     <a aria-label="BERZAN" class="brand" href="/">
-     <img alt="BERZAN" class="brand-logo" decoding="async" src="/img/logo.svg"/>
+     <img alt="BERZAN" class="brand-logo" decoding="async" src="/img/logoberzan.png"/>
     </a>
     <nav class="nav-links">
      <a href="/">
@@ -53,90 +301,82 @@
     </div>
    </div>
   </header>
-  <section class="section">
-   <div class="container" style="max-width:980px">
-    <div class="card reveal" style="padding:34px; border-radius:28px; overflow:hidden; position:relative;">
-     <!-- subtle glow -->
-     <div aria-hidden="true" style="
-        position:absolute; inset:-40%;
-        background:
-          radial-gradient(circle at 20% 25%, rgba(255,215,0,.22), transparent 45%),
-          radial-gradient(circle at 80% 70%, rgba(19,29,46,.10), transparent 55%);
-        opacity:.9;
-        pointer-events:none;
-      ">
+  <section class="section thanks-shell">
+   <div class="container thanks-container">
+    <div class="thanks-card reveal">
+     <div aria-hidden="true" class="thanks-glow">
      </div>
-     <div style="position:relative; z-index:2; display:grid; gap:18px;">
-      <div style="display:flex; align-items:center; gap:12px;">
-       <span class="pill active" style="gap:10px;">
-        <span class="dot">
+     <div class="thanks-content">
+      <div class="thanks-status-row">
+       <span class="thanks-pill is-success">
+        <span class="thanks-dot">
         </span>
         Talebiniz alındı
        </span>
-       <span class="pill">
+       <span class="thanks-pill">
         1–2 iş günü içinde dönüş
        </span>
       </div>
-      <div style="display:grid; gap:10px;">
-       <h1 class="product-title" style="margin:0;">
+      <div class="thanks-copy">
+       <h1 class="thanks-title">
         Teşekkürler.
        </h1>
-       <p class="section-sub" style="margin:0; max-width:760px;">
+       <p class="thanks-desc">
         Uzmanla görüşme talebiniz BERZAN ekibine iletildi.
             Saha koşullarınıza ve sektörünüze göre en doğru ürünü birlikte netleştireceğiz.
        </p>
       </div>
-      <div class="grid" style="grid-template-columns:repeat(3,1fr); margin-top:10px;">
-       <div class="card" style="box-shadow:none; border:1px solid rgba(0,0,0,.06); min-height:140px;">
+      <div class="thanks-steps">
+       <div class="thanks-step">
         <h3>
          1) İnceleme
         </h3>
         <p>
          Gönderdiğiniz bilgiler hızlıca okunur.
         </p>
-        <div class="meta">
-         <span class="pill">
+        <div class="thanks-meta">
+         <span class="thanks-chip">
           Sektör
          </span>
-         <span class="pill">
+         <span class="thanks-chip">
           Kullanım
          </span>
         </div>
        </div>
-       <div class="card" style="box-shadow:none; border:1px solid rgba(0,0,0,.06); min-height:140px;">
+       <div class="thanks-step">
         <h3>
          2) Eşleştirme
         </h3>
         <p>
          Size uygun ürün/seri önerisi hazırlanır.
         </p>
-        <div class="meta">
-         <span class="pill">
+        <div class="thanks-meta">
+         <span class="thanks-chip">
           EN/CE
          </span>
-         <span class="pill">
+         <span class="thanks-chip">
           Mevsim
          </span>
         </div>
        </div>
-       <div class="card" style="box-shadow:none; border:1px solid rgba(0,0,0,.06); min-height:140px;">
+       <div class="thanks-step">
         <h3>
          3) Dönüş
         </h3>
         <p>
          Telefon veya e-posta ile geri dönüş yapılır.
         </p>
-        <div class="meta">
-         <span class="pill">
+        <div class="thanks-meta">
+         <span class="thanks-chip">
           Teklif
          </span>
-         <span class="pill">
+         <span class="thanks-chip">
           Toplu alım
          </span>
         </div>
        </div>
       </div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
+      <div class="thanks-actions">
        <a class="btn primary" href="/magaza/">
         Ürünleri İncele
        </a>
@@ -147,7 +387,7 @@
         Ana Sayfa
        </a>
       </div>
-      <div class="small" style="margin-top:4px;">
+      <div class="thanks-note">
        Not: Eğer 24 saat içinde dönüş alamazsanız, lütfen tekrar form gönderin veya WhatsApp üzerinden yazın.
       </div>
      </div>
