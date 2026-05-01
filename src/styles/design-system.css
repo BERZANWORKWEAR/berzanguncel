@@ -212,15 +212,21 @@ body.legal-page {
   color-scheme: light;
   font-family: var(--berzan-font-family-base);
   color: var(--berzan-text-primary);
+  background-color: #f5f5f7;
   background:
-    radial-gradient(circle at 14% 0%, rgba(255, 215, 0, 0.16), transparent 28rem),
-    radial-gradient(circle at 86% 6%, rgba(19, 29, 46, 0.08), transparent 30rem),
-    linear-gradient(180deg, var(--berzan-color-white) 0%, var(--berzan-surface-page) 58%, var(--berzan-color-white) 100%);
+    radial-gradient(circle at 14% 0%, rgba(255, 215, 0, 0.12), transparent 28rem),
+    radial-gradient(circle at 86% 6%, rgba(19, 29, 46, 0.06), transparent 30rem),
+    linear-gradient(180deg, #ffffff 0%, #f5f5f7 52%, #ffffff 100%);
+}
+
+body.legal-page,
+body.legal-page * {
+  box-sizing: border-box;
 }
 
 body.legal-page .nav {
   min-height: var(--berzan-navbar-height);
-  background: var(--berzan-navbar-bg);
+  background: rgba(255, 255, 255, 0.92);
   border-bottom: var(--berzan-navbar-border);
   box-shadow: none;
   backdrop-filter: blur(var(--berzan-navbar-blur)) saturate(1.25);
@@ -229,6 +235,19 @@ body.legal-page .nav {
 
 body.legal-page .nav-inner {
   min-height: var(--berzan-navbar-height);
+}
+
+body.legal-page .brand {
+  text-decoration: none;
+}
+
+body.legal-page .brand-logo {
+  display: block;
+  width: auto;
+  height: 34px;
+  max-width: 150px;
+  max-height: 34px;
+  object-fit: contain;
 }
 
 body.legal-page .legal-shell {
@@ -242,10 +261,10 @@ body.legal-page .legal-document {
   padding: clamp(28px, 5vw, 56px);
   position: relative;
   overflow: hidden;
-  background: var(--berzan-card-bg);
+  background: #ffffff;
   border: var(--berzan-card-border);
   border-radius: var(--berzan-card-radius);
-  box-shadow: var(--berzan-card-shadow);
+  box-shadow: 0 22px 70px rgba(5, 10, 20, 0.08);
 }
 
 body.legal-page .legal-document::before {
@@ -259,8 +278,8 @@ body.legal-page .legal-document::before {
 body.legal-page .legal-title {
   margin: 0;
   max-width: 760px;
-  color: var(--berzan-text-primary);
-  font-family: var(--berzan-font-family-display);
+  color: #101722;
+  font-family: var(--berzan-font-family-display), sans-serif;
   font-size: clamp(34px, 5vw, var(--berzan-font-size-5xl));
   font-weight: var(--berzan-font-weight-bold);
   line-height: var(--berzan-line-height-tight);
@@ -281,15 +300,16 @@ body.legal-page .legal-content {
   display: grid;
   gap: var(--berzan-space-5);
   margin-top: var(--berzan-space-7);
-  color: var(--berzan-text-secondary);
-  font-size: var(--berzan-font-size-md);
+  color: #4b505a;
+  font-family: var(--berzan-font-family-base), sans-serif;
+  font-size: clamp(15px, 1.05vw, 17px);
   line-height: var(--berzan-line-height-body);
 }
 
 body.legal-page .legal-content h2 {
   margin: var(--berzan-space-4) 0 0;
   padding-top: var(--berzan-space-5);
-  color: var(--berzan-text-primary);
+  color: #131d2e;
   border-top: 1px solid var(--berzan-border-subtle);
   font-size: var(--berzan-font-size-xl);
   font-weight: var(--berzan-font-weight-semibold);
@@ -313,7 +333,7 @@ body.legal-page .legal-content li::marker {
 }
 
 body.legal-page .legal-content strong {
-  color: var(--berzan-text-primary);
+  color: #101722;
   font-weight: var(--berzan-font-weight-semibold);
 }
 
@@ -336,5 +356,11 @@ body.legal-page .footer a {
     width: calc(100% - 32px);
     padding: var(--berzan-space-6);
     border-radius: var(--berzan-radius-xl);
+  }
+
+  body.legal-page .brand-logo {
+    height: 28px;
+    max-height: 28px;
+    max-width: 124px;
   }
 }
