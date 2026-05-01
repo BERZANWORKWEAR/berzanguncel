@@ -64,8 +64,8 @@
     padding: clamp(48px, 7vw, 96px) 0;
    }
    body.thanks-page .thanks-container {
-    width: min(calc(100% - 32px), 980px) !important;
-    max-width: 980px !important;
+    width: min(calc(100% - 32px), 900px) !important;
+    max-width: 900px !important;
     margin-inline: auto;
     padding: 0 !important;
    }
@@ -98,42 +98,12 @@
     position: relative;
     z-index: 2;
     display: grid;
-    gap: var(--berzan-space-7);
-   }
-   body.thanks-page .thanks-status-row {
-    display: flex;
-    align-items: center;
-    gap: var(--berzan-space-3);
-    flex-wrap: wrap;
-   }
-   body.thanks-page .thanks-pill {
-    min-height: 36px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 14px;
-    border: 1px solid var(--berzan-border-subtle);
-    border-radius: var(--berzan-radius-pill);
-    background: rgba(245, 245, 247, 0.78);
-    color: var(--berzan-text-secondary);
-    font-size: var(--berzan-font-size-sm);
-    font-weight: var(--berzan-font-weight-semibold);
-   }
-   body.thanks-page .thanks-pill.is-success {
-    background: rgba(255, 215, 0, 0.16);
-    border-color: rgba(255, 215, 0, 0.38);
-    color: var(--berzan-color-brand-ink);
-   }
-   body.thanks-page .thanks-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--berzan-color-brand-gold);
-    box-shadow: 0 0 0 6px rgba(255, 215, 0, 0.16);
+    gap: var(--berzan-space-6);
    }
    body.thanks-page .thanks-copy {
     display: grid;
     gap: var(--berzan-space-4);
+    max-width: 760px;
    }
    body.thanks-page .thanks-title {
     margin: 0;
@@ -144,6 +114,13 @@
     line-height: var(--berzan-line-height-tight);
     letter-spacing: var(--berzan-letter-spacing-tight);
    }
+   body.thanks-page .thanks-lead {
+    margin: 0;
+    color: #131d2e;
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: var(--berzan-font-weight-semibold);
+    line-height: var(--berzan-line-height-heading);
+   }
    body.thanks-page .thanks-desc {
     margin: 0;
     max-width: 760px;
@@ -152,51 +129,41 @@
     font-size: clamp(16px, 1.2vw, 19px);
     line-height: var(--berzan-line-height-body);
    }
-   body.thanks-page .thanks-steps {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+   body.thanks-page .thanks-status {
+    display: flex;
+    align-items: center;
     gap: var(--berzan-space-4);
-   }
-   body.thanks-page .thanks-step {
-    min-height: 150px;
-    display: grid;
-    align-content: start;
-    gap: var(--berzan-space-3);
+    max-width: 620px;
     padding: var(--berzan-space-5);
-    border: 1px solid var(--berzan-border-subtle);
+    border: 1px solid rgba(255, 215, 0, 0.34);
     border-radius: var(--berzan-radius-xl);
-    background: rgba(251, 251, 252, 0.86);
-    box-shadow: none;
-   }
-   body.thanks-page .thanks-step h3 {
-    margin: 0;
-    color: #131d2e;
-    font-size: var(--berzan-font-size-lg);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.18), rgba(255, 255, 255, 0.72));
+    color: #101722;
+    font-size: clamp(17px, 1.4vw, 21px);
     font-weight: var(--berzan-font-weight-semibold);
     line-height: var(--berzan-line-height-heading);
    }
-   body.thanks-page .thanks-step p {
-    margin: 0;
+   body.thanks-page .thanks-status-mark {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: var(--berzan-color-brand-gold);
+    box-shadow: 0 0 0 8px rgba(255, 215, 0, 0.16);
+   }
+   body.thanks-page .thanks-contact {
+    display: grid;
+    gap: var(--berzan-space-2);
     color: var(--berzan-text-secondary);
-    line-height: var(--berzan-line-height-body);
+    font-size: var(--berzan-font-size-md);
    }
-   body.thanks-page .thanks-meta {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: auto;
-   }
-   body.thanks-page .thanks-chip {
-    display: inline-flex;
-    align-items: center;
-    min-height: 28px;
-    padding: 5px 10px;
-    border-radius: var(--berzan-radius-pill);
-    background: #ffffff;
-    border: 1px solid var(--berzan-border-subtle);
-    color: var(--berzan-text-muted);
-    font-size: var(--berzan-font-size-xs);
-    font-weight: var(--berzan-font-weight-semibold);
+   body.thanks-page .thanks-phone {
+    width: fit-content;
+    color: #101722;
+    text-decoration: none;
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: var(--berzan-font-weight-bold);
+    line-height: var(--berzan-line-height-tight);
    }
    body.thanks-page .thanks-actions {
     display: flex;
@@ -228,11 +195,6 @@
    body.thanks-page .footer a {
     color: var(--berzan-text-secondary);
    }
-   @media (max-width: 820px) {
-    body.thanks-page .thanks-steps {
-     grid-template-columns: 1fr;
-    }
-   }
    @media (max-width: 640px) {
     body.thanks-page .brand-logo {
      height: 28px;
@@ -252,6 +214,13 @@
     }
     body.thanks-page .thanks-title {
      font-size: clamp(38px, 13vw, 52px);
+    }
+    body.thanks-page .thanks-status {
+     align-items: flex-start;
+    }
+    body.thanks-page .thanks-actions .btn {
+     width: 100%;
+     justify-content: center;
     }
    }
   </style>
@@ -307,88 +276,39 @@
      <div aria-hidden="true" class="thanks-glow">
      </div>
      <div class="thanks-content">
-      <div class="thanks-status-row">
-       <span class="thanks-pill is-success">
-        <span class="thanks-dot">
-        </span>
-        Talebiniz alındı
-       </span>
-       <span class="thanks-pill">
-        1–2 iş günü içinde dönüş
-       </span>
-      </div>
       <div class="thanks-copy">
        <h1 class="thanks-title">
         Teşekkürler.
        </h1>
+       <p class="thanks-lead">
+        Talebiniz BERZAN ekibine ulaştı.
+       </p>
        <p class="thanks-desc">
-        Uzmanla görüşme talebiniz BERZAN ekibine iletildi.
-            Saha koşullarınıza ve sektörünüze göre en doğru ürünü birlikte netleştireceğiz.
+        Uzman ekibimiz, ihtiyacınıza en uygun ürün ve çözüm önerisi için başvurunuzu inceleyecek. En kısa sürede sizinle iletişime geçeceğiz.
        </p>
       </div>
-      <div class="thanks-steps">
-       <div class="thanks-step">
-        <h3>
-         1) İnceleme
-        </h3>
-        <p>
-         Gönderdiğiniz bilgiler hızlıca okunur.
-        </p>
-        <div class="thanks-meta">
-         <span class="thanks-chip">
-          Sektör
-         </span>
-         <span class="thanks-chip">
-          Kullanım
-         </span>
-        </div>
-       </div>
-       <div class="thanks-step">
-        <h3>
-         2) Eşleştirme
-        </h3>
-        <p>
-         Size uygun ürün/seri önerisi hazırlanır.
-        </p>
-        <div class="thanks-meta">
-         <span class="thanks-chip">
-          EN/CE
-         </span>
-         <span class="thanks-chip">
-          Mevsim
-         </span>
-        </div>
-       </div>
-       <div class="thanks-step">
-        <h3>
-         3) Dönüş
-        </h3>
-        <p>
-         Telefon veya e-posta ile geri dönüş yapılır.
-        </p>
-        <div class="thanks-meta">
-         <span class="thanks-chip">
-          Teklif
-         </span>
-         <span class="thanks-chip">
-          Toplu alım
-         </span>
-        </div>
-       </div>
+      <div class="thanks-status">
+       <span class="thanks-status-mark" aria-hidden="true"></span>
+       <span>Talebiniz başarıyla alındı.</span>
+      </div>
+      <div class="thanks-contact">
+       <p class="thanks-note">
+        Daha hızlı destek almak isterseniz bize doğrudan ulaşabilirsiniz.
+       </p>
+       <a class="thanks-phone" href="tel:+905421005649">
+        +90 542 100 56 49
+       </a>
       </div>
       <div class="thanks-actions">
-       <a class="btn primary" href="/magaza/">
-        Ürünleri İncele
+       <a class="btn primary" href="https://wa.me/905421005649">
+        WhatsApp’tan Yaz
        </a>
        <a class="btn" href="/magaza/">
-        Sektör seç (opsiyonel)
+        Ürünleri İncele
        </a>
        <a class="btn" href="/">
         Ana Sayfa
        </a>
-      </div>
-      <div class="thanks-note">
-       Not: Eğer 24 saat içinde dönüş alamazsanız, lütfen tekrar form gönderin veya WhatsApp üzerinden yazın.
       </div>
      </div>
     </div>
