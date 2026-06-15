@@ -3,6 +3,9 @@
  <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <script>
+   (function(){try{var t=localStorage.getItem('berzan-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-berzan-theme',t);}catch(e){}})();
+  </script>
   <title>
    KVKK Aydınlatma Metni — BERZAN
   </title>
@@ -41,8 +44,17 @@
     <a aria-label="BERZAN" class="brand" href="/">
      <img alt="BERZAN" class="brand-logo" decoding="async" src="/img/logoberzan.png"/>
     </a>
+    <div class="nav-actions">
+     <button type="button" id="themeToggle" class="bz-theme-toggle" aria-label="Açık / koyu tema" aria-pressed="false" title="Açık / koyu tema">
+      <svg class="bz-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="bz-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+     </button>
+    </div>
    </div>
   </header>
+  <script>
+   (function(){var b=document.getElementById('themeToggle');if(!b)return;function c(){return document.documentElement.getAttribute('data-berzan-theme')==='dark'?'dark':'light';}b.setAttribute('aria-pressed',String(c()==='dark'));b.addEventListener('click',function(){var n=c()==='dark'?'light':'dark';document.documentElement.setAttribute('data-berzan-theme',n);try{localStorage.setItem('berzan-theme',n);}catch(e){}b.setAttribute('aria-pressed',String(n==='dark'));});})();
+  </script>
   <section class="section legal-shell">
    <div class="container legal-document">
     <h1 class="legal-title">

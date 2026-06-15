@@ -865,3 +865,133 @@ body.kurumsal-page .about-config-cta:hover {
     min-height: auto;
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   TEK DİL — pure beyaz/siyah + DARK MODE
+   (legal, kurumsal, thanks sayfaları bu dosyayı kullanır)
+   ═══════════════════════════════════════════════════ */
+html[data-berzan-theme="dark"] { color-scheme: dark; }
+
+/* Sayfa zeminleri: AI/gradyan yerine pure beyaz (light) / pure siyah (dark) */
+body.legal-page,
+body.kurumsal-page,
+body.thanks-page {
+  background: var(--berzan-color-white);
+}
+[data-berzan-theme="dark"] body.legal-page,
+[data-berzan-theme="dark"] body.kurumsal-page,
+[data-berzan-theme="dark"] body.thanks-page {
+  background: #000000;
+  color: var(--berzan-text-primary);
+}
+
+/* ── Generic tema toggle (homepage/magaza kendi scoped sürümünü ezer) ── */
+.bz-theme-toggle {
+  width: 38px; height: 38px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--berzan-border-default);
+  background: var(--berzan-surface-base);
+  color: var(--berzan-text-primary);
+  cursor: pointer;
+  transition: transform .15s var(--berzan-ease-standard), border-color .2s, background .2s;
+}
+.bz-theme-toggle:hover { transform: translateY(-1px); border-color: var(--berzan-color-brand-gold); }
+.bz-theme-toggle svg { width: 18px; height: 18px; }
+.bz-theme-toggle .bz-icon-sun { display: none; }
+.bz-theme-toggle .bz-icon-moon { display: block; }
+[data-berzan-theme="dark"] .bz-theme-toggle .bz-icon-sun { display: block; }
+[data-berzan-theme="dark"] .bz-theme-toggle .bz-icon-moon { display: none; }
+
+/* ── Nav (legal + kurumsal styles.css .nav kullanır) ── */
+[data-berzan-theme="dark"] body.legal-page .nav,
+[data-berzan-theme="dark"] body.kurumsal-page .nav {
+  background: rgba(0,0,0,0.6);
+  border-bottom-color: rgba(255,255,255,0.10);
+}
+[data-berzan-theme="dark"] body.legal-page .nav-links a,
+[data-berzan-theme="dark"] body.kurumsal-page .nav-links a { color: rgba(255,255,255,0.72); }
+[data-berzan-theme="dark"] body.legal-page .nav-links a:hover,
+[data-berzan-theme="dark"] body.kurumsal-page .nav-links a:hover,
+[data-berzan-theme="dark"] body.kurumsal-page .nav-links a[aria-current="page"] {
+  color: #fff; background: rgba(255,255,255,0.08);
+}
+[data-berzan-theme="dark"] body.legal-page .icon-btn,
+[data-berzan-theme="dark"] body.kurumsal-page .icon-btn {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.14);
+  color: #fff;
+}
+
+/* ── Legal document ── */
+[data-berzan-theme="dark"] body.legal-page .legal-document {
+  background: #0c0e12;
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.6);
+}
+[data-berzan-theme="dark"] body.legal-page .legal-title,
+[data-berzan-theme="dark"] body.legal-page .legal-content h2,
+[data-berzan-theme="dark"] body.legal-page .legal-content strong { color: #fff; }
+[data-berzan-theme="dark"] body.legal-page .legal-content { color: rgba(255,255,255,0.72); }
+[data-berzan-theme="dark"] body.legal-page .legal-content h2 { border-top-color: rgba(255,255,255,0.10); }
+[data-berzan-theme="dark"] body.legal-page .footer { border-top-color: rgba(255,255,255,0.10); }
+
+/* ── Kurumsal ── */
+[data-berzan-theme="dark"] body.kurumsal-page .corporate-shell {
+  --pdp-accent-deep: #0c0e12;
+  --pdp-accent-darker: #000000;
+  --pdp-accent-soft: rgba(255,255,255,0.08);
+}
+[data-berzan-theme="dark"] body.kurumsal-page .corporate-shell::before {
+  background:
+    radial-gradient(circle at 48% 48%, rgba(255,255,255,0.05), transparent 20rem),
+    radial-gradient(circle at 50% 50%, rgba(255,215,0,0.10), transparent 31rem);
+}
+[data-berzan-theme="dark"] body.kurumsal-page .corporate-shell::after {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 32%);
+}
+[data-berzan-theme="dark"] body.kurumsal-page .corporate-title,
+[data-berzan-theme="dark"] body.kurumsal-page .corporate-proof-card strong,
+[data-berzan-theme="dark"] body.kurumsal-page .about-flow-step strong,
+[data-berzan-theme="dark"] body.kurumsal-page .about-stage-footer strong { color: #fff; }
+[data-berzan-theme="dark"] body.kurumsal-page .corporate-proof-card {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.10);
+}
+[data-berzan-theme="dark"] body.kurumsal-page .corporate-media-panel {
+  background: linear-gradient(180deg, #0c0e12 0%, #07090d 100%);
+  border-color: rgba(255,255,255,0.10);
+}
+[data-berzan-theme="dark"] body.kurumsal-page .corporate-process-card {
+  background: #0c0e12;
+  border-color: rgba(255,255,255,0.10);
+}
+[data-berzan-theme="dark"] body.kurumsal-page .about-flow-step {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* ── Teşekkürler sayfası (inline style'lı; attribute specificity ile ezilir) ── */
+[data-berzan-theme="dark"] body.thanks-page .nav {
+  background: rgba(0,0,0,0.6);
+  border-bottom-color: rgba(255,255,255,0.10);
+}
+[data-berzan-theme="dark"] body.thanks-page .icon-btn {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.14);
+  color: #fff;
+}
+[data-berzan-theme="dark"] body.thanks-page .thanks-card {
+  background: #0c0e12;
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: 0 24px 76px rgba(0,0,0,0.6);
+}
+[data-berzan-theme="dark"] body.thanks-page .thanks-title,
+[data-berzan-theme="dark"] body.thanks-page .thanks-lead,
+[data-berzan-theme="dark"] body.thanks-page .thanks-phone { color: #fff; }
+[data-berzan-theme="dark"] body.thanks-page .thanks-desc { color: rgba(255,255,255,0.72); }
+[data-berzan-theme="dark"] body.thanks-page .thanks-status {
+  background: linear-gradient(135deg, rgba(255,215,0,0.16), rgba(255,255,255,0.04));
+  border-color: rgba(255,215,0,0.34);
+  color: #fff;
+}
