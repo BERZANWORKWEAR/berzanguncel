@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="tr">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Hakkımızda — BERZAN</title>
+  <meta content="BERZAN, iş giyim ve iş güvenliği ürünlerinde kurumsal tedarik, ürün eşleştirme ve saha odaklı teslim planı sunar." name="description"/>
+  <meta content="#050A14" name="theme-color"/>
+  <meta content="light" name="color-scheme"/>
+  <link href="/src/styles/styles.css" rel="stylesheet"/>
+  <link href="/src/styles/design-system.css" rel="stylesheet"/>
+  <link href="/img/logo.svg" rel="icon" type="image/svg+xml"/>
+  <link href="https://berzan.com.tr/kurumsal/" rel="canonical"/>
+ </head>
+ <body class="kurumsal-page">
+  <header class="nav">
+   <div class="container nav-inner">
+    <a aria-label="BERZAN" class="brand" href="/">
+     <img alt="BERZAN" class="brand-logo" decoding="async" src="/img/logo.svg"/>
+    </a>
+    <nav class="nav-links" aria-label="Ana menü">
+     <a href="/">Ana Sayfa</a>
+     <a href="/magaza/">Mağaza</a>
+     <a href="/kurumsal/" aria-current="page">Hakkımızda</a>
+    </nav>
+    <div class="nav-actions">
+     <button class="icon-btn" id="openSearch" type="button" aria-label="Ara">Ara</button>
+    </div>
+   </div>
+  </header>
+
+  <main>
+   <section class="about-showcase-section corporate-shell" id="aboutExperience">
+    <div class="container about-showcase-shell">
+     <section class="about-showcase corporate-hero">
+      <aside class="about-copy-col corporate-copy">
+       <span class="product-kicker is-logo about-kicker">
+        <img alt="BERZAN" class="product-kicker-logo" decoding="async" src="/img/logo.svg"/>
+       </span>
+       <h1 class="about-showcase-title corporate-title">Sahanın ritmine göre kurulan tedarik.</h1>
+       <p class="about-showcase-desc corporate-lede">BERZAN, iş giyim ve iş güvenliği ürünlerini tek tek ürün satışı gibi değil, ekiplerin vardiya düzenine, sektör risklerine ve kurumsal görünüm ihtiyacına göre planlar.</p>
+
+       <div class="about-fact-grid corporate-proof-grid">
+        <div class="product-fact-card about-fact-card corporate-proof-card">
+         <span>Odak</span>
+         <strong>İş giyim, KKD ve güvenlik ayakkabısı</strong>
+        </div>
+        <div class="product-fact-card about-fact-card corporate-proof-card">
+         <span>Yaklaşım</span>
+         <strong>Ürünü sahaya göre eşleştirme</strong>
+        </div>
+        <div class="product-fact-card about-fact-card corporate-proof-card">
+         <span>Markalar</span>
+         <strong>Mekap, YDS, 3M ve saha odaklı seçenekler</strong>
+        </div>
+        <div class="product-fact-card about-fact-card corporate-proof-card">
+         <span>Süreç</span>
+         <strong>Numune, teklif ve teslim planı</strong>
+        </div>
+       </div>
+      </aside>
+
+      <div class="about-stage-col">
+       <div class="about-stage-frame corporate-media-panel" aria-label="BERZAN ürün ailesi">
+        <div class="about-stage-glow"></div>
+        <img alt="" aria-hidden="true" class="about-product about-product-shoe" decoding="async" src="/img/catalog-cutouts/prd_yds_nepp_1701-49cdfb43fa.png"/>
+        <img alt="" aria-hidden="true" class="about-product about-product-tee" decoding="async" src="/img/catalog-cutouts/prd_tee_portwest_s170-eb88f0c51b.png"/>
+        <img alt="" aria-hidden="true" class="about-product about-product-ppe" decoding="async" src="/img/catalog-cutouts/prd_3m_securefit_200-e9cb9243a7.png"/>
+        <div class="about-stage-mark">
+         <img alt="BERZAN" decoding="async" src="/img/logo.svg"/>
+        </div>
+       </div>
+       <div class="about-stage-footer">
+        <span>Kurumsal ürün akışı</span>
+        <strong>Seçimden teslimata tek çizgi</strong>
+       </div>
+      </div>
+
+      <aside class="about-config-col">
+       <div class="about-config-card corporate-process-card">
+        <span class="about-config-label">Çalışma biçimi</span>
+        <div class="about-flow">
+         <div class="about-flow-step">
+          <span>01</span>
+          <strong>İhtiyacı netleştiririz</strong>
+          <p>Sektör, sezon, beden dağılımı ve güvenlik standardı birlikte okunur.</p>
+         </div>
+         <div class="about-flow-step">
+          <span>02</span>
+          <strong>Ürünü eşleştiririz</strong>
+          <p>Katalog; marka, kalite, bütçe ve saha kullanımı dengesine göre daraltılır.</p>
+         </div>
+         <div class="about-flow-step">
+          <span>03</span>
+          <strong>Teslimi planlarız</strong>
+          <p>Numune, teklif, adet ve teslim tarihi tek akışta takip edilir.</p>
+         </div>
+        </div>
+        <div class="corporate-cta-row">
+         <a class="btn about-config-cta" href="/uzman/">Uzmanla görüş</a>
+        </div>
+       </div>
+      </aside>
+     </section>
+    </div>
+   </section>
+  </main>
+
+  <div aria-hidden="true" class="backdrop" id="searchBackdrop"></div>
+  <div aria-hidden="true" class="search-sheet" id="searchSheet">
+   <div class="search-row">
+    <div class="search-input">
+     <input id="siteSearchInput" placeholder="Ara: ayakkabı, 3M, tişört…"/>
+    </div>
+    <button class="btn" id="closeSearch" type="button">Kapat</button>
+   </div>
+  </div>
+
+  <script src="/config.js"></script>
+  <script type="module" src="/assets/js/supabaseClient.js"></script>
+  <script type="module" src="/src/scripts/app.js"></script>
+ </body>
+</html>
