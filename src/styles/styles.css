@@ -1570,12 +1570,12 @@ body.urunler-page .reveal{
 body.urunler-page .products,
 body.urunler-page .products *{
   visibility: visible !important;
+}
 
 body.magaza-page .reveal{
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
-}
 }
 
 

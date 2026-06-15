@@ -4,19 +4,24 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <!-- Tema: yeniden boyama öncesi uygula (flash önleme) -->
+  <script>
+    (function(){try{var t=localStorage.getItem('berzan-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-berzan-theme',t);}catch(e){}})();
+  </script>
   <title>BERZAN İş Giyim | Profesyonel İş Güvenliği Ekipmanları</title>
   <meta name="description"
     content="BERZAN İş Giyim — EN/CE sertifikalı montlar, KKD ekipmanları, tulumlar ve iş ayakkabıları. Sahada güven, stilde fark." />
+  <!-- Design tokens (tek tasarım dili) -->
+  <link href="/src/styles/design-system.css" rel="stylesheet" />
   <!-- Global Reset -->
   <link href="/src/styles/styles.css" rel="stylesheet" />
-  <!-- Homepage E-Shop -->
+  <!-- Homepage -->
   <link href="/src/styles/homepage.css" rel="stylesheet" />
-  <meta content="#0b0f14" name="theme-color" />
+  <meta content="#ffffff" name="theme-color" id="themeColorMeta" />
   <link href="/img/logo.svg" rel="icon" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+  <!-- MiSans (marka fontu) -->
+  <link rel="preload" href="/fonts/MiSansLatin-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/MiSansLatin-Bold.woff2" as="font" type="font/woff2" crossorigin />
 </head>
 
 <body class="berzan-home">
@@ -35,6 +40,10 @@
       <div class="bz-nav-actions nav-actions">
         <a href="/kurumsal" class="bz-nav-link">Hakkımızda</a>
         <input type="text" placeholder="Ürün ara…" readonly id="openSearch" class="bz-search-trigger" />
+        <button type="button" id="themeToggle" class="bz-theme-toggle" aria-label="Açık / koyu tema" aria-pressed="false" title="Açık / koyu tema">
+          <svg class="bz-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="bz-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
       </div>
     </div>
   </header>
@@ -42,16 +51,21 @@
   <!-- ═══════════════ HERO ═══════════════ -->
   <section class="bz-hero" id="heroSection">
     <div class="bz-hero-bg">
-      <img src="/img/mainpg.webp" alt="BERZAN İş Giyim Koleksiyonu" class="bz-hero-img" />
+      <!-- VİDEO HAZIR: video dosyası gelince alttaki <video> bloğunu aç, üstteki <img>'i sil. Poster = aynı görsel. -->
+      <img src="/img/mainpg.webp" alt="BERZAN — geri dönüştürülmüş hammaddeden dış giyim" class="bz-hero-img" />
+      <!--
+      <video class="bz-hero-img" autoplay muted loop playsinline poster="/img/mainpg.webp">
+        <source src="/video/hero.mp4" type="video/mp4" />
+      </video>
+      -->
       <div class="bz-hero-overlay"></div>
     </div>
     <div class="bz-hero-content">
-      <span class="bz-hero-badge">2026 Yeni Sezon</span>
-      <h1 class="bz-hero-title">Sahada Güven.<br><span class="bz-hero-accent">Stilde Fark.</span></h1>
-      <p class="bz-hero-sub">EN/CE sertifikalı iş giyim ve güvenlik ekipmanları. İnşaattan fabrikaya, lojistikten
-        denizcilik sektörüne — profesyonel koruma.</p>
+      <span class="bz-hero-badge">Geri Dönüştürülmüş Hammadde</span>
+      <h1 class="bz-hero-title">İz bırak,<br><span class="bz-hero-accent">iz bırakma.</span></h1>
+      <p class="bz-hero-sub">Geri dönüştürülmüş hammaddeden üretilen mont, polar ve dış giyim. Doğaya saygılı, sahada iddialı.</p>
       <div class="bz-hero-actions">
-        <a href="/magaza/" class="bz-btn bz-btn-primary">Mağazayı Keşfet</a>
+        <a href="/magaza/" class="bz-btn bz-btn-primary">Koleksiyonu Keşfet</a>
         <a href="/uzman/" class="bz-btn bz-btn-glass">Teklif Al</a>
       </div>
     </div>
@@ -487,6 +501,27 @@
       </div>
     </div>
   </footer>
+
+  <!-- Tema toggle (light/dark) -->
+  <script>
+    (function(){
+      var btn = document.getElementById('themeToggle');
+      var meta = document.getElementById('themeColorMeta');
+      function current(){ return document.documentElement.getAttribute('data-berzan-theme') === 'dark' ? 'dark' : 'light'; }
+      function syncMeta(){ if(meta) meta.setAttribute('content', current() === 'dark' ? '#000000' : '#ffffff'); }
+      if(btn){
+        btn.setAttribute('aria-pressed', String(current() === 'dark'));
+        btn.addEventListener('click', function(){
+          var next = current() === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-berzan-theme', next);
+          try { localStorage.setItem('berzan-theme', next); } catch(e){}
+          btn.setAttribute('aria-pressed', String(next === 'dark'));
+          syncMeta();
+        });
+      }
+      syncMeta();
+    })();
+  </script>
 
   <script src="/config.js"></script>
   <script src="/assets/js/supabaseClient.js" type="module"></script>

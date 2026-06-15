@@ -1,10 +1,11 @@
 /* =========================================================
-   BERZAN — HOMEPAGE E-SHOP (Premium Design System)
-   Brand Colors:
-     - Primary Orange: #FF6700
-     - Accent Gold:    #FFD700 (BERZAN identity)
-     - Navy:           #131D2E
-     - Dark:           #0b0f14
+   BERZAN — HOMEPAGE (Tek Tasarım Dili)
+   Brand Colors (SADECE bunlar — turuncu emekli edildi):
+     - Navy:        #131D2E
+     - Gold:        #FFD700 (BERZAN kimliği)
+     - Dark/Ink:    #0b0f14
+   Zemin kuralı: ya TAM BEYAZ (#fff) ya TAM SİYAH (#000).
+   Asla mor/AI tonu yok. Font: MiSans.
    ========================================================= */
 
 /* ---- OVERRIDE: hide legacy layout elements on berzan-home ---- */
@@ -19,26 +20,49 @@ body.berzan-home .x-footer {
 
 /* ---- TOKENS ---- */
 body.berzan-home {
-  --bz-orange: #FF6700;
-  --bz-gold: #FFD700;
+  /* Brand */
   --bz-navy: #131D2E;
+  --bz-gold: #FFD700;
+  --bz-gold-deep: #e6c200;
   --bz-dark: #0b0f14;
-  --bz-bg: #fafafa;
+  --bz-orange: var(--bz-gold); /* DEPRECATED: turuncu emekli → gold'a yönlendirildi */
+
+  /* Surfaces — LIGHT (marka kuralı: tam beyaz) */
+  --bz-bg: #ffffff;
+  --bz-surface: #f5f5f7;
   --bz-card: #ffffff;
-  --bz-text: #1a1a1a;
-  --bz-muted: #6e6e73;
-  --bz-border: rgba(0,0,0,0.06);
+  --bz-text: #131D2E;
+  --bz-muted: #6b7280;
+  --bz-border: rgba(19,29,46,0.10);
+  --bz-hairline: rgba(19,29,46,0.06);
+
   --bz-radius: 20px;
   --bz-radius-sm: 12px;
-  --bz-shadow-sm: 0 4px 20px rgba(0,0,0,0.04);
-  --bz-shadow-md: 0 12px 40px rgba(0,0,0,0.08);
-  --bz-shadow-lg: 0 24px 80px rgba(0,0,0,0.12);
+  --bz-shadow-sm: 0 4px 20px rgba(19,29,46,0.05);
+  --bz-shadow-md: 0 12px 40px rgba(19,29,46,0.08);
+  --bz-shadow-lg: 0 24px 80px rgba(19,29,46,0.12);
   --bz-transition: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  font-family: 'MiSans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
   background: var(--bz-bg);
   color: var(--bz-text);
   -webkit-font-smoothing: antialiased;
+  transition: background 0.4s var(--bz-transition), color 0.4s var(--bz-transition);
+}
+
+/* ---- DARK MODE (marka kuralı: tam siyah) ---- */
+html[data-berzan-theme="dark"] { color-scheme: dark; }
+[data-berzan-theme="dark"] body.berzan-home {
+  --bz-bg: #000000;
+  --bz-surface: #0c0e12;
+  --bz-card: #0c0e12;
+  --bz-text: #ffffff;
+  --bz-muted: rgba(255,255,255,0.60);
+  --bz-border: rgba(255,255,255,0.12);
+  --bz-hairline: rgba(255,255,255,0.08);
+  --bz-shadow-sm: 0 4px 20px rgba(0,0,0,0.5);
+  --bz-shadow-md: 0 12px 40px rgba(0,0,0,0.6);
+  --bz-shadow-lg: 0 24px 80px rgba(0,0,0,0.7);
 }
 
 /* ---- CONTAINER ---- */
@@ -162,7 +186,7 @@ body.berzan-home {
 }
 .bz-pro-msg a:hover {
   color: var(--bz-orange);
-  border-bottom-color: rgba(255,103,0,0.4);
+  border-bottom-color: rgba(255,215,0,0.4);
 }
 
 /* Nav Link (Right Sidebar) */
@@ -211,6 +235,57 @@ body.berzan-home {
   .bz-nav-center { display: none; }
   .bz-search-trigger { width: 160px; }
 }
+@media (max-width: 640px) {
+  /* Mobilde nav sıkışmasın: Hakkımızda gizli (footer'da var), arama dar, toggle hep görünür */
+  .bz-nav-actions .bz-nav-link { display: none; }
+  .bz-search-trigger { width: 120px; }
+  .bz-nav-inner { gap: 12px; }
+}
+
+/* Tema toggle (light/dark) */
+.bz-theme-toggle {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--bz-border);
+  background: var(--bz-card);
+  color: var(--bz-text);
+  cursor: pointer;
+  transition: transform 0.15s var(--bz-transition), border-color 0.2s, background 0.2s;
+}
+.bz-theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--bz-gold);
+}
+.bz-theme-toggle svg { width: 18px; height: 18px; }
+.bz-theme-toggle .bz-icon-sun { display: none; }
+.bz-theme-toggle .bz-icon-moon { display: block; }
+[data-berzan-theme="dark"] .bz-theme-toggle .bz-icon-sun { display: block; }
+[data-berzan-theme="dark"] .bz-theme-toggle .bz-icon-moon { display: none; }
+
+/* Nav — dark mode uyumu */
+[data-berzan-theme="dark"] body.berzan-home .bz-nav {
+  background: rgba(0,0,0,0.55);
+  border-bottom-color: rgba(255,255,255,0.10);
+}
+[data-berzan-theme="dark"] body.berzan-home .bz-nav.is-compact {
+  background: rgba(0,0,0,0.85);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+[data-berzan-theme="dark"] body.berzan-home .bz-search-trigger {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+}
+[data-berzan-theme="dark"] body.berzan-home .bz-nav-link:hover {
+  background: rgba(255,255,255,0.08);
+}
+[data-berzan-theme="dark"] body.berzan-home .bz-pro-msg a {
+  border-bottom-color: rgba(255,255,255,0.18);
+}
 
 /* ═══════════════════════════════════════
    HERO
@@ -245,7 +320,7 @@ body.berzan-home {
   inset: 0;
   background:
     linear-gradient(180deg, rgba(11,15,20,0.35) 0%, rgba(11,15,20,0.2) 40%, rgba(11,15,20,0.7) 100%),
-    radial-gradient(ellipse at 20% 20%, rgba(255,103,0,0.12), transparent 60%);
+    radial-gradient(ellipse at 20% 20%, rgba(255,215,0,0.12), transparent 60%);
 }
 
 .bz-hero-content {
@@ -260,8 +335,8 @@ body.berzan-home {
   display: inline-block;
   padding: 6px 16px;
   border-radius: 999px;
-  background: rgba(255,103,0,0.15);
-  border: 1px solid rgba(255,103,0,0.3);
+  background: rgba(255,215,0,0.15);
+  border: 1px solid rgba(255,215,0,0.3);
   color: var(--bz-gold);
   font-size: 12px;
   font-weight: 700;
@@ -272,19 +347,16 @@ body.berzan-home {
 }
 
 .bz-hero-title {
-  font-size: clamp(40px, 7vw, 80px);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+  font-size: clamp(44px, 7.5vw, 88px);
+  font-weight: 700; /* MiSans Bold (gerçek ağırlık — 900 faux-bold yapardı) */
+  letter-spacing: -0.035em;
+  line-height: 1.02;
   color: #fff;
-  margin: 0 0 20px;
-  text-shadow: 0 6px 40px rgba(0,0,0,0.3);
+  margin: 0 0 22px;
+  text-shadow: 0 8px 50px rgba(0,0,0,0.45);
 }
 .bz-hero-accent {
-  background: linear-gradient(135deg, var(--bz-gold), var(--bz-orange));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--bz-gold);
 }
 
 .bz-hero-sub {
@@ -342,34 +414,36 @@ body.berzan-home {
   transition: all 0.25s var(--bz-transition);
 }
 .bz-btn-primary {
-  background: var(--bz-orange);
-  color: #fff;
-  box-shadow: 0 4px 18px rgba(255,103,0,0.25);
+  background: var(--bz-gold);
+  color: var(--bz-dark); /* gold üstüne navy-ink yazı (kontrast) */
+  font-weight: 700;
+  box-shadow: 0 6px 24px rgba(255,215,0,0.28);
 }
 .bz-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(255,103,0,0.35);
-  filter: brightness(1.05);
+  box-shadow: 0 10px 34px rgba(255,215,0,0.40);
+  filter: brightness(1.04);
 }
 
 .bz-btn-glass {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.12);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.30);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .bz-btn-glass:hover {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.20);
   transform: translateY(-2px);
 }
 
 .bz-btn-outline {
   background: transparent;
   color: var(--bz-text);
-  border: 1px solid rgba(0,0,0,0.12);
+  border: 1px solid var(--bz-border);
 }
 .bz-btn-outline:hover {
-  background: rgba(0,0,0,0.04);
+  background: var(--bz-surface);
   transform: translateY(-2px);
 }
 
@@ -522,7 +596,7 @@ body.berzan-home {
 .bz-product-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--bz-shadow-lg);
-  border-color: rgba(255,103,0,0.12);
+  border-color: rgba(255,215,0,0.12);
 }
 
 .bz-product-media {
@@ -575,8 +649,8 @@ body.berzan-home {
   backdrop-filter: blur(8px);
 }
 .bz-badge-accent {
-  background: rgba(255,103,0,0.12);
-  border-color: rgba(255,103,0,0.2);
+  background: rgba(255,215,0,0.12);
+  border-color: rgba(255,215,0,0.2);
   color: var(--bz-orange);
 }
 
@@ -683,7 +757,7 @@ body.berzan-home {
 }
 
 .bz-split-accent {
-  background: linear-gradient(135deg, var(--bz-orange), #e55b00);
+  background: linear-gradient(135deg, var(--bz-orange), #e6c200);
   overflow: hidden;
 }
 .bz-split-graphic {
@@ -774,7 +848,7 @@ body.berzan-home {
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(255,103,0,0.08), rgba(255,215,0,0.04));
+  background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,215,0,0.04));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -829,7 +903,7 @@ body.berzan-home {
 .bz-sector-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--bz-shadow-md);
-  border-color: rgba(255,103,0,0.15);
+  border-color: rgba(255,215,0,0.15);
 }
 .bz-sector-icon {
   font-size: 32px;
@@ -865,7 +939,7 @@ body.berzan-home {
   position: absolute;
   inset: -50%;
   background:
-    radial-gradient(600px circle at 30% 30%, rgba(255,103,0,0.15), transparent 60%),
+    radial-gradient(600px circle at 30% 30%, rgba(255,215,0,0.15), transparent 60%),
     radial-gradient(500px circle at 80% 70%, rgba(255,215,0,0.08), transparent 50%);
   pointer-events: none;
 }
