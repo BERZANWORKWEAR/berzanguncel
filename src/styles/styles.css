@@ -3159,7 +3159,7 @@ body.urun-page .product-copy-actions .btn{
   overflow:hidden;
 }
 .pdp-img.pdp-img--cutout{
-  mix-blend-mode:normal;
+  mix-blend-mode:multiply;
   filter:drop-shadow(0 42px 48px rgba(0,0,0,.28));
   transform:none;
 }

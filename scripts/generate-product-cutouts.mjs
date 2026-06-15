@@ -241,7 +241,8 @@ function cutoutOptions(product) {
     return { threshold: 232, maxChannelDiff: 30, looseThreshold: 216, looseMaxChannelDiff: 46 };
   }
   if (id.startsWith("prd_3m_") || id.startsWith("prd_tee_")) return { threshold: 242, maxChannelDiff: 18 };
-  return { threshold: 248, maxChannelDiff: 7 };
+  // Mekap: JPEG artifacts make "white" backgrounds not pure white — wider tolerance
+  return { threshold: 234, maxChannelDiff: 24, looseThreshold: 222, looseMaxChannelDiff: 18 };
 }
 
 function localPathFor(product) {
