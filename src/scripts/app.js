@@ -355,10 +355,53 @@ function isBrightAccent(hex){
   return ((red * 299) + (green * 587) + (blue * 114)) / 1000 > 138;
 }
 
+/* ── Renk uzayı yardımcıları (marka-güvenli ton için) ── */
+function rgbToHsl([r, g, b]){
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0, s = 0; const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+    else if (max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h *= 60;
+  }
+  return [h, s, l];
+}
+function hslToRgb([h, s, l]){
+  h = ((h % 360) + 360) % 360;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+  let r = 0, g = 0, b = 0;
+  if (h < 60) { r = c; g = x; }
+  else if (h < 120) { r = x; g = c; }
+  else if (h < 180) { g = c; b = x; }
+  else if (h < 240) { g = x; b = c; }
+  else if (h < 300) { r = x; b = c; }
+  else { r = c; b = x; }
+  return [(r + m) * 255, (g + m) * 255, (b + m) * 255];
+}
+const clamp01 = (v) => Math.max(0, Math.min(1, v));
+/* Gelen rengi MARKA tonuna kıstır: sıcak (sarı/turuncu/hi-vis) → gold ailesi,
+   diğer her şey (gri/siyah/mor/yeşil/mavi) → navy ailesi. Mor/AI tonu asla çıkmaz. */
+function brandSafeAccent(hex){
+  const [h, s, l] = rgbToHsl(hexToRgbTuple(normalizeHexColor(hex)));
+  const isWarm = s >= 0.20 && h >= 18 && h <= 72; // sarı + turuncu + hi-vis
+  if (isWarm) {
+    // GOLD ailesi: ürünün açıklığına göre hafif değişir (canlı ama markalı)
+    return rgbTupleToHex(hslToRgb([46, 0.88, clamp01(0.46 + (l - 0.5) * 0.2)]));
+  }
+  // NAVY ailesi: derin lacivert, ürüne göre minik değişim
+  return rgbTupleToHex(hslToRgb([217, 0.52, clamp01(0.20 + (l - 0.5) * 0.12)]));
+}
+
 function applyProductTheme(hex){
   const root = document.getElementById('productExperience');
   if (!root) return;
-  const accent = normalizeHexColor(hex);
+  const accent = brandSafeAccent(hex);
   const accentRgb = hexToRgbTuple(accent).join(', ');
   const deep = mixHexColors(accent, '#081120', 0.45);
   const darker = mixHexColors(accent, '#020617', 0.68);
