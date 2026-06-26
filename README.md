@@ -1,22 +1,19 @@
-# BERZAN — Vanilla + Modern Build Layer (Vite)
+# BERZAN Liquid Enterprise
 
-Amaç: mevcut HTML/CSS/JS sayfalarını aynen tutup sadece build/pipeline eklemek.
-- Hash'li dosya isimleri (cache-safe)
-- Multi-page build
-- `public/` dosyaları olduğu gibi kopyalanır (CNAME, robots, sitemap, manifest, config.js, ikonlar)
+Yeni BERZAN sitesi, genel B2B tedarik modeli icin sade bir statik web projesi olarak kurulmustur.
 
-## Kurulum
+## Yapı
+
+- `index.html`: Ana sayfa
+- `src/styles/liquid-enterprise.css`: Arayuz stilleri
+- `src/scripts/liquid-enterprise.js`: Etkilesim ve form bildirimi
+- `public/img/berzan-logo.svg`: BERZAN SVG logosu
+- `public/img/*.png`: Yerel gorseller
+
+## Calistirma
+
 ```bash
-npm install
 npm run dev
 ```
 
-## Build
-```bash
-npm run build
-```
-
-Çıktı: `dist/`
-
-## Runtime config
-`public/config.js` canlıda değiştirilebilir (webhook / supabase anahtarları). Build'e gömülmez.
+Site `http://localhost:4173` adresinden acilir.

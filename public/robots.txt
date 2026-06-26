@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://berzan.com.tr/sitemap.xml
