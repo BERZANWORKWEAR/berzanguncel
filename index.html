@@ -1,288 +1,497 @@
-<!doctype html>
-<html lang="tr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BERZAN | Kurumsal B2B Tedarik Platformu</title>
-    <meta
-      name="description"
-      content="BERZAN, kurumsal satın alma ekipleri için hızlı teklif, tedarikçi ağı, bütçe kontrolü ve teslimat görünürlüğü sunan premium B2B tedarik platformudur."
-    />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" href="/public/img/berzan-logo.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/src/styles/liquid-enterprise.css" />
-  </head>
-  <body>
-    <div class="notice" id="notice" role="status" aria-live="polite">
-      <span class="notice-dot"></span>
-      <span>Talebiniz alındı. BERZAN ekibi sizinle iletişime geçecek.</span>
-    </div>
+<!DOCTYPE html>
 
-    <header class="site-nav" id="siteNav">
-      <div class="nav-inner">
-        <a class="brand" href="/" aria-label="BERZAN ana sayfa">
-          <img src="/public/img/berzan-logo.svg" alt="BERZAN" />
-        </a>
-        <nav class="nav-links" aria-label="Ana menü">
-          <a href="#cozumler">Çözümler</a>
-          <a href="#sektorler">Sektörler</a>
-          <a href="#surec">Süreç</a>
-          <a href="#iletisim">İletişim</a>
-        </nav>
-        <a class="nav-cta" href="#iletisim">Talep Oluştur</a>
-      </div>
-    </header>
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BERZAN | Kurumsal İş Güvenliği Tedarik Platformu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Geist:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#131D2E", // Deep Navy
+                        "secondary": "#FFD700", // Gold
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#131D2E",
+                        "surface": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-container": "#eceef1",
+                        "surface-container-high": "#e6e8eb",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45474c",
+                        "outline": "#75777d",
+                        "outline-variant": "#c5c6cd",
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "4xl": "1.75rem", // 28px
+                        full: "9999px"
+                    },
+                    spacing: {
+                        gutter: "24px",
+                        "margin-mobile": "20px",
+                        unit: "8px",
+                        "margin-desktop": "64px",
+                        "stack-xl": "80px",
+                        "stack-md": "32px",
+                        "container-max": "1440px"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Hanken Grotesk", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "display-lg": ["Hanken Grotesk", "sans-serif"],
+                        "title-md": ["Hanken Grotesk", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "label-caps": ["Hanken Grotesk", "sans-serif"], // Updated to Hanken Grotesk per request style
+                        "headline-lg-mobile": ["Hanken Grotesk", "sans-serif"],
+                        "mono-data": ["Geist", "monospace"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "title-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "headline-lg-mobile": ["28px", { lineHeight: "36px", fontWeight: "600" }],
+                        "mono-data": ["13px", { lineHeight: "18px", fontWeight: "400" }]
+                    },
+                    boxShadow: {
+                        'glass-ambient': '0 4px 40px rgba(19, 29, 46, 0.05)',
+                        'glass-glow': '0 0 20px rgba(255, 215, 0, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #ffffff; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(19, 29, 46, 0.05);
+            box-shadow: 0 8px 32px rgba(19, 29, 46, 0.03);
+            border-radius: 28px;
+        }
+        
+        /* Navbar Transitions */
+        #main-nav {
+            background-color: transparent;
+            border-bottom: 1px solid transparent;
+            box-shadow: none;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+        }
+        
+        #main-nav.nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(19, 29, 46, 0.05);
+            box-shadow: 0 4px 30px rgba(19, 29, 46, 0.05);
+        }
 
-    <main>
-      <section class="hero section">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <span class="eyebrow">BERZAN Enterprise Procurement</span>
-            <h1>Kurumsal satın almada tek merkezli, premium B2B tedarik deneyimi.</h1>
-            <p>
-              Satın alma taleplerini, teklifleri, tedarikçi koordinasyonunu ve teslimat planını tek bir akışta yönetin.
-              BERZAN, kurumların ölçekli ihtiyaçları için hızlı, şeffaf ve kontrollü tedarik altyapısı sunar.
-            </p>
-            <div class="hero-actions">
-              <a class="button primary" href="#iletisim">Kurumsal Talep Aç</a>
-              <a class="button ghost" href="#cozumler">Çözümleri İncele</a>
-            </div>
-          </div>
+        #nav-links {
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .nav-scrolled #nav-links {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-          <div class="hero-panel glass-card">
-            <div class="hero-panel-head">
-              <div>
-                <span class="panel-label">Aktif Tedarik Akışı</span>
-                <strong>Q3 Kurumsal Alım Planı</strong>
-              </div>
-              <span class="status-chip">Canlı</span>
-            </div>
-            <div class="metric-grid">
-              <div>
-                <span>Teklif Süresi</span>
-                <strong>24s</strong>
-              </div>
-              <div>
-                <span>Tedarikçi Havuzu</span>
-                <strong>320+</strong>
-              </div>
-              <div>
-                <span>Onay Akışı</span>
-                <strong>%88</strong>
-              </div>
-            </div>
-            <div class="bar-chart" aria-label="Tedarik performans grafiği">
-              <span style="height: 44%"></span>
-              <span style="height: 62%"></span>
-              <span style="height: 58%"></span>
-              <span style="height: 76%"></span>
-              <span style="height: 70%"></span>
-              <span style="height: 88%"></span>
-              <span style="height: 92%"></span>
-            </div>
-            <div class="approval-row">
-              <span>Satın alma bütçesi</span>
-              <strong>Kontrol altında</strong>
-            </div>
-          </div>
-        </div>
-      </section>
+        #nav-logo-container {
+            position: absolute;
+            left: var(--margin-desktop);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Spring easing */
+            transform-origin: left center;
+        }
 
-      <section class="section showcase" id="cozumler">
-        <div class="container">
-          <div class="section-head">
-            <span class="eyebrow">Operasyonel Mükemmellik</span>
-            <h2>Ölçeklenen kurumlar için tedarik omurgası.</h2>
-            <p>Karmaşık satın alma süreçlerini sadeleştiren, görünür ve ölçülebilir bir B2B çalışma modeli.</p>
-          </div>
+        @media (max-width: 768px) {
+            #nav-logo-container {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .nav-scrolled #nav-logo-container {
+                transform: translateX(-50%);
+            }
+        }
 
-          <div class="image-showcase glass-card">
-            <img src="/public/img/financial-budget.png" alt="Kurumsal bütçe yönetimi ekranı" />
-            <div class="image-caption">
-              <span>Finansal Hassasiyet</span>
-              <h3>Bütçe, teklif ve sipariş görünürlüğünü aynı çizgide tutun.</h3>
-            </div>
-          </div>
-
-          <div class="feature-grid">
-            <article class="glass-card feature-card">
-              <span class="icon-mark">01</span>
-              <h3>Merkezi Talep Yönetimi</h3>
-              <p>Departman taleplerini tek kanalda toplayın, önceliklendirin ve satın alma ekibine net aktarın.</p>
-            </article>
-            <article class="glass-card feature-card">
-              <span class="icon-mark">02</span>
-              <h3>Şeffaf Teklif Akışı</h3>
-              <p>Fiyat, termin, ödeme koşulu ve tedarikçi alternatiflerini karşılaştırılabilir hale getirin.</p>
-            </article>
-            <article class="glass-card feature-card">
-              <span class="icon-mark">03</span>
-              <h3>Stratejik Tedarikçi Ağı</h3>
-              <p>Onaylı tedarikçilerle ölçekli alım, güvenilir teslimat ve sürdürülebilir iş ortaklığı kurun.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section split-section">
-        <div class="container split-grid">
-          <article class="glass-card procurement-card">
-            <img src="/public/img/global-procurement.png" alt="Küresel tedarik operasyonu" />
-            <div>
-              <span class="eyebrow">Tedarik Ölçeği</span>
-              <h2>Yerel hız, kurumsal disiplin, geniş tedarik ağı.</h2>
-              <p>
-                BERZAN; talep toplama, teklif değerlendirme, sipariş onayı ve teslimat takibini uçtan uca
-                düzenleyen bir B2B tedarik ortağı olarak konumlanır.
-              </p>
-            </div>
-          </article>
-
-          <article class="glass-card procurement-card dark-card">
-            <img src="/public/img/streamlined-procurement.png" alt="Düzenlenmiş tedarik süreci" />
-            <div>
-              <span class="eyebrow">Akış Verimliliği</span>
-              <h2>Satın alma kararlarını hızlandıran sade süreçler.</h2>
-              <p>
-                Operasyon ekipleri, finans ve yönetim aynı satın alma görünürlüğünde buluşur; kararlar daha az
-                sürtünmeyle ilerler.
-              </p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="sektorler">
-        <div class="container">
-          <div class="section-head">
-            <span class="eyebrow">Sektörel Kapsam</span>
-            <h2>Farklı dikeylerde tek tedarik standardı.</h2>
-            <p>Üretimden hizmet sektörüne, düzenli ve proje bazlı kurumsal alımlar için esnek yapı.</p>
-          </div>
-          <div class="sector-grid">
-            <article class="glass-card sector-card">
-              <h3>Üretim</h3>
-              <p>Planlı alımlar, bakım kalemleri, işletme sarfları ve operasyonel tedarik.</p>
-            </article>
-            <article class="glass-card sector-card">
-              <h3>Lojistik</h3>
-              <p>Dağıtım operasyonları, depo ihtiyaçları, filo ve saha destek ürünleri.</p>
-            </article>
-            <article class="glass-card sector-card">
-              <h3>Perakende</h3>
-              <p>Çok lokasyonlu mağaza ihtiyaçları, standartlaşmış sipariş ve merkezi kontrol.</p>
-            </article>
-            <article class="glass-card sector-card">
-              <h3>Kurumsal Ofisler</h3>
-              <p>Düzenli satın alma talepleri, bütçe takibi ve tedarikçi koordinasyonu.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section process-section" id="surec">
-        <div class="container">
-          <div class="section-head">
-            <span class="eyebrow">Çalışma Modeli</span>
-            <h2>Talep açılışından teslimata kadar tek akış.</h2>
-          </div>
-          <div class="process-grid">
-            <article class="glass-card process-card">
-              <span>1</span>
-              <h3>Keşif</h3>
-              <p>İhtiyaç, bütçe, hacim, teslimat ve karar kriterleri netleşir.</p>
-            </article>
-            <article class="glass-card process-card">
-              <span>2</span>
-              <h3>Teklif</h3>
-              <p>Uygun tedarikçilerden karşılaştırılabilir teklif seti hazırlanır.</p>
-            </article>
-            <article class="glass-card process-card">
-              <span>3</span>
-              <h3>Onay</h3>
-              <p>Satın alma ve finans ekipleri karar için aynı veriyi görür.</p>
-            </article>
-            <article class="glass-card process-card is-final">
-              <span>4</span>
-              <h3>Teslimat</h3>
-              <p>Sipariş, termin ve teslimat görünürlüğü tek çizgide takip edilir.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section contact-section" id="iletisim">
-        <div class="container">
-          <div class="contact-card glass-card">
-            <div class="contact-copy">
-              <span class="eyebrow">BERZAN ile Tanışın</span>
-              <h2>Tedarik ihtiyaçlarınızı birlikte yapılandıralım.</h2>
-              <p>
-                Kurumsal satın alma hacminizi, mevcut zorluklarınızı ve beklediğiniz servis seviyesini paylaşın.
-                BERZAN ekibi size uygun B2B tedarik modelini hazırlasın.
-              </p>
-              <div class="contact-points">
-                <span>Özel müşteri yöneticisi</span>
-                <span>Toplu alım ve teklif yönetimi</span>
-                <span>Tedarikçi ağı koordinasyonu</span>
-              </div>
-            </div>
-            <form class="lead-form" id="leadForm">
-              <div class="form-row">
-                <label>
-                  <span>Ad Soyad</span>
-                  <input name="name" autocomplete="name" required />
-                </label>
-                <label>
-                  <span>Şirket</span>
-                  <input name="company" autocomplete="organization" required />
-                </label>
-              </div>
-              <div class="form-row">
-                <label>
-                  <span>Kurumsal E-posta</span>
-                  <input name="email" type="email" autocomplete="email" required />
-                </label>
-                <label>
-                  <span>Telefon</span>
-                  <input name="phone" type="tel" autocomplete="tel" required />
-                </label>
-              </div>
-              <label>
-                <span>Talep Türü</span>
-                <select name="type">
-                  <option>Kurumsal müşteri olmak istiyorum</option>
-                  <option>Tedarikçi ağına katılmak istiyorum</option>
-                  <option>Genel iş birliği görüşmesi</option>
-                </select>
-              </label>
-              <label>
-                <span>İhtiyacınız</span>
-                <textarea name="message" rows="4" placeholder="Aylık alım hacmi, kategori, lokasyon veya süreç beklentinizi yazabilirsiniz."></textarea>
-              </label>
-              <button class="button primary form-button" type="submit">Talebi Gönder</button>
-            </form>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div>
-          <img src="/public/img/berzan-logo.svg" alt="BERZAN" />
-          <p>Kurumsal tedarik süreçlerinde şeffaflık, hız ve premium deneyim.</p>
-        </div>
-        <nav aria-label="Alt menü">
-          <a href="#cozumler">Çözümler</a>
-          <a href="#sektorler">Sektörler</a>
-          <a href="#surec">Süreç</a>
-          <a href="#iletisim">İletişim</a>
-        </nav>
-      </div>
-      <p class="copyright">© 2026 BERZAN. Tüm hakları saklıdır.</p>
-    </footer>
-
-    <script src="/src/scripts/liquid-enterprise.js" type="module"></script>
-  </body>
-</html>
+        @media (min-width: 769px) {
+            .nav-scrolled #nav-logo-container {
+                /* Translate to center: 50vw - container width/2 - left offset */
+                transform: translateX(calc(50vw - 50% - var(--margin-desktop)));
+            }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-lg antialiased selection:bg-secondary selection:text-on-secondary min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 transition-all duration-500 h-20" id="main-nav">
+<div class="max-w-container-max mx-auto px-margin-desktop flex items-center justify-between h-full relative" style="--margin-desktop: 64px;">
+<div class="z-20 flex items-center" id="nav-logo-container">
+<a class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-secondary text-[28px]">diamond</span>
+                BERZAN
+            </a>
+</div>
+<nav class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2 z-10" id="nav-links">
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors uppercase tracking-widest" href="#impact">Etki</a>
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors uppercase tracking-widest" href="#sustainability">Sürdürülebilirlik</a>
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors uppercase tracking-widest" href="#differentiators">Neden Biz?</a>
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors uppercase tracking-widest" href="#process">Süreç</a>
+<a class="font-label-caps text-label-caps text-on-surface hover:text-secondary transition-colors uppercase tracking-widest" href="#contact">İletişim</a>
+</nav>
+</div>
+</header>
+<main class="flex-grow pt-24"><section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl" id="operational-excellence">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-[40px] text-primary mb-4">Ölçeklenebilir Operasyonel Mükemmellik</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Kurumsal tedarik ekosistemimizin hassasiyetini ve ölçeğini görselleştirin.</p>
+</div>
+<div class="glass-card overflow-hidden relative">
+<div class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-0" style="-ms-overflow-style: none; scrollbar-width: none;">
+<!-- Slide 1 -->
+<div class="min-w-full snap-center relative h-[600px]">
+<img alt="Managed Budgets" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy9L9N5oeY8Z6cpXTHkOeq-rx46MinA4yS_jUMwVSm3Z-K5wAHugD1Mgv2DI6ruIG68QFuPSlgE8yUv9nLCrjnnYW_bDT7BJV6MbtqBNGT_7gbIAywqocjL3vYWx9M9y8TgBFBxx3M9lJlR_JscTAWCDI3MgPsUmIYMaRoNckMRjkhoc2NyjVnoAEOxSut89hmMoDXRTma_EaL2iag42o-ED42yJUv4-RSeZ6Vvz6_oIxqgNwFyZfWsQ"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/40 to-transparent"></div>
+<div class="absolute bottom-12 left-12 max-w-md">
+<div class="font-label-caps text-secondary mb-2 uppercase tracking-widest">Finansal Hassasiyet</div>
+<h3 class="font-display-lg text-white text-[32px] mb-4">Küresel Bütçeleri Optimize Etme</h3>
+<p class="text-white/90 font-body-lg">Karmaşık kurumsal finansal yönetim için gerçek zamanlı veri görselleştirme.</p>
+</div>
+</div>
+<!-- Slide 2 -->
+<div class="min-w-full snap-center relative h-[600px]">
+<img alt="Streamlined Processes" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_SUwCcRhcWYzCXIYnnFdzaGkqWHMg7Eod4vvlWJknBBAczq7cnU46vWpRjwQVrDI4RjpGqyL5xTy1tbCPUmvOtc9gu5YA7K0gl9oS-KTdLd_6PyVvkPIMTVIvgL4fa8oF1IK6qwKyTnPnQFIhhpwx_0jM70PE61NPLYmoNMvonIniJ3j6URsc6F17px7XeVn9Wvq-LUmJXm8kUIPkLFtFKeKkvkAO2eapilWb-TQwq2ZlSEDf2qrhRQ"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/40 to-transparent"></div>
+<div class="absolute bottom-12 left-12 max-w-md">
+<div class="font-label-caps text-secondary mb-2 uppercase tracking-widest">İş Akışı Verimliliği</div>
+<h3 class="font-display-lg text-white text-[32px] mb-4">Sorunsuz İş Akışı Entegrasyonu</h3>
+<p class="text-white/90 font-body-lg">Üst düzey yönetici karar alma süreçleri için tasarlanmış işbirliği araçları.</p>
+</div>
+</div>
+<!-- Slide 3 -->
+<div class="min-w-full snap-center relative h-[600px]">
+<img alt="Global Scale" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw-QKSwjJ8yXOQaOHi-8-DUhxwUuC8PyQmKKbZt63UnFkz5fkV6pRlmqA9km3iIJ8QF49g8aZgykanegLbNjRBjgeq-Su-0-4F23Zk4fF34Bc1OsIw_YCMJN9DskINStcc7bgrc1Lt1BHweEoPx4G6JgmHrC6zAkAD95EtJqLtMuXxMk2K1Td4JOsdsQnlbm1cVw_t-K7X4gF5KiPYar_604vy8-FUaDS7cp16u_CvgLMyZIpFuI4E0w"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/40 to-transparent"></div>
+<div class="absolute bottom-12 left-12 max-w-md">
+<div class="font-label-caps text-secondary mb-2 uppercase tracking-widest">Lojistik Ustalığı</div>
+<h3 class="font-display-lg text-white text-[32px] mb-4">Küresel Tedarik Ölçeği</h3>
+<p class="text-white/90 font-body-lg">Dünyanın en zorlu tedarik zincirlerine güç veren otomatik altyapı.</p>
+</div>
+</div>
+</div>
+<!-- Navigation Indicators -->
+<div class="absolute bottom-6 right-12 flex gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="w-2 h-2 rounded-full bg-white/30"></div>
+<div class="w-2 h-2 rounded-full bg-white/30"></div>
+</div>
+</div>
+</section>
+<!-- Corporate Impact Section -->
+<!-- Sustainability & Responsibility Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl" id="sustainability">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-[40px] text-primary mb-4">Sürdürülebilirlik ve Sorumluluk</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Çevreye duyarlı tedarik zincirlerine ve etik ortaklıklara bağlıyız.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="glass-card p-12">
+<span class="material-symbols-outlined text-[48px] text-secondary mb-6">eco</span>
+<h3 class="font-title-md text-[24px] text-primary mb-4">Yeşil Tedarik</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">Tedarik zinciri genelinde karbon ayak izini en aza indirerek, kanıtlanmış çevresel kimlik bilgilerine sahip tedarikçilere öncelik veriyoruz.</p>
+<ul class="space-y-3">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary">check</span> <span class="font-body-sm text-on-surface-variant">Karbon nötr teslimat seçenekleri</span></li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary">check</span> <span class="font-body-sm text-on-surface-variant">Geri dönüştürülebilir ambalaj standartları</span></li>
+</ul>
+</div>
+<div class="glass-card p-12">
+<span class="material-symbols-outlined text-[48px] text-secondary mb-6">handshake</span>
+<h3 class="font-title-md text-[24px] text-primary mb-4">Etik Ortaklıklar</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">Adil ticaret, atık azaltma ve kurumsal sosyal sorumluluğa dayalı uzun vadeli ilişkiler kurmak.</p>
+<ul class="space-y-3">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary">check</span> <span class="font-body-sm text-on-surface-variant">Titiz tedarikçi denetimi</span></li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary">check</span> <span class="font-body-sm text-on-surface-variant">Sıfır atık girişimleri</span></li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Conversion Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Card 1 -->
+<div class="glass-card p-12 flex flex-col h-full group hover:shadow-glass-glow transition-all duration-300">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Müşterimiz Olun</h2>
+<p class="font-title-md text-[18px] text-on-surface-variant mb-8 pb-6 border-b border-outline-variant/20">Ölçeğinize göre özelleştirilmiş kurumsal satın alma çözümleri.</p>
+<ul class="space-y-4 mb-12 flex-grow">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body-lg text-body-lg text-on-surface">Özel müşteri temsilcisi</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body-lg text-body-lg text-on-surface">Özel teklifler ve pazarlıklı fiyatlandırma</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body-lg text-body-lg text-on-surface">Ülke çapında tedarik zinciri entegrasyonu</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body-lg text-body-lg text-on-surface">Stratejik uzun vadeli ortaklık</span>
+</li>
+</ul>
+<button class="w-full bg-primary text-on-primary py-4 px-8 rounded-full font-label-caps text-label-caps uppercase tracking-widest hover:bg-primary/90 transition-all border border-transparent hover:border-secondary hover:text-secondary group-hover:-translate-y-1">
+                    Müşterimiz Olun
+                </button>
+</div>
+<!-- Card 2 -->
+<div class="glass-card p-12 flex flex-col h-full group hover:shadow-glass-glow transition-all duration-300">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Tedarikçimiz Olun</h2>
+<p class="font-title-md text-[18px] text-on-surface-variant mb-8 pb-6 border-b border-outline-variant/20">Kurumsal müşteri ağımıza erişin.</p>
+<ul class="space-y-4 mb-12 flex-grow">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body-lg text-body-lg text-on-surface">Ülke çapındaki dağıtıma takın</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body-lg text-body-lg text-on-surface">Modernleştirilmiş dijital tedarikçi portalı</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body-lg text-body-lg text-on-surface">Tutarlı yeni iş hacmi</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body-lg text-body-lg text-on-surface">Sertifikalı ortak büyüme programları</span>
+</li>
+</ul>
+<button class="w-full bg-surface text-primary py-4 px-8 rounded-full font-label-caps text-label-caps uppercase tracking-widest border border-outline-variant/30 hover:border-secondary hover:bg-surface-container-low transition-all group-hover:-translate-y-1">
+                    Tedarikçimiz Olun
+                </button>
+</div>
+</div>
+</section>
+<!-- Why Leading Companies Choose Us -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl" id="differentiators">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-[40px] text-primary mb-4">Lider Şirketler Neden Bizi Seçiyor?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Tedarik mükemmelliği için kurumsal standart.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="glass-card p-8 text-center">
+<span class="material-symbols-outlined text-[48px] text-primary mb-4">visibility</span>
+<h3 class="font-title-md text-title-md text-primary mb-2">Şeffaflık</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tedarik zincirlerine, fiyatlandırma modellerine ve lojistik verilere tam görünürlük.</p>
+</div>
+<div class="glass-card p-8 text-center">
+<span class="material-symbols-outlined text-[48px] text-primary mb-4">corporate_fare</span>
+<h3 class="font-title-md text-title-md text-primary mb-2">Ölçek</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Devasa çok uluslu tedarik taleplerini karşılamak için inşa edilmiş altyapı.</p>
+</div>
+<div class="glass-card p-8 text-center">
+<span class="material-symbols-outlined text-[48px] text-primary mb-4">speed</span>
+<h3 class="font-title-md text-title-md text-primary mb-2">Verimlilik</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tedarik döngülerini %40 oranında azaltan optimize edilmiş dijital iş akışları.</p>
+</div>
+</div>
+</section>
+<!-- Industries Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl" id="industries">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-[40px] text-primary mb-4">Hizmet Verdiğimiz Sektörler</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Karmaşık kurumsal dikeyler için tasarlanmış özel tedarik çözümleri.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="glass-card p-8 flex flex-col items-center text-center hover:-translate-y-2 transition-transform">
+<span class="material-symbols-outlined text-[48px] text-primary mb-6">precision_manufacturing</span>
+<h3 class="font-title-md text-title-md text-primary mb-2">Üretim</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Hammadde, endüstriyel bileşenler ve tesis bakımı.</p>
+</div>
+<div class="glass-card p-8 flex flex-col items-center text-center hover:-translate-y-2 transition-transform">
+<span class="material-symbols-outlined text-[48px] text-primary mb-6">local_shipping</span>
+<h3 class="font-title-md text-title-md text-primary mb-2">Lojistik ve 3PL</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Paketleme, malzeme taşıma ekipmanları ve filo malzemeleri.</p>
+</div>
+<div class="glass-card p-8 flex flex-col items-center text-center hover:-translate-y-2 transition-transform">
+<span class="material-symbols-outlined text-[48px] text-primary mb-6">health_and_safety</span>
+<h3 class="font-title-md text-title-md text-primary mb-2">Sağlık</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kişisel koruyucu ekipman (PPE), steril ortamlar ve idari gereksinimler.</p>
+</div>
+<div class="glass-card p-8 flex flex-col items-center text-center hover:-translate-y-2 transition-transform">
+<span class="material-symbols-outlined text-[48px] text-primary mb-6">memory</span>
+<h3 class="font-title-md text-title-md text-primary mb-2">Teknoloji</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">BT altyapısı, kurumsal donanım ve sunucu odası bileşenleri.</p>
+</div>
+</div>
+</section>
+<!-- Process Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl" id="process">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-[40px] text-primary mb-4">Nasıl Çalışıyoruz?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Gereksinimden teslimata, kurumsal hız için optimize edilmiştir.</p>
+</div>
+<div class="relative">
+<!-- Connecting Line -->
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-outline-variant/30 -translate-y-1/2 hidden md:block z-0"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+<div class="glass-card p-6 text-center relative">
+<div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-title-md mx-auto mb-4 relative z-10">1</div>
+<h4 class="font-title-md text-title-md text-primary mb-2">Keşif</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gereksinimleri belirleyin ve teknik parametreleri belirtin.</p>
+</div>
+<div class="glass-card p-6 text-center relative">
+<div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-title-md mx-auto mb-4 relative z-10">2</div>
+<h4 class="font-title-md text-title-md text-primary mb-2">Kaynak ve Teklif</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Optimal fiyatlandırma ve kullanılabilirlik için küresel ağı kullanın.</p>
+</div>
+<div class="glass-card p-6 text-center relative">
+<div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-title-md mx-auto mb-4 relative z-10">3</div>
+<h4 class="font-title-md text-title-md text-primary mb-2">Onay</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kurumsal satınalma siparişi onayı ve uyumluluğu için dijital iş akışı.</p>
+</div>
+<div class="glass-card p-6 text-center relative border-secondary/50">
+<div class="w-12 h-12 bg-secondary text-primary rounded-full flex items-center justify-center font-title-md mx-auto mb-4 relative z-10">4</div>
+<h4 class="font-title-md text-title-md text-primary mb-2">Teslimat</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">İzlenen teslimat ve sorunsuz muhasebe entegrasyonu.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- National Supplier Network -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl">
+<div class="text-center mb-10">
+<h2 class="font-display-lg text-[40px] text-primary mb-4">Ulusal Tedarikçi Ağı</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Kıta genelinde hızlı teslimat sağlayan stratejik dağıtım noktaları.</p>
+</div>
+<div class="glass-card h-[400px] flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[300px] text-primary">map</span>
+</div>
+<p class="font-title-md text-primary relative z-10">Etkileşimli Ağ Görselleştirmesi</p>
+</div>
+</section>
+<!-- Corporate References (Logo Wall) -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl border-b border-surface-container-high" id="partners">
+<p class="font-label-caps text-label-caps text-center text-on-surface-variant uppercase tracking-widest mb-10">Sektör Liderleri Tarafından Güveniliyor</p>
+<div class="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+<!-- Abstract logos using material icons -->
+<span class="material-symbols-outlined text-[48px]">ac_unit</span>
+<span class="material-symbols-outlined text-[48px]">architecture</span>
+<span class="material-symbols-outlined text-[48px]">biotech</span>
+<span class="material-symbols-outlined text-[48px]">cloud</span>
+<span class="material-symbols-outlined text-[48px]">domain</span>
+<span class="material-symbols-outlined text-[48px]">eco</span>
+</div>
+</section>
+<!-- Contact / FAQ -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-stack-xl" id="contact">
+<div class="glass-card p-12 max-w-4xl mx-auto">
+<div class="text-center mb-10">
+<h2 class="font-display-lg text-[40px] text-primary mb-4">Tedarik İhtiyaçlarınızı Görüşelim</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Bir ortaklık keşfetmek için kurumsal çözümler ekibimizle bağlantı kurun.</p>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-caps text-label-caps text-primary mb-2 uppercase" for="fname">Ad</label>
+<input class="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="fname" type="text"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-primary mb-2 uppercase" for="lname">Soyad</label>
+<input class="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="lname" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-caps text-label-caps text-primary mb-2 uppercase" for="company">Şirket Adı</label>
+<input class="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="company" type="text"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-primary mb-2 uppercase" for="email">Kurumsal E-posta</label>
+<input class="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="email" type="email"/>
+</div>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-primary mb-2 uppercase" for="inquiry">Talep Türü</label>
+<select class="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="inquiry">
+<option>Müşterimiz Olun</option>
+<option>Tedarikçimiz Olun</option>
+<option>Genel Soru</option>
+</select>
+</div>
+<div class="pt-4 text-center">
+<button class="bg-primary text-on-primary py-4 px-12 rounded-full font-label-caps text-label-caps uppercase tracking-widest hover:bg-primary/90 transition-colors border border-transparent hover:border-secondary hover:text-secondary inline-block" type="button">
+                        Talebi Gönder
+                    </button>
+</div>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface border-t border-surface-container-high py-stack-xl mt-auto">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="col-span-1 md:col-span-1">
+<div class="font-headline-lg text-[24px] font-bold text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">diamond</span>BERZAN
+                 </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kurumsal iş güvenliği ekipmanları için B2B tedarik platformu. Güvenliği tedarik zincirinin merkezine koyuyoruz.</p>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-caps text-label-caps text-primary mb-4 uppercase tracking-widest">Çözümler</h4>
+<ul class="space-y-3">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Müşteriler İçin</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Tedarikçiler İçin</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Sektörler</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-caps text-label-caps text-primary mb-4 uppercase tracking-widest">Şirket</h4>
+<ul class="space-y-3">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Hakkımızda</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Liderlik</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">İletişim</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-caps text-label-caps text-primary mb-4 uppercase tracking-widest">Yasal</h4>
+<ul class="space-y-3">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Gizlilik Politikası</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Hizmet Şartları</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop mt-12 pt-8 border-t border-surface-container-high/50">
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center">© 2025 BERZAN İş Güvenliği. Tüm hakları saklıdır.</p>
+</div>
+</footer>
+<script>
+        // Navbar scroll animation
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('nav-scrolled');
+            } else {
+                nav.classList.remove('nav-scrolled');
+            }
+        });
+    </script>
+</body></html>
