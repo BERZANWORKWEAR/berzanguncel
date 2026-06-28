@@ -1,0 +1,6 @@
+/* BERZAN — ortak stiller */
+html, body { overflow-x: hidden; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.faq-accordion[open] .chevron { transform: rotate(180deg); }
+.input-focus-gold:focus { border-left: 4px solid #ffe16d; outline: none; }
+.hide { display: none !important; }
