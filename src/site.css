@@ -4,3 +4,9 @@ html, body { overflow-x: hidden; }
 .faq-accordion[open] .chevron { transform: rotate(180deg); }
 .input-focus-gold:focus { border-left: 4px solid #ffe16d; outline: none; }
 .hide { display: none !important; }
+
+/* Google Çeviri varsayılan bandını gizle */
+.goog-te-banner-frame, .goog-te-gadget, #goog-gt-tt, .goog-tooltip, .skiptranslate iframe { display: none !important; }
+body { top: 0 !important; position: static !important; }
+#google_translate_element { display: none !important; }
+.langSelect option { color: #0b1c30; }

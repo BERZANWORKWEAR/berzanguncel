@@ -6,7 +6,7 @@
   const SB_URL = "https://ibenluhsxkyaijaqqioc.supabase.co";
   const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliZW5sdWhzeGt5YWlqYXFxaW9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1Njk4NjksImV4cCI6MjA5ODE0NTg2OX0.KTCaADKE-M0-vBX06htW9XEaYbazcWWLa-xcVVxlRts";
   const WEB3FORMS_KEY = "";   // web3forms.com ücretsiz anahtarı (e-posta bildirimi için)
-  const WHATSAPP_NUMBER = ""; // örn: "905XXXXXXXXX"
+  const WHATSAPP_NUMBER = "905421005649"; // +90 542 100 56 49
 
   const $ = (s) => document.querySelector(s);
 
