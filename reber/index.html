@@ -6,44 +6,75 @@
   <meta name="robots" content="noindex, nofollow" />
   <title>BERZAN ERP — İç Panel</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
   <script>
     tailwind.config = {
-      theme: { extend: { colors: {
-        // Stitch ERP tokens
-        primary: "#00020a", "primary-container": "#131d2e",
-        "on-primary": "#ffffff", "on-primary-container": "#7b859a", "on-primary-fixed-variant": "#3d475a",
-        secondary: "#006a61", "secondary-container": "#86f2e4", "secondary-fixed": "#89f5e7",
-        "on-secondary": "#ffffff", "on-secondary-container": "#006f66",
-        surface: "#f6fafe", background: "#f6fafe", "surface-container-lowest": "#ffffff",
-        "surface-container-low": "#f0f4f8", "surface-container": "#eaeef2", "surface-container-high": "#e4e9ed",
-        "on-surface": "#171c1f", "on-surface-variant": "#45474c", outline: "#75777d", "outline-variant": "#c5c6cd",
-        error: "#ba1a1a", "error-container": "#ffdad6",
-        // app.js uyumluluk alias'ları (mevcut sınıflar bozulmasın)
-        navy: "#131d2e", "navy-2": "#0b1426", "navy-3": "#2a3b59", teal: "#006a61", "teal-2": "#00564f",
-      }}}
+      theme: { extend: {
+        colors: {
+          "tertiary-fixed-dim": "#b7c8e1", "on-primary-container": "#7b859a", "on-primary": "#ffffff",
+          "on-tertiary-fixed-variant": "#38485d", "tertiary-fixed": "#d3e4fe", "surface-variant": "#dfe3e7",
+          "on-secondary-container": "#006f66", "on-surface": "#171c1f", "error-container": "#ffdad6",
+          "inverse-surface": "#2c3134", "primary-fixed-dim": "#bdc7de", "inverse-primary": "#bdc7de",
+          "on-error-container": "#93000a", "on-surface-variant": "#45474c", "on-tertiary-fixed": "#0b1c30",
+          "surface-container-lowest": "#ffffff", "on-secondary": "#ffffff", "tertiary-container": "#0d1e31",
+          "surface-container-highest": "#dfe3e7", "tertiary": "#00030a", "on-error": "#ffffff",
+          "surface-tint": "#555f72", "surface-bright": "#f6fafe", "primary": "#00020a",
+          "on-secondary-fixed-variant": "#005049", "on-background": "#171c1f", "outline": "#75777d",
+          "on-tertiary": "#ffffff", "surface": "#f6fafe", "error": "#ba1a1a", "surface-dim": "#d6dade",
+          "surface-container-low": "#f0f4f8", "primary-fixed": "#d9e3fa", "surface-container": "#eaeef2",
+          "on-tertiary-container": "#76869e", "secondary-fixed-dim": "#6bd8cb", "background": "#f6fafe",
+          "secondary-container": "#86f2e4", "on-primary-fixed": "#121c2d", "on-secondary-fixed": "#00201d",
+          "inverse-on-surface": "#edf1f5", "outline-variant": "#c5c6cd", "surface-container-high": "#e4e9ed",
+          "on-primary-fixed-variant": "#3d475a", "secondary": "#006a61", "primary-container": "#131d2e",
+          "secondary-fixed": "#89f5e7",
+          "navy": "#131d2e", "navy-2": "#0b1426", "teal": "#006a61", "teal-2": "#00564f"
+        },
+        borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+        spacing: { "gutter": "16px", "sidebar-width": "260px", "container-padding": "24px" },
+        fontFamily: {
+          "headline-lg": ["Inter"], "stat-number": ["Inter"], "body-md": ["Inter"], "headline-md": ["Inter"],
+          "label-md": ["Inter"], "body-lg": ["Inter"], "headline-xl": ["Inter"], "headline-lg-mobile": ["Inter"]
+        },
+        fontSize: {
+          "headline-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "700" }],
+          "stat-number": ["28px", { lineHeight: "34px", fontWeight: "700" }],
+          "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+          "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+          "label-md": ["12px", { lineHeight: "16px", fontWeight: "600" }],
+          "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+          "headline-xl": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "headline-lg-mobile": ["20px", { lineHeight: "28px", fontWeight: "700" }]
+        }
+      }}
     };
   </script>
   <style>
-    body { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:#F1F5F9; }
-    .ms { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal;
-          line-height: 1; vertical-align: middle; -webkit-font-feature-settings: 'liga'; }
+    body { font-family: 'Inter', sans-serif; background-color: #F1F5F9; }
+    .ms, .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal;
+      line-height: 1; vertical-align: middle; -webkit-font-feature-settings: 'liga'; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .star-fill { font-variation-settings: 'FILL' 1; }
     .hide { display: none !important; }
     .modal-backdrop { background: rgba(19,29,46,.55); }
+    .glass-card, .card-elevation { background:#fff; border:1px solid #E2E8F0; box-shadow:0 4px 12px rgba(0,0,0,.05); }
+    .shadow-ambient, .card-shadow { box-shadow:0 4px 12px rgba(0,0,0,.05); }
+    .status-pill { padding:2px 10px; border-radius:9999px; font-size:11px; font-weight:600; display:inline-block; }
+    .new-row-highlight { background-color:#f0fdfa; border-left:4px solid #0D9488; }
+    .delay-indicator { position:absolute; left:0; top:0; bottom:0; width:4px; background-color:#ba1a1a; }
     table { border-collapse: collapse; }
-    .tbl th, .tbl td { white-space: nowrap; }
-    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .glass-card { background:#fff; border:1px solid #E2E8F0; box-shadow:0 4px 12px rgba(0,0,0,.05); }
-    .shadow-ambient { box-shadow:0 4px 12px rgba(0,0,0,.05); }
+    .tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    ::-webkit-scrollbar { width:6px; height:6px; } ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:10px; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    .animate-fade-in { animation: fadeIn .35s ease-out forwards; }
   </style>
 </head>
 <body class="text-on-surface min-h-screen">
 
   <!-- ====================== GİRİŞ EKRANI ====================== -->
   <div id="login-view" class="min-h-screen flex items-center justify-center px-4 bg-primary-container">
-    <div class="w-full max-w-sm bg-white rounded-2xl shadow-2xl p-8">
+    <div class="w-full max-w-sm bg-white rounded-2xl p-8" style="box-shadow:0 10px 25px rgba(0,0,0,.15)">
       <div class="text-center mb-6">
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-secondary text-white mb-3">
           <span class="ms text-3xl">lock</span>
@@ -51,7 +82,6 @@
         <h1 class="text-xl font-bold text-primary">BERZAN İç Panel</h1>
         <p class="text-sm text-on-surface-variant mt-1">Devam etmek için giriş yapın</p>
       </div>
-
       <form id="login-form" class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-on-surface mb-1">Kullanıcı adı / E-posta</label>
@@ -64,59 +94,56 @@
                  class="w-full rounded-lg border border-outline-variant px-3 py-2 focus:outline-none focus:ring-2 focus:ring-secondary" />
         </div>
         <p id="login-error" class="text-sm text-red-600 hide"></p>
-        <button type="submit"
-                class="w-full bg-primary hover:brightness-110 text-white font-medium py-2.5 rounded-lg transition flex items-center justify-center gap-2">
+        <button type="submit" class="w-full bg-primary hover:brightness-125 text-white font-medium py-2.5 rounded-lg transition flex items-center justify-center gap-2">
           <span id="login-btn-text">Giriş Yap</span>
         </button>
       </form>
-
-      <p id="config-warn" class="text-xs text-amber-600 mt-4 hide">
-        ⚠️ Supabase ayarları yapılmamış. <code>reber/config.js</code> dosyasını doldurun.
-      </p>
+      <p id="config-warn" class="text-xs text-amber-600 mt-4 hide">⚠️ Supabase ayarları yapılmamış. <code>reber/config.js</code> doldurun.</p>
     </div>
   </div>
 
   <!-- ====================== UYGULAMA ====================== -->
   <div id="app-view" class="hide md:flex min-h-screen">
-
     <!-- SIDEBAR -->
-    <aside id="sidebar" class="fixed left-0 top-0 h-screen w-[260px] bg-primary-container flex flex-col py-6 z-50 -translate-x-full md:translate-x-0 transition-transform duration-300">
+    <aside id="sidebar" class="fixed left-0 top-0 h-screen w-sidebar-width bg-primary-container flex flex-col py-6 z-50 -translate-x-full md:translate-x-0 transition-transform duration-300">
       <div class="px-5 mb-8">
         <img src="/public/img/berzan-logo-white.png" alt="BERZAN" class="h-7 w-auto" />
         <p class="text-[11px] text-on-primary-container uppercase tracking-widest mt-2 opacity-80">ERP · İç Panel</p>
       </div>
       <nav class="flex-1 space-y-1 px-3">
-        <button data-tab="dashboard"    class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">dashboard</span><span class="text-sm font-medium">Gösterge Paneli</span></button>
-        <button data-tab="talepler"     class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">assignment</span><span class="text-sm font-medium">Talep Takip</span></button>
-        <button data-tab="tedarikciler" class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">inventory_2</span><span class="text-sm font-medium">Tedarikçiler</span></button>
-        <button data-tab="teklifler"    class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">request_quote</span><span class="text-sm font-medium">Teklif &amp; Fiyatlandırma</span></button>
-        <button data-tab="siparisler"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">local_shipping</span><span class="text-sm font-medium">Sipariş Takibi</span></button>
-        <button data-tab="webbasvuru"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">web</span><span class="text-sm font-medium">Web Başvuruları</span></button>
+        <button data-tab="dashboard"    class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">dashboard</span><span class="font-label-md text-label-md">Gösterge Paneli</span></button>
+        <button data-tab="talepler"     class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">assignment</span><span class="font-label-md text-label-md">Talep Takip</span></button>
+        <button data-tab="tedarikciler" class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">inventory_2</span><span class="font-label-md text-label-md">Tedarikçiler</span></button>
+        <button data-tab="teklifler"    class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">request_quote</span><span class="font-label-md text-label-md">Teklif &amp; Fiyatlandırma</span></button>
+        <button data-tab="siparisler"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">local_shipping</span><span class="font-label-md text-label-md">Sipariş Takibi</span></button>
+        <button data-tab="webbasvuru"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">web</span><span class="font-label-md text-label-md">Web Başvuruları</span></button>
       </nav>
       <div class="mt-auto px-3">
-        <button id="logout-btn" class="w-full text-left flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-white/5 rounded-lg transition-colors"><span class="ms">logout</span><span class="text-sm font-medium">Çıkış</span></button>
+        <button id="logout-btn" class="w-full text-left flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-white/5 rounded-lg transition-colors"><span class="ms">logout</span><span class="font-label-md text-label-md">Çıkış</span></button>
       </div>
     </aside>
-    <!-- mobil sidebar arka planı -->
     <div id="sidebar-overlay" class="hide fixed inset-0 bg-black/40 z-40 md:hidden"></div>
 
     <!-- ANA İÇERİK -->
-    <main class="flex-1 md:ml-[260px] flex flex-col min-h-screen">
-      <header class="sticky top-0 z-30 flex items-center justify-between h-16 px-4 md:px-6 bg-surface border-b border-outline-variant">
-        <div class="flex items-center gap-3">
+    <main class="flex-1 md:ml-sidebar-width flex flex-col min-h-screen">
+      <header class="sticky top-0 z-30 flex items-center justify-between h-16 px-4 md:px-container-padding bg-surface border-b border-outline-variant">
+        <div class="flex items-center gap-4 flex-1">
           <button id="sidebar-toggle" class="md:hidden text-on-surface-variant p-1" aria-label="Menü"><span class="ms text-2xl">menu</span></button>
-          <span class="font-semibold text-primary hidden sm:inline">BERZAN ERP</span>
+          <div class="relative w-full max-w-md hidden sm:block">
+            <span class="ms absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+            <input id="global-search" class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-secondary/20 outline-none" placeholder="Hızlı ara..." type="text"/>
+          </div>
         </div>
-        <div class="flex items-center gap-3">
-          <button id="topbar-yeni" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-1 hover:brightness-110 transition"><span class="ms text-base">add</span> Yeni Talep</button>
-          <div class="flex items-center gap-2 pl-3 border-l border-outline-variant">
-            <span class="w-9 h-9 rounded-full bg-secondary/15 text-secondary flex items-center justify-center"><span class="ms">person</span></span>
-            <span id="current-user" class="text-sm text-on-surface hidden sm:inline"></span>
+        <div class="flex items-center gap-4">
+          <button id="topbar-yeni" class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:brightness-125 transition"><span class="ms text-[18px]">add</span> Yeni Talep</button>
+          <div class="flex items-center gap-3 pl-2 border-l border-outline-variant">
+            <span class="w-10 h-10 rounded-full bg-secondary/15 text-secondary flex items-center justify-center border-2 border-secondary/30"><span class="ms">person</span></span>
+            <span id="current-user" class="text-label-md text-on-surface hidden sm:inline"></span>
           </div>
         </div>
       </header>
 
-      <div class="p-4 md:p-6 flex-1">
+      <div class="p-4 md:p-container-padding flex-1 bg-[#F1F5F9]">
         <div id="panel-dashboard"   class="panel"></div>
         <div id="panel-talepler"    class="panel hide"></div>
         <div id="panel-tedarikciler" class="panel hide"></div>
@@ -138,10 +165,8 @@
     </div>
   </div>
 
-  <!-- Bildirim (toast) -->
   <div id="toast" class="hide fixed bottom-4 right-4 z-[70] bg-primary text-white px-4 py-3 rounded-lg shadow-lg text-sm"></div>
 
-  <!-- Kütüphaneler -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script src="./config.js"></script>

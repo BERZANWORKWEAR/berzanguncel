@@ -81,11 +81,13 @@
     return `<div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${benim?'bg-secondary text-white':'bg-surface-container-high text-on-surface'}">${benim?'BEN':esc(ini)}</div><span class="text-xs ${benim?'font-semibold text-primary':''}">${esc(ad)}</span></div>`;
   }
   function statCard(ikon, renkChip, etiket, deger, altHTML){
-    return `<div class="glass-card rounded-xl p-5">
-      <div class="flex items-center gap-3 mb-3"><span class="w-10 h-10 rounded-full ${renkChip} flex items-center justify-center"><span class="ms">${ikon}</span></span>
-        <span class="text-on-surface-variant text-sm">${etiket}</span></div>
-      <div class="text-2xl font-bold text-primary">${deger}</div>
-      ${altHTML?`<div class="text-[11px] mt-1">${altHTML}</div>`:""}
+    return `<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-ambient flex items-center gap-4">
+      <div class="w-12 h-12 rounded-full ${renkChip} flex items-center justify-center shrink-0"><span class="ms">${ikon}</span></div>
+      <div class="min-w-0">
+        <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">${etiket}</p>
+        <p class="font-stat-number text-stat-number text-primary">${deger}</p>
+        ${altHTML?`<div class="text-[11px] mt-0.5">${altHTML}</div>`:""}
+      </div>
     </div>`;
   }
   const sayfaBaslik = (baslik, alt) => `<div class="mb-6"><h2 class="text-2xl font-bold text-primary">${baslik}</h2><p class="text-on-surface-variant text-sm">${alt}</p></div>`;
