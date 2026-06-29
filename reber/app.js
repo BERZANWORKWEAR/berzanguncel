@@ -167,17 +167,15 @@
     ].sort((a,b)=>new Date(b.t)-new Date(a.t)).slice(0,4);
 
     host.innerHTML = `
-      <div class="flex justify-between items-end mb-6">
-        <div><h2 class="font-headline-xl text-headline-xl text-primary">Gösterge Paneli</h2>
-          <p class="font-body-md text-body-md text-on-surface-variant">Sistem genelindeki güncel durum ve aksiyon bekleyen işlemler.</p></div>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
-        ${card("assignment","bg-primary/5 text-primary","Açık Talep", fmtNum(acik))}
-        ${card("person","bg-secondary/10 text-secondary","Bana Atanan Açık", fmtNum(banaAtanan),"border-l-4 border-secondary")}
-        ${card("check_circle","bg-green-50 text-green-600","Bu Ay Kazanılan", fmtNum(buAyKazanilan))}
-        ${card("payments","bg-secondary/5 text-secondary","Toplam Kâr (₺)", fmtTL(toplamKar))}
-        ${card("hourglass_empty","bg-error-container/30 text-error","Ödeme Bekleyen", fmtTL(odemeBekleyen))}
-        ${card("web","bg-blue-50 text-blue-600","Web Başvurusu", fmtNum(yeniBasvuru))}
+      <div class="mb-6"><h2 class="font-headline-lg text-headline-lg text-primary">Gösterge Paneli</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Sistem genelindeki güncel durum ve aksiyon bekleyen işlemler.</p></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        ${statCard("assignment","bg-primary/10 text-primary","Açık Talep", fmtNum(acik))}
+        ${statCard("person","bg-secondary/10 text-secondary","Bana Atanan Açık", fmtNum(banaAtanan))}
+        ${statCard("check_circle","bg-green-50 text-green-600","Bu Ay Kazanılan", fmtNum(buAyKazanilan))}
+        ${statCard("payments","bg-secondary/10 text-secondary","Toplam Kâr (₺)", fmtTL(toplamKar))}
+        ${statCard("hourglass_empty","bg-error-container/30 text-error","Ödeme Bekleyen", fmtTL(odemeBekleyen))}
+        ${statCard("web","bg-blue-50 text-blue-600","Web Başvurusu", fmtNum(yeniBasvuru))}
       </div>
 
       <section class="glass-card rounded-xl overflow-hidden shadow-ambient mb-8">
@@ -246,6 +244,8 @@
     const liste = (talepBenim && currentUser) ? talepler.filter(t=>t.atanan===currentUser.id) : talepler;
 
     host.innerHTML = `
+      <div class="mb-6"><h2 class="font-headline-lg text-headline-lg text-primary">Talep Takip</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Tüm talepler; atanan kişi, durum ve sonraki adımları buradan yönetin.</p></div>
       <div class="flex flex-col xl:flex-row gap-6">
         <div class="flex-grow glass-card rounded-xl overflow-hidden flex flex-col">
           <div class="p-5 border-b border-outline-variant flex flex-wrap justify-between items-center gap-3">
@@ -599,19 +599,13 @@
     const teslim = sip.filter(o=>o.asama==="Teslim edildi").length;
 
     host.innerHTML = `
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-ambient">
-          <div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center"><span class="ms text-primary">package_2</span></div><span class="text-on-surface-variant font-label-md text-label-md">Aktif Siparişler</span></div>
-          <div class="font-stat-number text-stat-number text-primary">${fmtNum(aktif)}</div></div>
-        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-ambient">
-          <div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-error-container/30 flex items-center justify-center"><span class="ms text-error">warning</span></div><span class="text-on-surface-variant font-label-md text-label-md">Gecikenler</span></div>
-          <div class="font-stat-number text-stat-number text-error">${fmtNum(geciken)}</div><div class="text-on-surface-variant text-[11px] mt-2">${geciken?'Acil müdahale bekliyor':'—'}</div></div>
-        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-ambient">
-          <div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center"><span class="ms text-secondary">payments</span></div><span class="text-on-surface-variant font-label-md text-label-md">Bekleyen Ödemeler</span></div>
-          <div class="font-stat-number text-stat-number text-secondary">${fmtTL(bekleyenOdeme)}</div><div class="text-on-surface-variant text-[11px] mt-2">Müşteri ödemesi bekleniyor</div></div>
-        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-ambient">
-          <div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full bg-tertiary-fixed/30 flex items-center justify-center"><span class="ms text-on-tertiary-fixed-variant">done_all</span></div><span class="text-on-surface-variant font-label-md text-label-md">Teslim Edilenler</span></div>
-          <div class="font-stat-number text-stat-number text-primary">${fmtNum(teslim)}</div></div>
+      <div class="mb-6"><h2 class="font-headline-lg text-headline-lg text-primary">Sipariş Takibi</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Kazanılan talepler otomatik buraya düşer; aşama ve ödemeleri buradan yönetin.</p></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        ${statCard("package_2","bg-primary/10 text-primary","Aktif Siparişler", fmtNum(aktif))}
+        ${statCard("warning","bg-error-container/30 text-error","Gecikenler", fmtNum(geciken))}
+        ${statCard("payments","bg-secondary-container/40 text-secondary","Bekleyen Ödemeler", fmtTL(bekleyenOdeme))}
+        ${statCard("done_all","bg-tertiary-fixed/40 text-on-tertiary-fixed-variant","Teslim Edilenler", fmtNum(teslim))}
       </div>
       <div class="glass-card rounded-xl overflow-hidden">
         <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
