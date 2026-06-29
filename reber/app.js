@@ -20,6 +20,17 @@
     });
   }
 
+  /* --------------------------- Oturum & roller (Faz 2) --------------------------- */
+  let currentUser = null;      // {id, email, ad, rol}
+  let profilMap = {};          // id -> {ad, rol}
+  const isAdmin = () => !!(currentUser && currentUser.rol === "yonetici");
+  const adFromId = (id) => (id && profilMap[id]) ? profilMap[id].ad : "—";
+  const PIPELINE = ["Yeni","Fiyat Bekleniyor","Teklif Sunuldu","Takipte","Kazanıldı"];
+  const nextDurum = (d) => { const i = PIPELINE.indexOf(d); return (i >= 0 && i < PIPELINE.length - 1) ? PIPELINE[i+1] : null; };
+  const nextAsama = (a) => { const i = ASAMALAR.indexOf(a); return (i >= 0 && i < ASAMALAR.length - 1) ? ASAMALAR[i+1] : null; };
+  const BASVURU_DURUM_RENK = { "Yeni":"bg-amber-100 text-amber-800", "İşlendi":"bg-emerald-100 text-emerald-800", "Kapandı":"bg-slate-100 text-slate-600" };
+  let talepBenim = false;      // "Benim işlerim" filtresi
+
   /* --------------------------- Sabitler --------------------------- */
   const DURUMLAR = ["Yeni","Fiyat Bekleniyor","Teklif Sunuldu","Takipte","Kazanıldı","Kaybedildi"];
   const KAYIP_NEDENLERI = ["İletişim","Fiyat","Zamanlama","Diğer"];
@@ -121,8 +132,17 @@
 
   async function onAuthed(){
     const { data:{ user } } = await sb.auth.getUser();
-    const uname = user?.email ? user.email.split("@")[0] : "kullanıcı";
-    el("current-user").textContent = uname;
+    // profilleri çek (rol + isimler)
+    profilMap = {};
+    const { data: profs } = await sb.from("profiles").select("*");
+    (profs||[]).forEach(p => profilMap[p.id] = { ad: p.ad || "—", rol: p.rol });
+    const me = (profs||[]).find(p => p.id === user.id);
+    currentUser = {
+      id: user.id, email: user.email,
+      ad: me ? (me.ad || (user.email||"").split("@")[0]) : (user.email||"").split("@")[0],
+      rol: me ? me.rol : "calisan"
+    };
+    el("current-user").textContent = currentUser.ad + " · " + (isAdmin() ? "Yönetici" : "Çalışan");
     el("login-view").classList.add("hide");
     el("app-view").classList.remove("hide");
     startInactivity();
@@ -173,7 +193,7 @@
   async function renderDashboard(){
     const host = el("panel-dashboard");
     host.innerHTML = `<p class="text-slate-400">Yükleniyor…</p>`;
-    const [talepler, siparisler] = await Promise.all([fetchAll("talepler"), fetchAll("siparisler")]);
+    const [talepler, siparisler, basvurular] = await Promise.all([fetchAll("talepler"), fetchAll("siparisler"), fetchAll("basvurular")]);
     cache.talepler = talepler; cache.siparisler = siparisler;
 
     const acik = talepler.filter(t=>isOpen(t.durum)).length;
@@ -182,6 +202,8 @@
     const toplamKar = siparisler.reduce((s,o)=>s+(Number(o.kar)||0),0);
     const odemeBekleyen = siparisler.filter(o=>o.musteri_odeme!=="Ödendi").reduce((s,o)=>s+(Number(o.satis)||0),0);
     const vadesiGelen = talepler.filter(t=>isOpen(t.durum) && isDue(t.sonraki_adim_tarihi));
+    const banaAtanan = currentUser ? talepler.filter(t=>isOpen(t.durum) && t.atanan===currentUser.id).length : 0;
+    const yeniBasvuru = basvurular.filter(b=>b.durum==="Yeni").length;
 
     const card = (renk,ikon,etiket,deger) => `
       <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
@@ -193,11 +215,13 @@
       </div>`;
 
     host.innerHTML = `
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         ${card("bg-blue-100 text-blue-700","inbox","Açık talep", fmtNum(acik))}
+        ${card("bg-teal-100 text-teal-700","assignment_ind","Bana atanan açık", fmtNum(banaAtanan))}
         ${card("bg-emerald-100 text-emerald-700","emoji_events","Bu ay kazanılan", fmtNum(buAyKazanilan))}
         ${card("bg-teal-100 text-teal-700","payments","Toplam kâr", fmtTL(toplamKar))}
         ${card("bg-amber-100 text-amber-700","schedule","Ödeme bekleyen", fmtTL(odemeBekleyen))}
+        ${card("bg-indigo-100 text-indigo-700","mark_email_unread","Yeni web başvurusu", fmtNum(yeniBasvuru))}
       </div>
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
         <div class="px-5 py-3 border-b border-slate-200 flex items-center gap-2">
@@ -238,9 +262,13 @@
     talepler.filter(t=>t.durum==="Kaybedildi" && t.kayip_nedeni).forEach(t=>kayipSay[t.kayip_nedeni]++);
     const kayipVar = Object.values(kayipSay).some(v=>v>0);
 
+    const liste = (talepBenim && currentUser) ? talepler.filter(t=>t.atanan===currentUser.id) : talepler;
+
     host.innerHTML = `
       <div class="flex flex-wrap items-center gap-3 mb-4">
         <h2 class="text-lg font-bold text-navy">Talep Takip</h2>
+        <button id="benim-isler" class="px-3 py-2 rounded-lg text-sm border flex items-center gap-1 ${talepBenim?'bg-navy text-white border-navy':'border-slate-300 text-slate-600'}">
+          <span class="ms text-base">assignment_ind</span> Benim işlerim</button>
         <button id="yeni-talep" class="ml-auto bg-teal hover:bg-teal-2 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-1">
           <span class="ms text-base">add</span> Yeni Talep</button>
       </div>
@@ -249,15 +277,15 @@
           <table class="tbl w-full text-sm">
             <thead class="bg-slate-50 text-slate-500 text-left">
               <tr>
-                <th class="px-3 py-2">Talep No</th><th class="px-3 py-2">Tarih</th>
-                <th class="px-3 py-2">Müşteri</th><th class="px-3 py-2">Ürün</th>
-                <th class="px-3 py-2">Adet</th><th class="px-3 py-2">Durum</th>
-                <th class="px-3 py-2">Sonraki adım</th><th class="px-3 py-2"></th>
+                <th class="px-3 py-2">Talep No</th><th class="px-3 py-2">Müşteri</th>
+                <th class="px-3 py-2">Ürün</th><th class="px-3 py-2">Durum</th>
+                <th class="px-3 py-2">Atanan</th><th class="px-3 py-2">Sonraki adım</th>
+                <th class="px-3 py-2"></th>
               </tr>
             </thead>
             <tbody id="talep-rows"></tbody>
           </table>
-          ${talepler.length===0?`<p class="p-5 text-slate-400 text-sm">Henüz talep yok.</p>`:""}
+          ${liste.length===0?`<p class="p-5 text-slate-400 text-sm">Kayıt yok.</p>`:""}
         </div>
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4">
           <h3 class="font-semibold text-navy mb-3 text-sm">Kayıp Nedenleri</h3>
@@ -266,26 +294,33 @@
       </div>`;
 
     const tb = el("talep-rows");
-    tb.innerHTML = talepler.map(t=>{
+    tb.innerHTML = liste.map(t=>{
       const due = isOpen(t.durum) && isDue(t.sonraki_adim_tarihi);
-      return `<tr class="border-t border-slate-100 ${due?"bg-amber-50":""}">
-        <td class="px-3 py-2 font-medium">${esc(t.talep_no)}</td>
-        <td class="px-3 py-2">${fmtDate(t.tarih)}</td>
+      const benim = currentUser && t.atanan===currentUser.id;
+      const ileri = isOpen(t.durum) ? nextDurum(t.durum) : null;
+      return `<tr class="border-t border-slate-100 ${benim?"bg-teal-50":due?"bg-amber-50":""}">
+        <td class="px-3 py-2"><div class="font-medium">${esc(t.talep_no)}</div>
+          <div class="text-xs text-slate-400">${fmtDate(t.tarih)} · ekleyen: ${esc(adFromId(t.ekleyen))}</div></td>
         <td class="px-3 py-2">${esc(t.musteri)}</td>
-        <td class="px-3 py-2">${esc(t.urun_kategori)||"—"}</td>
-        <td class="px-3 py-2">${fmtNum(t.adet)}</td>
+        <td class="px-3 py-2">${esc(t.urun_kategori)||"—"}<div class="text-xs text-slate-400">${fmtNum(t.adet)} adet</div></td>
         <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${DURUM_RENK[t.durum]||""}">${esc(t.durum)}</span></td>
+        <td class="px-3 py-2">${t.atanan?`<span class="px-2 py-0.5 rounded text-xs ${benim?'bg-teal text-white':'bg-slate-100 text-slate-700'}">${esc(adFromId(t.atanan))}</span>`:'<span class="text-slate-300">—</span>'}</td>
         <td class="px-3 py-2">${due?`<span class="ms text-amber-600 text-base">warning</span> `:""}${esc(t.sonraki_adim)||"—"}<br>
             <span class="text-xs ${due?"text-red-600 font-medium":"text-slate-400"}">${fmtDate(t.sonraki_adim_tarihi)}</span></td>
-        <td class="px-3 py-2 text-right">
-          <button class="duzenle text-slate-400 hover:text-teal" data-id="${t.id}"><span class="ms text-base">edit</span></button>
-          <button class="sil text-slate-400 hover:text-red-600" data-id="${t.id}"><span class="ms text-base">delete</span></button>
+        <td class="px-3 py-2 text-right whitespace-nowrap">
+          ${ileri?`<button class="ileri-al text-xs bg-teal hover:bg-teal-2 text-white px-2 py-1 rounded mr-1" data-id="${t.id}" title="Sonraki aşamaya al">${esc(ileri)} →</button>`:""}
+          ${isOpen(t.durum)?`<button class="kaybet text-slate-400 hover:text-red-600" data-id="${t.id}" title="Kaybedildi"><span class="ms text-base">cancel</span></button>`:""}
+          <button class="duzenle text-slate-400 hover:text-teal" data-id="${t.id}" title="Düzenle"><span class="ms text-base">edit</span></button>
+          ${isAdmin()?`<button class="sil text-slate-400 hover:text-red-600" data-id="${t.id}" title="Sil"><span class="ms text-base">delete</span></button>`:""}
         </td></tr>`;
     }).join("");
 
+    el("benim-isler").addEventListener("click", ()=>{ talepBenim=!talepBenim; renderTalepler(); });
     el("yeni-talep").addEventListener("click", ()=>talepForm());
     $$(".duzenle", tb).forEach(b=>b.addEventListener("click", ()=>talepForm(talepler.find(x=>x.id===b.dataset.id))));
     $$(".sil", tb).forEach(b=>b.addEventListener("click", ()=>silKayit("talepler", b.dataset.id, renderTalepler)));
+    $$(".ileri-al", tb).forEach(b=>b.addEventListener("click", ()=>ileriAlTalep(talepler.find(x=>x.id===b.dataset.id))));
+    $$(".kaybet", tb).forEach(b=>b.addEventListener("click", ()=>kaybetTalep(b.dataset.id)));
 
     if(kayipVar){
       new Chart(el("kayip-chart"), {
@@ -295,6 +330,35 @@
         options:{ plugins:{ legend:{ position:"bottom" } } }
       });
     }
+  }
+
+  async function ileriAlTalep(t){
+    if(!t) return;
+    const next = nextDurum(t.durum); if(!next) return;
+    const { error } = await api.update("talepler", t.id, { durum: next });
+    if(error){ toast("Güncellenemedi: "+error.message, true); return; }
+    toast(next==="Kazanıldı" ? "Kazanıldı → Sipariş Takibi'ne taşındı." : "Durum: "+next);
+    renderTalepler();
+  }
+
+  function kaybetTalep(id){
+    openModal("Talebi Kaybet", `
+      <form id="kaybet-f" class="space-y-3">
+        <p class="text-sm text-slate-600">Bu talep neden kaybedildi?</p>
+        ${fSelect("kayip_nedeni","Kayıp nedeni", KAYIP_NEDENLERI, KAYIP_NEDENLERI[0])}
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" id="iptalK" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600">İptal</button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-red-600 text-white">Kaybedildi işaretle</button>
+        </div>
+      </form>`);
+    el("iptalK").addEventListener("click", closeModal);
+    el("kaybet-f").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const row = formData(e.target);
+      const { error } = await api.update("talepler", id, { durum:"Kaybedildi", kayip_nedeni: row.kayip_nedeni });
+      if(error){ toast("Güncellenemedi: "+error.message, true); return; }
+      closeModal(); toast("Talep kaybedildi olarak işaretlendi."); renderTalepler();
+    });
   }
 
   function talepForm(t){
@@ -309,6 +373,11 @@
         ${fInput("istenen_teslim","İstenen teslim", d.istenen_teslim,"date")}
         ${fArea("spesifikasyon","Spesifikasyon", d.spesifikasyon)}
         ${fSelect("durum","Durum", DURUMLAR, d.durum||"Yeni")}
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">Atanan kişi</label>
+          <select name="atanan" class="w-full rounded-lg border border-slate-300 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-teal">
+            <option value="">— Atanmadı —</option>
+            ${Object.entries(profilMap).map(([id,p])=>`<option value="${id}" ${id===(d.atanan||"")?"selected":""}>${esc(p.ad)}</option>`).join("")}
+          </select></div>
         ${fInput("sonraki_adim","Sonraki adım", d.sonraki_adim)}
         ${fInput("sonraki_adim_tarihi","Sonraki adım tarihi", d.sonraki_adim_tarihi,"date")}
         ${fSelect("kayip_nedeni","Kayıp nedeni (kaybedildiyse)", ["", ...KAYIP_NEDENLERI], d.kayip_nedeni||"")}
@@ -378,7 +447,7 @@
         <td class="px-3 py-2 text-amber-500">${yildiz(x.kalite)}</td>
         <td class="px-3 py-2 text-right">
           <button class="ted-edit text-slate-400 hover:text-teal" data-id="${x.id}"><span class="ms text-base">edit</span></button>
-          <button class="ted-sil text-slate-400 hover:text-red-600" data-id="${x.id}"><span class="ms text-base">delete</span></button>
+          ${isAdmin()?`<button class="ted-sil text-slate-400 hover:text-red-600" data-id="${x.id}"><span class="ms text-base">delete</span></button>`:""}
         </td></tr>`).join("");
 
     el("kat-filtre").addEventListener("change", e=>{ tedFiltre=e.target.value; renderTedarikciler(); });
@@ -499,7 +568,7 @@
                   <button class="sec-teklif px-2 py-1 rounded text-xs ${t.secildi?"bg-emerald-600 text-white":"border border-slate-300 text-slate-600"}" data-id="${t.id}">
                     ${t.secildi?"✓ Seçildi":"Seç"}</button></td>
                 <td class="px-3 py-2 text-right">
-                  <button class="teklif-sil text-slate-400 hover:text-red-600" data-id="${t.id}"><span class="ms text-base">delete</span></button></td>
+                  ${isAdmin()?`<button class="teklif-sil text-slate-400 hover:text-red-600" data-id="${t.id}"><span class="ms text-base">delete</span></button>`:`<span class="text-slate-300 text-xs">—</span>`}</td>
               </tr>`;
             }).join("")}
           </tbody>
@@ -630,12 +699,22 @@
         <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${ODEME_RENK[o.musteri_odeme]||""}">${esc(o.musteri_odeme)}</span></td>
         <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${ODEME_RENK[o.tedarikci_odeme]||""}">${esc(o.tedarikci_odeme)}</span></td>
         <td class="px-3 py-2 ${gecikme?"text-red-600 font-medium":""}">${gecikme?'<span class="ms text-red-600 text-base">warning</span> ':""}${fmtDate(o.teslim_tarihi)}</td>
-        <td class="px-3 py-2 text-right">
-          <button class="sip-edit text-slate-400 hover:text-teal" data-id="${o.id}"><span class="ms text-base">edit</span></button></td>
+        <td class="px-3 py-2 text-right whitespace-nowrap">
+          ${nextAsama(o.asama)?`<button class="sip-ileri text-xs bg-teal hover:bg-teal-2 text-white px-2 py-1 rounded mr-1" data-id="${o.id}" title="Sonraki aşama">${esc(nextAsama(o.asama))} →</button>`:""}
+          <button class="sip-edit text-slate-400 hover:text-teal" data-id="${o.id}" title="Düzenle"><span class="ms text-base">edit</span></button></td>
       </tr>`;
     }).join("");
 
     $$(".sip-edit").forEach(b=>b.addEventListener("click", ()=>sipForm(sip.find(x=>x.id===b.dataset.id))));
+    $$(".sip-ileri").forEach(b=>b.addEventListener("click", ()=>ileriAlSiparis(sip.find(x=>x.id===b.dataset.id))));
+  }
+
+  async function ileriAlSiparis(o){
+    if(!o) return;
+    const next = nextAsama(o.asama); if(!next) return;
+    const { error } = await api.update("siparisler", o.id, { asama: next });
+    if(error){ toast("Güncellenemedi: "+error.message, true); return; }
+    toast("Aşama: "+next); renderSiparisler();
   }
 
   function sipForm(o){
@@ -667,6 +746,70 @@
     });
   }
 
+  /* ======================================================================
+     6) WEB BAŞVURULARI (site formundan gelenler)
+     ====================================================================== */
+  async function renderWebbasvuru(){
+    const host = el("panel-webbasvuru");
+    host.innerHTML = `<p class="text-slate-400">Yükleniyor…</p>`;
+    const list = await fetchAll("basvurular");
+
+    host.innerHTML = `
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        <h2 class="text-lg font-bold text-navy">Web Başvuruları</h2>
+        <span class="text-sm text-slate-500">berzan.com.tr formundan gelen talepler.</span>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm tbl-wrap">
+        <table class="tbl w-full text-sm">
+          <thead class="bg-slate-50 text-slate-500 text-left">
+            <tr><th class="px-3 py-2">Tarih</th><th class="px-3 py-2">Tür</th><th class="px-3 py-2">Ad Soyad</th>
+              <th class="px-3 py-2">Firma</th><th class="px-3 py-2">İletişim</th><th class="px-3 py-2">Mesaj</th>
+              <th class="px-3 py-2">Durum</th><th class="px-3 py-2"></th></tr>
+          </thead>
+          <tbody id="bsv-rows"></tbody>
+        </table>
+        ${list.length===0?`<p class="p-5 text-slate-400 text-sm">Henüz başvuru yok.</p>`:""}
+      </div>`;
+
+    el("bsv-rows").innerHTML = list.map(b=>`
+      <tr class="border-t border-slate-100 ${b.durum==='Yeni'?'bg-amber-50/40':''}">
+        <td class="px-3 py-2 whitespace-nowrap">${fmtDate(b.created_at)}</td>
+        <td class="px-3 py-2">${esc(b.tip)}</td>
+        <td class="px-3 py-2 font-medium">${esc(b.ad_soyad)||"—"}</td>
+        <td class="px-3 py-2">${esc(b.firma)||"—"}</td>
+        <td class="px-3 py-2 text-xs">${esc(b.eposta)||""}${b.telefon?`<br>${esc(b.telefon)}`:""}</td>
+        <td class="px-3 py-2 max-w-[240px]"><div class="truncate" title="${esc(b.mesaj)||''}">${esc(b.mesaj)||"—"}</div></td>
+        <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${BASVURU_DURUM_RENK[b.durum]||""}">${esc(b.durum)}</span></td>
+        <td class="px-3 py-2 text-right whitespace-nowrap">
+          ${b.durum!=='İşlendi'?`<button class="bsv-cevir text-xs bg-teal hover:bg-teal-2 text-white px-2 py-1 rounded mr-1" data-id="${b.id}">Talebe çevir</button>`:""}
+          ${isAdmin()?`<button class="bsv-sil text-slate-400 hover:text-red-600" data-id="${b.id}"><span class="ms text-base">delete</span></button>`:""}
+        </td></tr>`).join("");
+
+    $$(".bsv-cevir").forEach(btn=>btn.addEventListener("click", ()=>talebeCevir(list.find(x=>x.id===btn.dataset.id))));
+    $$(".bsv-sil").forEach(btn=>btn.addEventListener("click", ()=>silKayit("basvurular", btn.dataset.id, renderWebbasvuru)));
+  }
+
+  async function talebeCevir(b){
+    if(!b) return;
+    if(!confirm("Bu başvuru Talep Takip'e aktarılsın mı?")) return;
+    const notParcalari = [
+      b.tip ? "Tür: "+b.tip : "",
+      b.eposta ? "E-posta: "+b.eposta : "",
+      b.telefon ? "Tel: "+b.telefon : "",
+      b.mesaj || ""
+    ].filter(Boolean);
+    const row = {
+      musteri: b.firma || b.ad_soyad || "Web başvurusu",
+      iletisim_kisi: b.ad_soyad || null,
+      notlar: notParcalari.join(" | "),
+      durum: "Yeni"
+    };
+    const { error } = await api.insert("talepler", row);
+    if(error){ toast("Aktarılamadı: "+error.message, true); return; }
+    await api.update("basvurular", b.id, { durum:"İşlendi" });
+    toast("Talep Takip'e aktarıldı."); renderWebbasvuru();
+  }
+
   /* --------------------------- Ortak silme --------------------------- */
   async function silKayit(tablo, id, after){
     if(!confirm("Bu kayıt silinsin mi?")) return;
@@ -679,6 +822,7 @@
   const renderers = {
     dashboard: renderDashboard, talepler: renderTalepler,
     tedarikciler: renderTedarikciler, teklifler: renderTeklifler, siparisler: renderSiparisler,
+    webbasvuru: renderWebbasvuru,
   };
 
   /* ======================================================================
