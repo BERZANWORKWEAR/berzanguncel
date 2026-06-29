@@ -178,14 +178,19 @@
   function switchTab(tab){
     $$(".tab-btn").forEach(b=>{
       const on = b.dataset.tab===tab;
-      b.classList.toggle("bg-navy", on);
-      b.classList.toggle("text-white", on);
-      b.classList.toggle("text-slate-300", !on);
+      b.classList.toggle("border-secondary", on);
+      b.classList.toggle("border-transparent", !on);
+      b.classList.toggle("text-on-primary", on);
+      b.classList.toggle("bg-white/5", on);
+      b.classList.toggle("text-on-primary/70", !on);
     });
     $$(".panel").forEach(p=>p.classList.add("hide"));
     el("panel-"+tab).classList.remove("hide");
+    closeSidebar();
     renderers[tab]();
   }
+  function openSidebar(){ const s=el("sidebar"); if(s){ s.classList.remove("-translate-x-full"); } const o=el("sidebar-overlay"); if(o) o.classList.remove("hide"); }
+  function closeSidebar(){ const s=el("sidebar"); if(s){ s.classList.add("-translate-x-full"); } const o=el("sidebar-overlay"); if(o) o.classList.add("hide"); }
 
   /* ======================================================================
      1) GÖSTERGE PANELİ
@@ -781,12 +786,32 @@
         <td class="px-3 py-2 max-w-[240px]"><div class="truncate" title="${esc(b.mesaj)||''}">${esc(b.mesaj)||"—"}</div></td>
         <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${BASVURU_DURUM_RENK[b.durum]||""}">${esc(b.durum)}</span></td>
         <td class="px-3 py-2 text-right whitespace-nowrap">
-          ${b.durum!=='İşlendi'?`<button class="bsv-cevir text-xs bg-teal hover:bg-teal-2 text-white px-2 py-1 rounded mr-1" data-id="${b.id}">Talebe çevir</button>`:""}
+          ${b.durum!=='İşlendi' ? (b.tip==='Tedarikçi'
+            ? `<button class="bsv-tedarikci text-xs bg-secondary hover:brightness-110 text-white px-2 py-1 rounded mr-1" data-id="${b.id}">Tedarikçi olarak ekle</button>`
+            : `<button class="bsv-cevir text-xs bg-secondary hover:brightness-110 text-white px-2 py-1 rounded mr-1" data-id="${b.id}">Talebe çevir</button>`) : ""}
           ${isAdmin()?`<button class="bsv-sil text-slate-400 hover:text-red-600" data-id="${b.id}"><span class="ms text-base">delete</span></button>`:""}
         </td></tr>`).join("");
 
     $$(".bsv-cevir").forEach(btn=>btn.addEventListener("click", ()=>talebeCevir(list.find(x=>x.id===btn.dataset.id))));
+    $$(".bsv-tedarikci").forEach(btn=>btn.addEventListener("click", ()=>tedarikciyeCevir(list.find(x=>x.id===btn.dataset.id))));
     $$(".bsv-sil").forEach(btn=>btn.addEventListener("click", ()=>silKayit("basvurular", btn.dataset.id, renderWebbasvuru)));
+  }
+
+  async function tedarikciyeCevir(b){
+    if(!b) return;
+    if(!confirm("Bu başvuru Tedarikçiler listesine eklensin mi?")) return;
+    const row = {
+      firma: b.firma || b.ad_soyad || "Web tedarikçi",
+      kategori: "Diğer",
+      iletisim_kisi: b.ad_soyad || null,
+      telefon: b.telefon || null,
+      eposta: b.eposta || null,
+      notlar: b.mesaj || null
+    };
+    const { error } = await api.insert("tedarikciler", row);
+    if(error){ toast("Eklenemedi: "+error.message, true); return; }
+    await api.update("basvurular", b.id, { durum:"İşlendi" });
+    toast("Tedarikçiler listesine eklendi."); renderWebbasvuru();
   }
 
   async function talebeCevir(b){
@@ -832,6 +857,9 @@
     el("login-form").addEventListener("submit", doLogin);
     el("logout-btn").addEventListener("click", doLogout);
     $$(".tab-btn").forEach(b=>b.addEventListener("click", ()=>switchTab(b.dataset.tab)));
+    const sbToggle = el("sidebar-toggle"); if(sbToggle) sbToggle.addEventListener("click", openSidebar);
+    const sbOverlay = el("sidebar-overlay"); if(sbOverlay) sbOverlay.addEventListener("click", closeSidebar);
+    const topYeni = el("topbar-yeni"); if(topYeni) topYeni.addEventListener("click", ()=>{ switchTab("talepler"); talepForm(); });
     if(!configured){ el("config-warn").classList.remove("hide"); return; }
     // mevcut oturum var mı?
     sb.auth.getSession().then(({data})=>{ if(data.session) onAuthed(); });

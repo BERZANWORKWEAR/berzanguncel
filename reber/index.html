@@ -4,61 +4,68 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>BERZAN — İç Yönetim Paneli</title>
+  <title>BERZAN ERP — İç Panel</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
   <script>
     tailwind.config = {
       theme: { extend: { colors: {
-        navy:        '#131D2E',
-        'navy-2':    '#1e2c44',
-        'navy-3':    '#2a3b59',
-        teal:        '#0d9488',
-        'teal-2':    '#14b8a6',
+        // Stitch ERP tokens
+        primary: "#00020a", "primary-container": "#131d2e",
+        "on-primary": "#ffffff", "on-primary-container": "#7b859a", "on-primary-fixed-variant": "#3d475a",
+        secondary: "#006a61", "secondary-container": "#86f2e4", "secondary-fixed": "#89f5e7",
+        "on-secondary": "#ffffff", "on-secondary-container": "#006f66",
+        surface: "#f6fafe", background: "#f6fafe", "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#f0f4f8", "surface-container": "#eaeef2", "surface-container-high": "#e4e9ed",
+        "on-surface": "#171c1f", "on-surface-variant": "#45474c", outline: "#75777d", "outline-variant": "#c5c6cd",
+        error: "#ba1a1a", "error-container": "#ffdad6",
+        // app.js uyumluluk alias'ları (mevcut sınıflar bozulmasın)
+        navy: "#131d2e", "navy-2": "#0b1426", "navy-3": "#2a3b59", teal: "#006a61", "teal-2": "#00564f",
       }}}
     };
   </script>
   <style>
-    body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    body { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:#F1F5F9; }
     .ms { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal;
           line-height: 1; vertical-align: middle; -webkit-font-feature-settings: 'liga'; }
     .hide { display: none !important; }
-    /* basit modal */
     .modal-backdrop { background: rgba(19,29,46,.55); }
     table { border-collapse: collapse; }
     .tbl th, .tbl td { white-space: nowrap; }
-    /* mobil tablo kaydırma */
     .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .glass-card { background:#fff; border:1px solid #E2E8F0; box-shadow:0 4px 12px rgba(0,0,0,.05); }
+    .shadow-ambient { box-shadow:0 4px 12px rgba(0,0,0,.05); }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen">
+<body class="text-on-surface min-h-screen">
 
   <!-- ====================== GİRİŞ EKRANI ====================== -->
-  <div id="login-view" class="min-h-screen flex items-center justify-center px-4">
-    <div class="w-full max-w-sm bg-white rounded-2xl shadow-xl border border-slate-200 p-8">
+  <div id="login-view" class="min-h-screen flex items-center justify-center px-4 bg-primary-container">
+    <div class="w-full max-w-sm bg-white rounded-2xl shadow-2xl p-8">
       <div class="text-center mb-6">
-        <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-navy text-white mb-3">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-secondary text-white mb-3">
           <span class="ms text-3xl">lock</span>
         </div>
-        <h1 class="text-xl font-bold text-navy">BERZAN İç Panel</h1>
-        <p class="text-sm text-slate-500 mt-1">Devam etmek için giriş yapın</p>
+        <h1 class="text-xl font-bold text-primary">BERZAN İç Panel</h1>
+        <p class="text-sm text-on-surface-variant mt-1">Devam etmek için giriş yapın</p>
       </div>
 
       <form id="login-form" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Kullanıcı adı / E-posta</label>
+          <label class="block text-sm font-medium text-on-surface mb-1">Kullanıcı adı / E-posta</label>
           <input id="login-user" type="text" autocomplete="username" required placeholder="ornek@berzan.com.tr"
-                 class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal" />
+                 class="w-full rounded-lg border border-outline-variant px-3 py-2 focus:outline-none focus:ring-2 focus:ring-secondary" />
         </div>
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Şifre</label>
+          <label class="block text-sm font-medium text-on-surface mb-1">Şifre</label>
           <input id="login-pass" type="password" autocomplete="current-password" required
-                 class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal" />
+                 class="w-full rounded-lg border border-outline-variant px-3 py-2 focus:outline-none focus:ring-2 focus:ring-secondary" />
         </div>
         <p id="login-error" class="text-sm text-red-600 hide"></p>
         <button type="submit"
-                class="w-full bg-navy hover:bg-navy-2 text-white font-medium py-2.5 rounded-lg transition flex items-center justify-center gap-2">
+                class="w-full bg-primary hover:brightness-110 text-white font-medium py-2.5 rounded-lg transition flex items-center justify-center gap-2">
           <span id="login-btn-text">Giriş Yap</span>
         </button>
       </form>
@@ -70,56 +77,69 @@
   </div>
 
   <!-- ====================== UYGULAMA ====================== -->
-  <div id="app-view" class="hide">
-    <!-- Üst bar -->
-    <header class="bg-navy text-white sticky top-0 z-30 shadow">
-      <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-        <div class="flex items-center gap-2 font-bold tracking-tight">
-          <span class="ms text-teal-2">dashboard</span> BERZAN <span class="text-slate-400 font-normal hidden sm:inline">İç Panel</span>
-        </div>
-        <div class="flex items-center gap-3 text-sm">
-          <span id="current-user" class="text-slate-300 hidden sm:inline"></span>
-          <button id="logout-btn" class="bg-navy-2 hover:bg-navy-3 px-3 py-1.5 rounded-lg flex items-center gap-1">
-            <span class="ms text-base">logout</span> Çıkış
-          </button>
-        </div>
-      </div>
-      <!-- Sekmeler -->
-      <nav class="bg-navy-2 border-t border-navy-3">
-        <div class="max-w-7xl mx-auto px-2 flex gap-1 overflow-x-auto text-sm">
-          <button data-tab="dashboard"  class="tab-btn px-3 py-2.5 whitespace-nowrap flex items-center gap-1"><span class="ms text-base">insights</span>Gösterge</button>
-          <button data-tab="talepler"   class="tab-btn px-3 py-2.5 whitespace-nowrap flex items-center gap-1"><span class="ms text-base">list_alt</span>Talepler</button>
-          <button data-tab="tedarikciler" class="tab-btn px-3 py-2.5 whitespace-nowrap flex items-center gap-1"><span class="ms text-base">store</span>Tedarikçiler</button>
-          <button data-tab="teklifler"  class="tab-btn px-3 py-2.5 whitespace-nowrap flex items-center gap-1"><span class="ms text-base">request_quote</span>Teklif & Fiyat</button>
-          <button data-tab="siparisler" class="tab-btn px-3 py-2.5 whitespace-nowrap flex items-center gap-1"><span class="ms text-base">local_shipping</span>Siparişler</button>
-          <button data-tab="webbasvuru" class="tab-btn px-3 py-2.5 whitespace-nowrap flex items-center gap-1"><span class="ms text-base">mark_email_unread</span>Web Başvuruları</button>
-        </div>
-      </nav>
-    </header>
+  <div id="app-view" class="hide md:flex min-h-screen">
 
-    <main class="max-w-7xl mx-auto px-4 py-6">
-      <div id="panel-dashboard"   class="panel"></div>
-      <div id="panel-talepler"    class="panel hide"></div>
-      <div id="panel-tedarikciler" class="panel hide"></div>
-      <div id="panel-teklifler"   class="panel hide"></div>
-      <div id="panel-siparisler"  class="panel hide"></div>
-      <div id="panel-webbasvuru"  class="panel hide"></div>
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="fixed left-0 top-0 h-screen w-[260px] bg-primary-container flex flex-col py-6 z-50 -translate-x-full md:translate-x-0 transition-transform duration-300">
+      <div class="px-5 mb-8">
+        <img src="/public/img/berzan-logo-white.png" alt="BERZAN" class="h-7 w-auto" />
+        <p class="text-[11px] text-on-primary-container uppercase tracking-widest mt-2 opacity-80">ERP · İç Panel</p>
+      </div>
+      <nav class="flex-1 space-y-1 px-3">
+        <button data-tab="dashboard"    class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">dashboard</span><span class="text-sm font-medium">Gösterge Paneli</span></button>
+        <button data-tab="talepler"     class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">assignment</span><span class="text-sm font-medium">Talep Takip</span></button>
+        <button data-tab="tedarikciler" class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">inventory_2</span><span class="text-sm font-medium">Tedarikçiler</span></button>
+        <button data-tab="teklifler"    class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">request_quote</span><span class="text-sm font-medium">Teklif &amp; Fiyatlandırma</span></button>
+        <button data-tab="siparisler"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">local_shipping</span><span class="text-sm font-medium">Sipariş Takibi</span></button>
+        <button data-tab="webbasvuru"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">web</span><span class="text-sm font-medium">Web Başvuruları</span></button>
+      </nav>
+      <div class="mt-auto px-3">
+        <button id="logout-btn" class="w-full text-left flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-white/5 rounded-lg transition-colors"><span class="ms">logout</span><span class="text-sm font-medium">Çıkış</span></button>
+      </div>
+    </aside>
+    <!-- mobil sidebar arka planı -->
+    <div id="sidebar-overlay" class="hide fixed inset-0 bg-black/40 z-40 md:hidden"></div>
+
+    <!-- ANA İÇERİK -->
+    <main class="flex-1 md:ml-[260px] flex flex-col min-h-screen">
+      <header class="sticky top-0 z-30 flex items-center justify-between h-16 px-4 md:px-6 bg-surface border-b border-outline-variant">
+        <div class="flex items-center gap-3">
+          <button id="sidebar-toggle" class="md:hidden text-on-surface-variant p-1" aria-label="Menü"><span class="ms text-2xl">menu</span></button>
+          <span class="font-semibold text-primary hidden sm:inline">BERZAN ERP</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="topbar-yeni" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-1 hover:brightness-110 transition"><span class="ms text-base">add</span> Yeni Talep</button>
+          <div class="flex items-center gap-2 pl-3 border-l border-outline-variant">
+            <span class="w-9 h-9 rounded-full bg-secondary/15 text-secondary flex items-center justify-center"><span class="ms">person</span></span>
+            <span id="current-user" class="text-sm text-on-surface hidden sm:inline"></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="p-4 md:p-6 flex-1">
+        <div id="panel-dashboard"   class="panel"></div>
+        <div id="panel-talepler"    class="panel hide"></div>
+        <div id="panel-tedarikciler" class="panel hide"></div>
+        <div id="panel-teklifler"   class="panel hide"></div>
+        <div id="panel-siparisler"  class="panel hide"></div>
+        <div id="panel-webbasvuru"  class="panel hide"></div>
+      </div>
     </main>
   </div>
 
   <!-- ====================== MODAL ====================== -->
-  <div id="modal" class="hide fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+  <div id="modal" class="hide fixed inset-0 z-[60] flex items-center justify-center p-4 modal-backdrop">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between px-5 py-3 border-b border-slate-200 sticky top-0 bg-white">
-        <h3 id="modal-title" class="font-semibold text-navy"></h3>
-        <button id="modal-close" class="text-slate-400 hover:text-slate-700"><span class="ms">close</span></button>
+      <div class="flex items-center justify-between px-5 py-3 border-b border-outline-variant sticky top-0 bg-white">
+        <h3 id="modal-title" class="font-semibold text-primary"></h3>
+        <button id="modal-close" class="text-on-surface-variant hover:text-on-surface"><span class="ms">close</span></button>
       </div>
       <div id="modal-body" class="p-5"></div>
     </div>
   </div>
 
   <!-- Bildirim (toast) -->
-  <div id="toast" class="hide fixed bottom-4 right-4 z-[60] bg-navy text-white px-4 py-3 rounded-lg shadow-lg text-sm"></div>
+  <div id="toast" class="hide fixed bottom-4 right-4 z-[70] bg-primary text-white px-4 py-3 rounded-lg shadow-lg text-sm"></div>
 
   <!-- Kütüphaneler -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
