@@ -71,6 +71,25 @@
   const isOpen = (durum) => durum!=="Kazanıldı" && durum!=="Kaybedildi";
   const yildiz = (k) => k ? "★".repeat(k)+"☆".repeat(5-k) : "—";
 
+  /* --- Stitch görsel yardımcıları --- */
+  const pill = (t, cls) => `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${cls||"bg-slate-100 text-slate-700"}">${esc(t)}</span>`;
+  function atananHTML(id){
+    const ad = adFromId(id);
+    if(!id || ad==="—") return '<span class="text-on-surface-variant/50">—</span>';
+    const benim = currentUser && id===currentUser.id;
+    const ini = (ad||"").trim().slice(0,2).toLocaleUpperCase("tr");
+    return `<div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${benim?'bg-secondary text-white':'bg-surface-container-high text-on-surface'}">${benim?'BEN':esc(ini)}</div><span class="text-xs ${benim?'font-semibold text-primary':''}">${esc(ad)}</span></div>`;
+  }
+  function statCard(ikon, renkChip, etiket, deger, altHTML){
+    return `<div class="glass-card rounded-xl p-5">
+      <div class="flex items-center gap-3 mb-3"><span class="w-10 h-10 rounded-full ${renkChip} flex items-center justify-center"><span class="ms">${ikon}</span></span>
+        <span class="text-on-surface-variant text-sm">${etiket}</span></div>
+      <div class="text-2xl font-bold text-primary">${deger}</div>
+      ${altHTML?`<div class="text-[11px] mt-1">${altHTML}</div>`:""}
+    </div>`;
+  }
+  const sayfaBaslik = (baslik, alt) => `<div class="mb-6"><h2 class="text-2xl font-bold text-primary">${baslik}</h2><p class="text-on-surface-variant text-sm">${alt}</p></div>`;
+
   function toast(msg, hata=false){
     const t = el("toast");
     t.textContent = msg;
@@ -211,10 +230,10 @@
     const yeniBasvuru = basvurular.filter(b=>b.durum==="Yeni").length;
 
     const card = (renk,ikon,etiket,deger) => `
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+      <div class="glass-card rounded-xl p-5 shadow-sm">
         <div class="flex items-center gap-3">
           <span class="w-10 h-10 rounded-xl ${renk} flex items-center justify-center"><span class="ms">${ikon}</span></span>
-          <div><div class="text-2xl font-bold text-navy">${deger}</div>
+          <div><div class="text-2xl font-bold text-primary">${deger}</div>
           <div class="text-sm text-slate-500">${etiket}</div></div>
         </div>
       </div>`;
@@ -228,16 +247,16 @@
         ${card("bg-amber-100 text-amber-700","schedule","Ödeme bekleyen", fmtTL(odemeBekleyen))}
         ${card("bg-indigo-100 text-indigo-700","mark_email_unread","Yeni web başvurusu", fmtNum(yeniBasvuru))}
       </div>
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+      <div class="glass-card rounded-xl shadow-sm">
         <div class="px-5 py-3 border-b border-slate-200 flex items-center gap-2">
           <span class="ms text-amber-600">notification_important</span>
-          <h3 class="font-semibold text-navy">Sonraki adım tarihi gelmiş talepler</h3>
+          <h3 class="font-semibold text-primary">Sonraki adım tarihi gelmiş talepler</h3>
           <span class="ml-auto text-sm text-slate-500">${vadesiGelen.length} kayıt</span>
         </div>
         <div class="tbl-wrap">
         ${vadesiGelen.length===0 ? `<p class="p-5 text-slate-400 text-sm">Bekleyen adım yok. 👍</p>` : `
           <table class="tbl w-full text-sm">
-            <thead class="bg-slate-50 text-slate-500 text-left">
+            <thead class="bg-surface-container-low text-on-surface-variant uppercase text-[11px] text-left">
               <tr><th class="px-4 py-2">Talep No</th><th class="px-4 py-2">Müşteri</th>
                   <th class="px-4 py-2">Sonraki adım</th><th class="px-4 py-2">Tarih</th><th class="px-4 py-2">Durum</th></tr>
             </thead>
@@ -270,31 +289,30 @@
     const liste = (talepBenim && currentUser) ? talepler.filter(t=>t.atanan===currentUser.id) : talepler;
 
     host.innerHTML = `
-      <div class="flex flex-wrap items-center gap-3 mb-4">
-        <h2 class="text-lg font-bold text-navy">Talep Takip</h2>
-        <button id="benim-isler" class="px-3 py-2 rounded-lg text-sm border flex items-center gap-1 ${talepBenim?'bg-navy text-white border-navy':'border-slate-300 text-slate-600'}">
+      <div class="flex flex-wrap items-center gap-3 mb-6">
+        <div><h2 class="text-2xl font-bold text-primary">Talep Takip Havuzu</h2>
+          <p class="text-on-surface-variant text-sm">Tüm aktif talepler; atanan kişi ve süreç durumu.</p></div>
+        <button id="benim-isler" class="ml-auto px-4 py-2 rounded-lg text-sm border flex items-center gap-1 ${talepBenim?'bg-primary text-white border-primary':'border-outline-variant text-on-surface-variant hover:bg-surface-container-low'}">
           <span class="ms text-base">assignment_ind</span> Benim işlerim</button>
-        <button id="yeni-talep" class="ml-auto bg-teal hover:bg-teal-2 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-1">
+        <button id="yeni-talep" class="bg-secondary hover:brightness-110 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1">
           <span class="ms text-base">add</span> Yeni Talep</button>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm tbl-wrap">
-          <table class="tbl w-full text-sm">
-            <thead class="bg-slate-50 text-slate-500 text-left">
-              <tr>
-                <th class="px-3 py-2">Talep No</th><th class="px-3 py-2">Müşteri</th>
-                <th class="px-3 py-2">Ürün</th><th class="px-3 py-2">Durum</th>
-                <th class="px-3 py-2">Atanan</th><th class="px-3 py-2">Sonraki adım</th>
-                <th class="px-3 py-2"></th>
-              </tr>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 glass-card rounded-xl overflow-hidden tbl-wrap">
+          <table class="tbl w-full text-sm text-left">
+            <thead class="bg-surface-container-low text-on-surface-variant uppercase text-[11px]">
+              <tr><th class="px-4 py-3">Talep No</th><th class="px-4 py-3">Müşteri</th>
+                <th class="px-4 py-3">Ürün (Adet)</th><th class="px-4 py-3">Durum</th>
+                <th class="px-4 py-3">Atanan</th><th class="px-4 py-3">Sonraki adım</th>
+                <th class="px-4 py-3 text-right">Aksiyonlar</th></tr>
             </thead>
             <tbody id="talep-rows"></tbody>
           </table>
-          ${liste.length===0?`<p class="p-5 text-slate-400 text-sm">Kayıt yok.</p>`:""}
+          ${liste.length===0?`<p class="p-5 text-on-surface-variant text-sm">Kayıt yok.</p>`:""}
         </div>
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4">
-          <h3 class="font-semibold text-navy mb-3 text-sm">Kayıp Nedenleri</h3>
-          ${kayipVar?`<canvas id="kayip-chart" height="220"></canvas>`:`<p class="text-slate-400 text-sm">Henüz kayıp kaydı yok.</p>`}
+        <div class="glass-card rounded-xl p-5 h-fit">
+          <h3 class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-4">Kayıp Nedenleri</h3>
+          ${kayipVar?`<canvas id="kayip-chart" height="220"></canvas>`:`<p class="text-on-surface-variant text-sm">Henüz kayıp kaydı yok.</p>`}
         </div>
       </div>`;
 
@@ -303,20 +321,22 @@
       const due = isOpen(t.durum) && isDue(t.sonraki_adim_tarihi);
       const benim = currentUser && t.atanan===currentUser.id;
       const ileri = isOpen(t.durum) ? nextDurum(t.durum) : null;
-      return `<tr class="border-t border-slate-100 ${benim?"bg-teal-50":due?"bg-amber-50":""}">
-        <td class="px-3 py-2"><div class="font-medium">${esc(t.talep_no)}</div>
-          <div class="text-xs text-slate-400">${fmtDate(t.tarih)} · ekleyen: ${esc(adFromId(t.ekleyen))}</div></td>
-        <td class="px-3 py-2">${esc(t.musteri)}</td>
-        <td class="px-3 py-2">${esc(t.urun_kategori)||"—"}<div class="text-xs text-slate-400">${fmtNum(t.adet)} adet</div></td>
-        <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${DURUM_RENK[t.durum]||""}">${esc(t.durum)}</span></td>
-        <td class="px-3 py-2">${t.atanan?`<span class="px-2 py-0.5 rounded text-xs ${benim?'bg-teal text-white':'bg-slate-100 text-slate-700'}">${esc(adFromId(t.atanan))}</span>`:'<span class="text-slate-300">—</span>'}</td>
-        <td class="px-3 py-2">${due?`<span class="ms text-amber-600 text-base">warning</span> `:""}${esc(t.sonraki_adim)||"—"}<br>
-            <span class="text-xs ${due?"text-red-600 font-medium":"text-slate-400"}">${fmtDate(t.sonraki_adim_tarihi)}</span></td>
-        <td class="px-3 py-2 text-right whitespace-nowrap">
-          ${ileri?`<button class="ileri-al text-xs bg-teal hover:bg-teal-2 text-white px-2 py-1 rounded mr-1" data-id="${t.id}" title="Sonraki aşamaya al">${esc(ileri)} →</button>`:""}
-          ${isOpen(t.durum)?`<button class="kaybet text-slate-400 hover:text-red-600" data-id="${t.id}" title="Kaybedildi"><span class="ms text-base">cancel</span></button>`:""}
-          <button class="duzenle text-slate-400 hover:text-teal" data-id="${t.id}" title="Düzenle"><span class="ms text-base">edit</span></button>
-          ${isAdmin()?`<button class="sil text-slate-400 hover:text-red-600" data-id="${t.id}" title="Sil"><span class="ms text-base">delete</span></button>`:""}
+      return `<tr class="border-t border-outline-variant/60 hover:bg-surface-container-low ${benim?"bg-secondary/5":due?"bg-amber-50/60":""}">
+        <td class="px-4 py-3"><div class="font-bold text-primary">${esc(t.talep_no)}</div>
+          <div class="text-[11px] text-on-surface-variant">${fmtDate(t.tarih)} · ${esc(adFromId(t.ekleyen))}</div></td>
+        <td class="px-4 py-3 font-medium">${esc(t.musteri)}</td>
+        <td class="px-4 py-3">${esc(t.urun_kategori)||"—"} <span class="text-on-surface-variant">(${fmtNum(t.adet)})</span></td>
+        <td class="px-4 py-3">${pill((t.durum||"").toLocaleUpperCase("tr"), DURUM_RENK[t.durum])}</td>
+        <td class="px-4 py-3">${atananHTML(t.atanan)}</td>
+        <td class="px-4 py-3">${due?`<span class="ms text-amber-600 text-base align-middle">warning</span> `:""}${esc(t.sonraki_adim)||"—"}
+            <div class="text-[11px] ${due?"text-red-600 font-medium":"text-on-surface-variant"}">${fmtDate(t.sonraki_adim_tarihi)}</div></td>
+        <td class="px-4 py-3 text-right whitespace-nowrap">
+          <div class="flex items-center justify-end gap-1.5">
+          ${ileri?`<button class="ileri-al bg-secondary text-white text-[11px] font-bold px-3 py-1.5 rounded inline-flex items-center gap-1 hover:brightness-110" data-id="${t.id}" title="Sonraki aşamaya al">İleri Al <span class="ms text-[14px]">arrow_forward</span></button>`:""}
+          ${isOpen(t.durum)?`<button class="kaybet p-1.5 text-on-surface-variant hover:text-red-600" data-id="${t.id}" title="Kaybedildi"><span class="ms text-[20px]">cancel</span></button>`:""}
+          <button class="duzenle p-1.5 text-on-surface-variant hover:text-primary" data-id="${t.id}" title="Düzenle"><span class="ms text-[20px]">edit</span></button>
+          ${isAdmin()?`<button class="sil p-1.5 text-on-surface-variant hover:text-red-600" data-id="${t.id}" title="Sil"><span class="ms text-[20px]">delete</span></button>`:""}
+          </div>
         </td></tr>`;
     }).join("");
 
@@ -417,42 +437,49 @@
     const ted = await fetchAll("tedarikciler"); cache.tedarikciler = ted;
     const liste = tedFiltre ? ted.filter(x=>x.kategori===tedFiltre) : ted;
 
+    const kArr = ted.map(x=>Number(x.kalite)).filter(n=>n>0);
+    const ortKalite = kArr.length ? kArr.reduce((a,b)=>a+b,0)/kArr.length : 0;
     host.innerHTML = `
-      <div class="flex flex-wrap items-center gap-3 mb-4">
-        <h2 class="text-lg font-bold text-navy">Tedarikçiler</h2>
-        <select id="kat-filtre" class="rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white">
-          <option value="">Tüm kategoriler</option>
-          ${KATEGORILER.map(k=>`<option value="${esc(k)}" ${k===tedFiltre?"selected":""}>${esc(k)}</option>`).join("")}
-        </select>
-        <button id="yeni-ted" class="ml-auto bg-teal hover:bg-teal-2 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-1">
-          <span class="ms text-base">add</span> Yeni Tedarikçi</button>
+      <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
+        <div><h2 class="text-2xl font-bold text-primary">Tedarikçi Yönetimi</h2>
+          <p class="text-on-surface-variant text-sm">Kayıtlı tedarikçilerin listesi ve performans verileri.</p></div>
+        <div class="flex items-center gap-3">
+          <select id="kat-filtre" class="bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-secondary/30">
+            <option value="">Tüm Kategoriler</option>
+            ${KATEGORILER.map(k=>`<option value="${esc(k)}" ${k===tedFiltre?"selected":""}>${esc(k)}</option>`).join("")}
+          </select>
+          <button id="yeni-ted" class="bg-primary hover:brightness-125 text-white px-5 py-2.5 rounded-lg text-sm flex items-center gap-1"><span class="ms text-base">add</span> Yeni Tedarikçi</button>
+        </div>
       </div>
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm tbl-wrap">
-        <table class="tbl w-full text-sm">
-          <thead class="bg-slate-50 text-slate-500 text-left">
-            <tr><th class="px-3 py-2">Firma</th><th class="px-3 py-2">Kategori</th>
-              <th class="px-3 py-2">İletişim</th><th class="px-3 py-2">Telefon</th>
-              <th class="px-3 py-2">Min. sip.</th><th class="px-3 py-2">Ort. teslim</th>
-              <th class="px-3 py-2">Vade</th><th class="px-3 py-2">Kalite</th><th class="px-3 py-2"></th></tr>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-6">
+        ${statCard("groups","bg-secondary/15 text-secondary","Toplam Tedarikçi", fmtNum(ted.length), "")}
+        ${statCard("star","bg-amber-100 text-amber-500","Ort. Kalite Skoru", ortKalite?ortKalite.toFixed(1):"—", "")}
+        ${statCard("category","bg-primary/10 text-primary","Kategori Sayısı", fmtNum(new Set(ted.map(x=>x.kategori).filter(Boolean)).size), "")}
+      </div>
+      <div class="glass-card rounded-xl overflow-hidden tbl-wrap">
+        <table class="tbl w-full text-sm text-left">
+          <thead class="bg-surface-container-low text-on-surface-variant uppercase text-[11px]">
+            <tr><th class="px-4 py-3">Firma</th><th class="px-4 py-3">Kategori</th><th class="px-4 py-3">İletişim</th>
+              <th class="px-4 py-3">Min. Sip.</th><th class="px-4 py-3">Ort. Teslim</th><th class="px-4 py-3">Vade</th>
+              <th class="px-4 py-3">Kalite</th><th class="px-4 py-3 text-right">Aksiyon</th></tr>
           </thead>
           <tbody id="ted-rows"></tbody>
         </table>
-        ${liste.length===0?`<p class="p-5 text-slate-400 text-sm">Kayıt yok.</p>`:""}
+        ${liste.length===0?`<p class="p-5 text-on-surface-variant text-sm">Kayıt yok.</p>`:""}
       </div>`;
 
     el("ted-rows").innerHTML = liste.map(x=>`
-      <tr class="border-t border-slate-100">
-        <td class="px-3 py-2 font-medium">${esc(x.firma)}</td>
-        <td class="px-3 py-2">${esc(x.kategori)||"—"}</td>
-        <td class="px-3 py-2">${esc(x.iletisim_kisi)||"—"}</td>
-        <td class="px-3 py-2">${esc(x.telefon)||"—"}</td>
-        <td class="px-3 py-2">${x.min_siparis?fmtNum(x.min_siparis):"—"}</td>
-        <td class="px-3 py-2">${x.ort_teslim_gun?x.ort_teslim_gun+" gün":"—"}</td>
-        <td class="px-3 py-2">${esc(x.odeme_vadesi)||"—"}</td>
-        <td class="px-3 py-2 text-amber-500">${yildiz(x.kalite)}</td>
-        <td class="px-3 py-2 text-right">
-          <button class="ted-edit text-slate-400 hover:text-teal" data-id="${x.id}"><span class="ms text-base">edit</span></button>
-          ${isAdmin()?`<button class="ted-sil text-slate-400 hover:text-red-600" data-id="${x.id}"><span class="ms text-base">delete</span></button>`:""}
+      <tr class="border-t border-outline-variant/60 hover:bg-surface-container-low">
+        <td class="px-4 py-3 font-semibold text-primary">${esc(x.firma)}</td>
+        <td class="px-4 py-3">${x.kategori?pill(x.kategori,"bg-slate-100 text-slate-700"):"—"}</td>
+        <td class="px-4 py-3"><div>${esc(x.iletisim_kisi)||"—"}</div><div class="text-[11px] text-on-surface-variant">${esc(x.telefon)||""}</div></td>
+        <td class="px-4 py-3">${x.min_siparis?fmtNum(x.min_siparis):"—"}</td>
+        <td class="px-4 py-3">${x.ort_teslim_gun?x.ort_teslim_gun+" gün":"—"}</td>
+        <td class="px-4 py-3">${esc(x.odeme_vadesi)||"—"}</td>
+        <td class="px-4 py-3 text-amber-500">${yildiz(x.kalite)}</td>
+        <td class="px-4 py-3 text-right whitespace-nowrap">
+          <button class="ted-edit p-1.5 text-on-surface-variant hover:text-primary" data-id="${x.id}"><span class="ms text-[20px]">edit</span></button>
+          ${isAdmin()?`<button class="ted-sil p-1.5 text-on-surface-variant hover:text-red-600" data-id="${x.id}"><span class="ms text-[20px]">delete</span></button>`:""}
         </td></tr>`).join("");
 
     el("kat-filtre").addEventListener("change", e=>{ tedFiltre=e.target.value; renderTedarikciler(); });
@@ -502,12 +529,12 @@
     cache.talepler = talepler; cache.tedarikciler = ted;
 
     host.innerHTML = `
-      <div class="flex flex-wrap items-center gap-3 mb-4">
-        <h2 class="text-lg font-bold text-navy">Teklif & Fiyatlandırma</h2>
-        <select id="teklif-talep" class="rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white min-w-[260px]">
+      ${sayfaBaslik("Teklif & Fiyatlandırma","Bir talep seçin, tedarikçi tekliflerini girin ve en uygununu fiyatlandırın.")}
+      <div class="glass-card rounded-xl p-4 mb-6 flex flex-wrap items-center gap-3">
+        <label class="text-sm font-medium text-on-surface-variant">Talep:</label>
+        <select id="teklif-talep" class="rounded-lg border border-outline-variant px-3 py-2 text-sm bg-white min-w-[280px] outline-none focus:ring-2 focus:ring-secondary/30">
           <option value="">— Talep seçin —</option>
-          ${talepler.map(t=>`<option value="${t.id}" ${t.id===seciliTalepId?"selected":""}>
-            ${esc(t.talep_no)} · ${esc(t.musteri)} · ${esc(t.urun_kategori||"")}</option>`).join("")}
+          ${talepler.map(t=>`<option value="${t.id}" ${t.id===seciliTalepId?"selected":""}>${esc(t.talep_no)} · ${esc(t.musteri)} · ${esc(t.urun_kategori||"")}</option>`).join("")}
         </select>
       </div>
       <div id="teklif-icerik"></div>`;
@@ -533,7 +560,7 @@
       if(secili.kar_marji!=null){ satis = maliyet*(1+Number(secili.kar_marji)/100); kar = satis-maliyet; } }
 
     box.innerHTML = `
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 mb-4">
+      <div class="glass-card rounded-xl shadow-sm p-4 mb-4">
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
           <div><div class="text-slate-400">Talep</div><div class="font-medium">${esc(talep.talep_no)}</div></div>
           <div><div class="text-slate-400">Müşteri</div><div class="font-medium">${esc(talep.musteri)}</div></div>
@@ -543,16 +570,16 @@
       </div>
 
       <div class="flex items-center gap-3 mb-3">
-        <h3 class="font-semibold text-navy">Teklifler (${teklifler.length})</h3>
-        <button id="yeni-teklif" class="ml-auto bg-teal hover:bg-teal-2 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-1">
+        <h3 class="font-semibold text-primary">Teklifler (${teklifler.length})</h3>
+        <button id="yeni-teklif" class="ml-auto bg-secondary hover:brightness-110 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-1">
           <span class="ms text-base">add</span> Teklif Ekle</button>
         <button id="musteriye-sun" class="bg-navy hover:bg-navy-2 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-1">
           <span class="ms text-base">send</span> Müşteriye Sun</button>
       </div>
 
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm tbl-wrap mb-4">
+      <div class="glass-card rounded-xl shadow-sm tbl-wrap mb-4">
         <table class="tbl w-full text-sm">
-          <thead class="bg-slate-50 text-slate-500 text-left">
+          <thead class="bg-surface-container-low text-on-surface-variant uppercase text-[11px] text-left">
             <tr><th class="px-3 py-2">Tedarikçi</th><th class="px-3 py-2">Birim ₺</th>
               <th class="px-3 py-2">Toplam ₺</th><th class="px-3 py-2">Teslim</th>
               <th class="px-3 py-2">Vade</th><th class="px-3 py-2">Kalite</th>
@@ -580,8 +607,8 @@
         </table>
       </div>
 
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4">
-        <h3 class="font-semibold text-navy mb-3">Fiyatlandırma (seçilen teklif)</h3>
+      <div class="glass-card rounded-xl shadow-sm p-4">
+        <h3 class="font-semibold text-primary mb-3">Fiyatlandırma (seçilen teklif)</h3>
         ${!secili?`<p class="text-slate-400 text-sm">Bir teklifi "Seç" ile işaretleyin, sonra kâr marjı girin.</p>`:`
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
             <div><div class="text-slate-400 text-sm">Maliyet</div><div class="text-lg font-bold">${fmtTL(maliyet)}</div></div>
@@ -669,44 +696,49 @@
     host.innerHTML = `<p class="text-slate-400">Yükleniyor…</p>`;
     const sip = await fetchAll("siparisler"); cache.siparisler = sip;
 
+    const aktif = sip.filter(o=>o.asama!=="Teslim edildi").length;
+    const geciken = sip.filter(o=>o.asama!=="Teslim edildi" && o.teslim_tarihi && new Date(o.teslim_tarihi)<today0()).length;
+    const bekleyenOdeme = sip.filter(o=>o.musteri_odeme!=="Ödendi").reduce((s,o)=>s+(Number(o.satis)||0),0);
+    const teslim = sip.filter(o=>o.asama==="Teslim edildi").length;
+
     host.innerHTML = `
-      <div class="flex flex-wrap items-center gap-3 mb-4">
-        <h2 class="text-lg font-bold text-navy">Sipariş Takibi</h2>
-        <span class="text-sm text-slate-500">Kazanılan talepler otomatik buraya düşer.</span>
+      ${sayfaBaslik("Sipariş Takibi","Kazanılan talepler otomatik buraya düşer; aşama ve ödemeleri buradan yönetin.")}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+        ${statCard("package_2","bg-primary/10 text-primary","Aktif Siparişler", fmtNum(aktif), "")}
+        ${statCard("warning","bg-red-100 text-red-600","Geciken", `<span class="text-red-600">${fmtNum(geciken)}</span>`, geciken?`<span class="text-on-surface-variant">Acil müdahale bekliyor</span>`:"")}
+        ${statCard("payments","bg-secondary/10 text-secondary","Bekleyen Ödeme", `<span class="text-secondary">${fmtTL(bekleyenOdeme)}</span>`, `<span class="text-on-surface-variant">Müşteri ödemesi bekleniyor</span>`)}
+        ${statCard("done_all","bg-emerald-100 text-emerald-600","Teslim Edilen", fmtNum(teslim), "")}
       </div>
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm tbl-wrap">
-        <table class="tbl w-full text-sm">
-          <thead class="bg-slate-50 text-slate-500 text-left">
-            <tr><th class="px-3 py-2">Sipariş No</th><th class="px-3 py-2">Müşteri</th>
-              <th class="px-3 py-2">Tedarikçi</th><th class="px-3 py-2">Ürün</th>
-              <th class="px-3 py-2">Maliyet</th><th class="px-3 py-2">Satış</th>
-              <th class="px-3 py-2">Kâr</th><th class="px-3 py-2">Aşama</th>
-              <th class="px-3 py-2">Müş. öd.</th><th class="px-3 py-2">Ted. öd.</th>
-              <th class="px-3 py-2">Teslim</th><th class="px-3 py-2"></th></tr>
+      <div class="glass-card rounded-xl overflow-hidden">
+        <div class="tbl-wrap"><table class="tbl w-full text-sm text-left">
+          <thead class="bg-surface-container-low text-on-surface-variant uppercase text-[11px]">
+            <tr><th class="px-4 py-3">Sipariş No</th><th class="px-4 py-3">Müşteri</th><th class="px-4 py-3">Tedarikçi</th>
+              <th class="px-4 py-3">Ürün</th><th class="px-4 py-3 text-right">Finansal</th><th class="px-4 py-3 text-center">Aşama</th>
+              <th class="px-4 py-3 text-center">Ödemeler</th><th class="px-4 py-3">Teslim</th><th class="px-4 py-3 text-right">Aksiyon</th></tr>
           </thead>
           <tbody id="sip-rows"></tbody>
         </table>
-        ${sip.length===0?`<p class="p-5 text-slate-400 text-sm">Henüz sipariş yok.</p>`:""}
+        ${sip.length===0?`<p class="p-5 text-on-surface-variant text-sm">Henüz sipariş yok.</p>`:""}
+        </div>
       </div>`;
 
     el("sip-rows").innerHTML = sip.map(o=>{
       const gecikme = o.asama!=="Teslim edildi" && o.teslim_tarihi && new Date(o.teslim_tarihi)<today0();
-      const odenmedi = o.musteri_odeme!=="Ödendi";
-      return `<tr class="border-t border-slate-100 ${gecikme?"bg-red-50":""}">
-        <td class="px-3 py-2 font-medium">${esc(o.siparis_no)}</td>
-        <td class="px-3 py-2">${esc(o.musteri)||"—"}</td>
-        <td class="px-3 py-2">${esc(o.tedarikci)||"—"}</td>
-        <td class="px-3 py-2">${esc(o.urun)||"—"}</td>
-        <td class="px-3 py-2">${fmtTL(o.maliyet)}</td>
-        <td class="px-3 py-2">${fmtTL(o.satis)}</td>
-        <td class="px-3 py-2 text-emerald-700 font-medium">${fmtTL(o.kar)}<br><span class="text-xs text-slate-400">%${fmtNum(o.kar_yuzde)}</span></td>
-        <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${ASAMA_RENK[o.asama]||""}">${esc(o.asama)}</span></td>
-        <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${ODEME_RENK[o.musteri_odeme]||""}">${esc(o.musteri_odeme)}</span></td>
-        <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${ODEME_RENK[o.tedarikci_odeme]||""}">${esc(o.tedarikci_odeme)}</span></td>
-        <td class="px-3 py-2 ${gecikme?"text-red-600 font-medium":""}">${gecikme?'<span class="ms text-red-600 text-base">warning</span> ':""}${fmtDate(o.teslim_tarihi)}</td>
-        <td class="px-3 py-2 text-right whitespace-nowrap">
-          ${nextAsama(o.asama)?`<button class="sip-ileri text-xs bg-teal hover:bg-teal-2 text-white px-2 py-1 rounded mr-1" data-id="${o.id}" title="Sonraki aşama">${esc(nextAsama(o.asama))} →</button>`:""}
-          <button class="sip-edit text-slate-400 hover:text-teal" data-id="${o.id}" title="Düzenle"><span class="ms text-base">edit</span></button></td>
+      const ileri = nextAsama(o.asama);
+      return `<tr class="border-t border-outline-variant/60 hover:bg-surface-container-low ${gecikme?"bg-red-50/60":""}">
+        <td class="px-4 py-3 font-bold text-primary">${esc(o.siparis_no)}</td>
+        <td class="px-4 py-3">${esc(o.musteri)||"—"}</td>
+        <td class="px-4 py-3 text-on-surface-variant">${esc(o.tedarikci)||"—"}</td>
+        <td class="px-4 py-3"><div class="font-medium">${esc(o.urun)||"—"}</div><div class="text-[11px] text-on-surface-variant">${fmtNum(o.adet)} adet</div></td>
+        <td class="px-4 py-3 text-right"><div class="font-bold text-primary">${fmtTL(o.satis)}</div><div class="text-[11px] text-secondary font-bold">${o.kar_yuzde!=null?('%'+fmtNum(o.kar_yuzde)+' kâr'):''}</div></td>
+        <td class="px-4 py-3 text-center">${pill(o.asama, ASAMA_RENK[o.asama])}</td>
+        <td class="px-4 py-3 text-center"><div class="space-y-1 inline-flex flex-col items-center">
+          <div>${pill("Müş: "+o.musteri_odeme, ODEME_RENK[o.musteri_odeme])}</div>
+          <div>${pill("Ted: "+o.tedarikci_odeme, ODEME_RENK[o.tedarikci_odeme])}</div></div></td>
+        <td class="px-4 py-3 whitespace-nowrap ${gecikme?"text-red-600 font-medium":""}">${fmtDate(o.teslim_tarihi)}${gecikme?'<div class="text-[10px] text-red-600">Gecikti</div>':""}</td>
+        <td class="px-4 py-3 text-right whitespace-nowrap">
+          ${ileri?`<button class="sip-ileri bg-secondary text-white text-[11px] font-bold px-3 py-1.5 rounded inline-flex items-center gap-1 hover:brightness-110 mr-1" data-id="${o.id}">İleri Al <span class="ms text-[14px]">arrow_forward</span></button>`:""}
+          <button class="sip-edit p-1.5 text-on-surface-variant hover:text-primary" data-id="${o.id}" title="Düzenle"><span class="ms text-[20px]">edit</span></button></td>
       </tr>`;
     }).join("");
 
@@ -754,47 +786,134 @@
   /* ======================================================================
      6) WEB BAŞVURULARI (site formundan gelenler)
      ====================================================================== */
+  let basvuruList = [];
+  let seciliBasvuruId = "";
+  const TIP_RENK = { "Müşteri":"bg-teal-100 text-teal-800", "Tedarikçi":"bg-indigo-100 text-indigo-800", "Genel":"bg-slate-100 text-slate-700" };
+
   async function renderWebbasvuru(){
     const host = el("panel-webbasvuru");
-    host.innerHTML = `<p class="text-slate-400">Yükleniyor…</p>`;
-    const list = await fetchAll("basvurular");
+    host.innerHTML = `<p class="text-on-surface-variant">Yükleniyor…</p>`;
+    basvuruList = await fetchAll("basvurular");
+    if(!basvuruList.find(b=>b.id===seciliBasvuruId)) seciliBasvuruId = basvuruList[0] ? basvuruList[0].id : "";
+    paintWebbasvuru();
+  }
+
+  function haftalikBars(){
+    const gunler=[]; const t=today0();
+    for(let i=6;i>=0;i--){ const d=new Date(t); d.setDate(d.getDate()-i); gunler.push(d.getTime()); }
+    const say = gunler.map(g=> basvuruList.filter(b=>{ const c=new Date(b.created_at); c.setHours(0,0,0,0); return c.getTime()===g; }).length);
+    const max = Math.max(1, ...say);
+    return say.map(n=>{ const h=Math.round(8 + (n/max)*88); return `<div class="w-full ${n?'bg-secondary':'bg-secondary/20'} rounded-t" style="height:${h}%"></div>`; }).join("");
+  }
+
+  function paintWebbasvuru(){
+    const host = el("panel-webbasvuru");
+    const list = basvuruList;
+    const bekleyen = list.filter(b=>b.durum==='Yeni').length;
+    const islenen  = list.filter(b=>b.durum!=='Yeni').length;
+    const secili = list.find(b=>b.id===seciliBasvuruId);
 
     host.innerHTML = `
-      <div class="flex flex-wrap items-center gap-3 mb-4">
-        <h2 class="text-lg font-bold text-navy">Web Başvuruları</h2>
-        <span class="text-sm text-slate-500">berzan.com.tr formundan gelen talepler.</span>
+      <div class="flex flex-wrap justify-between items-end gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-primary">Web Başvuruları</h2>
+          <p class="text-on-surface-variant text-sm">berzan.com.tr formundan gelen müşteri ve tedarikçi talepleri.</p>
+        </div>
+        <div class="flex gap-3">
+          <div class="glass-card rounded-xl p-4 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-full bg-secondary/15 text-secondary flex items-center justify-center"><span class="ms">inbox</span></span>
+            <div><p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Bekleyen</p><p class="text-xl font-bold text-primary">${bekleyen}</p></div>
+          </div>
+          <div class="glass-card rounded-xl p-4 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center"><span class="ms">done_all</span></span>
+            <div><p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">İşlenen</p><p class="text-xl font-bold text-primary">${islenen}</p></div>
+          </div>
+        </div>
       </div>
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm tbl-wrap">
-        <table class="tbl w-full text-sm">
-          <thead class="bg-slate-50 text-slate-500 text-left">
-            <tr><th class="px-3 py-2">Tarih</th><th class="px-3 py-2">Tür</th><th class="px-3 py-2">Ad Soyad</th>
-              <th class="px-3 py-2">Firma</th><th class="px-3 py-2">İletişim</th><th class="px-3 py-2">Mesaj</th>
-              <th class="px-3 py-2">Durum</th><th class="px-3 py-2"></th></tr>
-          </thead>
-          <tbody id="bsv-rows"></tbody>
-        </table>
-        ${list.length===0?`<p class="p-5 text-slate-400 text-sm">Henüz başvuru yok.</p>`:""}
+
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 lg:col-span-8 glass-card rounded-xl overflow-hidden">
+          <div class="tbl-wrap">
+            <table class="tbl w-full text-sm text-left">
+              <thead class="bg-surface-container-low text-on-surface-variant">
+                <tr><th class="px-4 py-3">TARİH</th><th class="px-4 py-3">TÜR</th><th class="px-4 py-3">AD SOYAD / FİRMA</th>
+                  <th class="px-4 py-3">İLETİŞİM</th><th class="px-4 py-3">DURUM</th></tr>
+              </thead>
+              <tbody>
+                ${list.length===0?`<tr><td colspan="5" class="px-4 py-6 text-on-surface-variant">Henüz başvuru yok.</td></tr>`:
+                list.map(b=>{
+                  const sec = b.id===seciliBasvuruId;
+                  return `<tr class="bsv-row cursor-pointer border-t border-outline-variant/60 hover:bg-surface-container-low ${sec?'bg-secondary/10':''} ${b.durum==='Yeni'?'border-l-4 border-l-secondary':'border-l-4 border-l-transparent'}" data-id="${b.id}">
+                    <td class="px-4 py-3 whitespace-nowrap">${fmtDate(b.created_at)}</td>
+                    <td class="px-4 py-3"><span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${TIP_RENK[b.tip]||TIP_RENK['Genel']}">${esc(b.tip)}</span></td>
+                    <td class="px-4 py-3"><div class="font-semibold text-primary">${esc(b.ad_soyad)||"—"}</div><div class="text-xs text-on-surface-variant">${esc(b.firma)||""}</div></td>
+                    <td class="px-4 py-3 text-on-surface-variant">
+                      ${b.eposta?`<div class="flex items-center gap-1 text-xs"><span class="ms text-[14px]">mail</span>${esc(b.eposta)}</div>`:""}
+                      ${b.telefon?`<div class="flex items-center gap-1 text-xs"><span class="ms text-[14px]">call</span>${esc(b.telefon)}</div>`:""}
+                    </td>
+                    <td class="px-4 py-3">${b.durum==='Yeni'
+                      ? `<span class="flex items-center gap-1.5 text-secondary font-semibold text-xs whitespace-nowrap"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>Yeni</span>`
+                      : `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">${esc(b.durum)}</span>`}</td>
+                  </tr>`;
+                }).join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-span-12 lg:col-span-4 space-y-6">
+          <div class="glass-card rounded-xl p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-primary">Seçili Başvuru</h3>
+              <span class="ms text-secondary">info</span>
+            </div>
+            ${!secili?`<p class="text-on-surface-variant text-sm">Detay için soldan bir başvuru seçin.</p>`:`
+              <div class="space-y-4">
+                <div>
+                  <div class="font-semibold text-primary">${esc(secili.ad_soyad)||"—"}</div>
+                  <div class="text-xs text-on-surface-variant">${esc(secili.firma)||""}</div>
+                </div>
+                <div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/60">
+                  <p class="text-[10px] uppercase font-bold text-on-surface-variant mb-1">MESAJ İÇERİĞİ</p>
+                  <p class="text-sm text-on-surface italic">${secili.mesaj?('“'+esc(secili.mesaj)+'”'):'(mesaj yok)'}</p>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="p-3 bg-surface rounded-lg border border-outline-variant/40"><p class="text-[10px] font-bold text-on-surface-variant">TÜR</p><p class="font-bold text-primary">${esc(secili.tip)}</p></div>
+                  <div class="p-3 bg-surface rounded-lg border border-outline-variant/40"><p class="text-[10px] font-bold text-on-surface-variant">KAYNAK</p><p class="font-bold text-primary">Web Form</p></div>
+                </div>
+                <div><p class="text-[10px] font-bold text-on-surface-variant mb-0.5">İLETİŞİM</p>
+                  <p class="text-sm break-all">${esc(secili.eposta)||""}${secili.telefon?(' · '+esc(secili.telefon)):''}</p></div>
+                ${secili.durum!=='İşlendi'?`
+                  ${secili.tip==='Tedarikçi'
+                    ? `<button id="sec-tedarikci" class="w-full py-2.5 bg-primary text-white font-semibold rounded-lg hover:brightness-125 transition">Tedarikçi Olarak Ekle</button>`
+                    : `<button id="sec-cevir" class="w-full py-2.5 bg-secondary text-white font-semibold rounded-lg hover:brightness-110 transition">Talebe Çevir</button>`}
+                  <button id="sec-arsivle" class="w-full py-2.5 border-2 border-secondary text-secondary font-semibold rounded-lg hover:bg-secondary/5 transition">Arşivle</button>
+                ` : `<div class="text-center text-sm text-emerald-600 font-semibold py-2">✓ İşlendi</div>`}
+                ${isAdmin()?`<button id="sec-sil" class="w-full py-1.5 text-red-600 text-sm hover:underline">Sil</button>`:""}
+              </div>`}
+          </div>
+
+          <div class="rounded-xl p-6 text-white relative overflow-hidden" style="background:#131d2e">
+            <h3 class="font-semibold mb-1">Haftalık Performans</h3>
+            <p class="text-white/60 text-sm mb-5">Son 7 günde gelen başvurular.</p>
+            <div class="flex items-end gap-2 h-24">${haftalikBars()}</div>
+            <p class="text-[10px] text-white/50 text-center mt-3">SON 7 GÜN</p>
+          </div>
+        </div>
       </div>`;
 
-    el("bsv-rows").innerHTML = list.map(b=>`
-      <tr class="border-t border-slate-100 ${b.durum==='Yeni'?'bg-amber-50/40':''}">
-        <td class="px-3 py-2 whitespace-nowrap">${fmtDate(b.created_at)}</td>
-        <td class="px-3 py-2">${esc(b.tip)}</td>
-        <td class="px-3 py-2 font-medium">${esc(b.ad_soyad)||"—"}</td>
-        <td class="px-3 py-2">${esc(b.firma)||"—"}</td>
-        <td class="px-3 py-2 text-xs">${esc(b.eposta)||""}${b.telefon?`<br>${esc(b.telefon)}`:""}</td>
-        <td class="px-3 py-2 max-w-[240px]"><div class="truncate" title="${esc(b.mesaj)||''}">${esc(b.mesaj)||"—"}</div></td>
-        <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs ${BASVURU_DURUM_RENK[b.durum]||""}">${esc(b.durum)}</span></td>
-        <td class="px-3 py-2 text-right whitespace-nowrap">
-          ${b.durum!=='İşlendi' ? (b.tip==='Tedarikçi'
-            ? `<button class="bsv-tedarikci text-xs bg-secondary hover:brightness-110 text-white px-2 py-1 rounded mr-1" data-id="${b.id}">Tedarikçi olarak ekle</button>`
-            : `<button class="bsv-cevir text-xs bg-secondary hover:brightness-110 text-white px-2 py-1 rounded mr-1" data-id="${b.id}">Talebe çevir</button>`) : ""}
-          ${isAdmin()?`<button class="bsv-sil text-slate-400 hover:text-red-600" data-id="${b.id}"><span class="ms text-base">delete</span></button>`:""}
-        </td></tr>`).join("");
+    $$(".bsv-row").forEach(r=>r.addEventListener("click", ()=>{ seciliBasvuruId=r.dataset.id; paintWebbasvuru(); }));
+    const cevirBtn = el("sec-cevir");    if(cevirBtn) cevirBtn.addEventListener("click", ()=>talebeCevir(secili));
+    const tedBtn   = el("sec-tedarikci"); if(tedBtn)   tedBtn.addEventListener("click", ()=>tedarikciyeCevir(secili));
+    const arsivBtn = el("sec-arsivle");  if(arsivBtn) arsivBtn.addEventListener("click", ()=>arsivleBasvuru(secili));
+    const silBtn   = el("sec-sil");      if(silBtn)   silBtn.addEventListener("click", ()=>silKayit("basvurular", secili.id, renderWebbasvuru));
+  }
 
-    $$(".bsv-cevir").forEach(btn=>btn.addEventListener("click", ()=>talebeCevir(list.find(x=>x.id===btn.dataset.id))));
-    $$(".bsv-tedarikci").forEach(btn=>btn.addEventListener("click", ()=>tedarikciyeCevir(list.find(x=>x.id===btn.dataset.id))));
-    $$(".bsv-sil").forEach(btn=>btn.addEventListener("click", ()=>silKayit("basvurular", btn.dataset.id, renderWebbasvuru)));
+  async function arsivleBasvuru(b){
+    if(!b) return;
+    const { error } = await api.update("basvurular", b.id, { durum:"Kapandı" });
+    if(error){ toast("Güncellenemedi: "+error.message, true); return; }
+    toast("Başvuru arşivlendi."); renderWebbasvuru();
   }
 
   async function tedarikciyeCevir(b){
