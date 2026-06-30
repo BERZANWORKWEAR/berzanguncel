@@ -679,7 +679,7 @@
   /* ======================================================================
      6) WEB BAŞVURULARI  (Stitch)
      ====================================================================== */
-  let basvuruList = []; let seciliBasvuruId = "";
+  let basvuruList = []; let seciliBasvuruId = ""; let bsvFilter = "Tümü";
   async function renderWebbasvuru(){
     const host = el("panel-webbasvuru");
     host.innerHTML = `<p class="text-on-surface-variant">Yükleniyor…</p>`;
@@ -694,8 +694,11 @@
     return say.map(n=>{ const h=Math.round(8+(n/max)*88); return `<div class="w-full ${n?'bg-secondary':'bg-secondary/20'} rounded-t" style="height:${h}%"></div>`; }).join("");
   }
   function paintWebbasvuru(){
-    const host=el("panel-webbasvuru"); const list=basvuruList;
+    const host=el("panel-webbasvuru");
+    const list = bsvFilter==="Tümü" ? basvuruList : basvuruList.filter(b=>(b.tip||"Genel")===bsvFilter);
     const bekleyen=list.filter(b=>b.durum==='Yeni').length; const islenen=list.filter(b=>b.durum!=='Yeni').length;
+    const tipSay=(tp)=>basvuruList.filter(b=>(b.tip||"Genel")===tp).length;
+    const seg=(val,n)=>{ const on=bsvFilter===val; return `<button class="bsv-filter px-4 py-2 rounded-full font-label-md text-label-md font-bold transition ${on?'bg-primary text-on-primary shadow-sm':'bg-surface-container-low text-on-surface-variant hover:bg-surface-container'}" data-f="${val}">${val} <span class="opacity-60">(${n})</span></button>`; };
     const secili=list.find(b=>b.id===seciliBasvuruId);
     host.innerHTML = `
       <div class="flex flex-wrap justify-between items-end gap-4 mb-8">
@@ -705,6 +708,13 @@
           <div class="bg-white p-4 rounded-xl card-elevation flex items-center gap-4"><div class="w-10 h-10 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center"><span class="ms">inbox</span></div><div><p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Bekleyen Başvuru</p><p class="font-stat-number text-stat-number text-primary">${bekleyen}</p></div></div>
           <div class="bg-white p-4 rounded-xl card-elevation flex items-center gap-4"><div class="w-10 h-10 bg-tertiary-fixed text-on-tertiary-fixed rounded-full flex items-center justify-center"><span class="ms">done_all</span></div><div><p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">İşlenen</p><p class="font-stat-number text-stat-number text-primary">${islenen}</p></div></div>
         </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 mb-6">
+        <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mr-1">Tür:</span>
+        ${seg('Tümü', basvuruList.length)}
+        ${seg('Müşteri', tipSay('Müşteri'))}
+        ${seg('Tedarikçi', tipSay('Tedarikçi'))}
+        ${seg('Genel', tipSay('Genel'))}
       </div>
       <div class="grid grid-cols-12 gap-6">
         <div class="col-span-12 lg:col-span-8 bg-white rounded-xl card-elevation overflow-hidden">
@@ -749,6 +759,7 @@
           </div>
         </div>
       </div>`;
+    $$(".bsv-filter").forEach(b=>b.addEventListener("click", ()=>{ bsvFilter=b.dataset.f; paintWebbasvuru(); }));
     $$(".bsv-row").forEach(r=>r.addEventListener("click", ()=>{ seciliBasvuruId=r.dataset.id; paintWebbasvuru(); }));
     const c=el("sec-cevir"); if(c) c.addEventListener("click", ()=>talebeCevir(secili));
     const td=el("sec-tedarikci"); if(td) td.addEventListener("click", ()=>tedarikciyeCevir(secili));
@@ -768,6 +779,61 @@
   async function silKayit(tablo, id, after){ if(!confirm("Bu kayıt silinsin mi?")) return; const { error } = await api.remove(tablo, id); if(error){ toast("Silinemedi: "+error.message, true); return; } toast("Silindi."); after(); }
   const renderers = { dashboard:renderDashboard, talepler:renderTalepler, tedarikciler:renderTedarikciler, teklifler:renderTeklifler, siparisler:renderSiparisler, webbasvuru:renderWebbasvuru };
 
+  /* ======================================================================
+     GLOBAL HIZLI ARAMA  (tüm panel: talep · tedarikçi · ürün · sipariş · teklif · başvuru)
+     ====================================================================== */
+  let searchTimer = null;
+  async function doGlobalSearch(q){
+    const box = el("search-results"); if(!box) return;
+    q = (q||"").trim();
+    if(q.length < 2){ box.classList.add("hide"); box.innerHTML=""; return; }
+    box.classList.remove("hide");
+    box.innerHTML = `<div class="px-4 py-3 font-body-md text-on-surface-variant flex items-center gap-2"><span class="ms text-[18px] animate-spin">progress_activity</span> Aranıyor…</div>`;
+    const [tl, td, sp, bv, tk] = await Promise.all([
+      fetchAll("talepler"), fetchAll("tedarikciler"), fetchAll("siparisler"), fetchAll("basvurular"), fetchAll("teklifler")
+    ]);
+    const ql = q.toLocaleLowerCase("tr");
+    const hit = (...vals) => vals.some(v => v!=null && String(v).toLocaleLowerCase("tr").includes(ql));
+    const R = [];
+    tl.forEach(t=>{ if(hit(t.talep_no,t.musteri,t.iletisim_kisi,t.urun_kategori,t.spesifikasyon,t.notlar,t.durum,adFromId(t.atanan)))
+      R.push({tab:"talepler",ikon:"assignment",renk:"bg-secondary-container text-on-secondary-container",tur:"Talep",
+        baslik:(t.talep_no?("#"+t.talep_no+" · "):"")+(t.musteri||t.iletisim_kisi||"—"),alt:[t.urun_kategori,t.durum].filter(Boolean).join(" · ")}); });
+    td.forEach(x=>{ if(hit(x.firma,x.kategori,x.iletisim_kisi,x.telefon,x.eposta,x.notlar))
+      R.push({tab:"tedarikciler",ikon:"inventory_2",renk:"bg-primary-fixed text-on-primary-fixed",tur:"Tedarikçi",
+        baslik:x.firma||x.iletisim_kisi||"—",alt:[x.kategori,x.iletisim_kisi].filter(Boolean).join(" · ")}); });
+    sp.forEach(o=>{ if(hit(o.siparis_no,o.musteri,o.tedarikci,o.urun,o.asama,o.musteri_odeme))
+      R.push({tab:"siparisler",ikon:"local_shipping",renk:"bg-tertiary-fixed text-on-tertiary-fixed",tur:"Sipariş",
+        baslik:(o.siparis_no?("#"+o.siparis_no+" · "):"")+(o.musteri||"—"),alt:[o.urun,o.asama].filter(Boolean).join(" · ")}); });
+    tk.forEach(t=>{ if(hit(t.tedarikci_adi,t.vade,t.notlar))
+      R.push({tab:"teklifler",ikon:"request_quote",renk:"bg-secondary-container text-on-secondary-container",tur:"Teklif",
+        baslik:t.tedarikci_adi||"Teklif",alt:[t.birim_fiyat!=null?fmtTL(t.birim_fiyat):null,t.vade].filter(Boolean).join(" · ")}); });
+    bv.forEach(b=>{ if(hit(b.ad_soyad,b.firma,b.eposta,b.telefon,b.mesaj,b.tip,b.durum))
+      R.push({tab:"webbasvuru",ikon:"web",renk:"bg-slate-200 text-slate-700",tur:"Başvuru · "+(b.tip||"?"),
+        baslik:b.ad_soyad||b.firma||"—",alt:[(b.ad_soyad&&b.firma)?b.firma:null,b.eposta].filter(Boolean).join(" · ")}); });
+
+    if(R.length===0){ box.innerHTML = `<div class="px-4 py-4 font-body-md text-on-surface-variant">“<b>${esc(q)}</b>” için panelde sonuç bulunamadı.</div>`; return; }
+    box.innerHTML =
+      `<div class="px-4 py-2 font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant border-b border-outline-variant bg-surface-container-low sticky top-0">${R.length} sonuç</div>` +
+      R.slice(0,40).map(r=>`
+        <button class="search-hit w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-surface-container-low transition border-b border-outline-variant/40" data-tab="${r.tab}">
+          <div class="w-9 h-9 rounded-full ${r.renk} flex items-center justify-center shrink-0"><span class="ms text-[18px]">${r.ikon}</span></div>
+          <div class="min-w-0 flex-1"><p class="font-body-md text-primary font-medium truncate">${esc(r.baslik)}</p>${r.alt?`<p class="text-[12px] text-on-surface-variant truncate">${esc(r.alt)}</p>`:""}</div>
+          <span class="font-label-md text-[10px] uppercase tracking-wider text-on-surface-variant shrink-0">${esc(r.tur)}</span>
+        </button>`).join("") +
+      (R.length>40?`<div class="px-4 py-2 text-[11px] text-on-surface-variant text-center">…ilk 40 sonuç gösteriliyor</div>`:"");
+    $$(".search-hit", box).forEach(btn=>btn.addEventListener("click", ()=>{
+      box.classList.add("hide"); const gi=el("global-search"); if(gi) gi.value="";
+      switchTab(btn.dataset.tab);
+    }));
+  }
+  function wireSearch(){
+    const gs = el("global-search"); const box = el("search-results"); if(!gs||!box) return;
+    gs.addEventListener("input", ()=>{ const v=gs.value; clearTimeout(searchTimer); searchTimer=setTimeout(()=>doGlobalSearch(v), 280); });
+    gs.addEventListener("focus", ()=>{ if(gs.value.trim().length>=2) doGlobalSearch(gs.value); });
+    gs.addEventListener("keydown", (e)=>{ if(e.key==="Escape"){ box.classList.add("hide"); gs.blur(); } });
+    document.addEventListener("click", (e)=>{ if(!box.contains(e.target) && e.target!==gs) box.classList.add("hide"); });
+  }
+
   /* ---- Başlatma ---- */
   function init(){
     el("login-form").addEventListener("submit", doLogin);
@@ -776,6 +842,7 @@
     const st=el("sidebar-toggle"); if(st) st.addEventListener("click", openSidebar);
     const so=el("sidebar-overlay"); if(so) so.addEventListener("click", closeSidebar);
     const ty=el("topbar-yeni"); if(ty) ty.addEventListener("click", ()=>{ switchTab("talepler"); talepForm(); });
+    wireSearch();
     if(!configured){ el("config-warn").classList.remove("hide"); return; }
     sb.auth.getSession().then(({data})=>{ if(data.session) onAuthed(); });
   }
