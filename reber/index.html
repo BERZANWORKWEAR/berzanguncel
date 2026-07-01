@@ -113,10 +113,14 @@
       <nav class="flex-1 space-y-1 px-3">
         <button data-tab="dashboard"    class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">dashboard</span><span class="font-label-md text-label-md">Gösterge Paneli</span></button>
         <button data-tab="talepler"     class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">assignment</span><span class="font-label-md text-label-md">Talep Takip</span></button>
+        <button data-tab="musteriler"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">groups</span><span class="font-label-md text-label-md">Müşteriler</span></button>
         <button data-tab="tedarikciler" class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">inventory_2</span><span class="font-label-md text-label-md">Tedarikçiler</span></button>
         <button data-tab="teklifler"    class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">request_quote</span><span class="font-label-md text-label-md">Teklif &amp; Fiyatlandırma</span></button>
         <button data-tab="siparisler"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">local_shipping</span><span class="font-label-md text-label-md">Sipariş Takibi</span></button>
         <button data-tab="webbasvuru"   class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">web</span><span class="font-label-md text-label-md">Web Başvuruları</span></button>
+        <button data-tab="raporlar"     class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">insights</span><span class="font-label-md text-label-md">Raporlar</span></button>
+        <button data-tab="urunler"      class="tab-btn w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">category</span><span class="font-label-md text-label-md">Ürün Kataloğu</span></button>
+        <button data-tab="kullanicilar" class="tab-btn admin-only w-full text-left flex items-center gap-3 px-4 py-3 border-l-4 border-transparent text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors"><span class="ms">manage_accounts</span><span class="font-label-md text-label-md">Kullanıcılar</span></button>
       </nav>
       <div class="mt-auto px-3">
         <button id="logout-btn" class="w-full text-left flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-white/5 rounded-lg transition-colors"><span class="ms">logout</span><span class="font-label-md text-label-md">Çıkış</span></button>
@@ -135,8 +139,15 @@
             <div id="search-results" class="hide absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-outline-variant max-h-[70vh] overflow-y-auto z-50"></div>
           </div>
         </div>
-        <div class="flex items-center gap-4">
-          <button id="topbar-yeni" class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:brightness-125 transition"><span class="ms text-[18px]">add</span> Yeni Talep</button>
+        <div class="flex items-center gap-3">
+          <button id="topbar-yeni" class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:brightness-125 transition"><span class="ms text-[18px]">add</span> <span class="hidden sm:inline">Yeni Talep</span></button>
+          <div class="relative">
+            <button id="bell-btn" class="relative w-10 h-10 rounded-full hover:bg-surface-container-low flex items-center justify-center text-on-surface-variant" aria-label="Bildirimler">
+              <span class="ms">notifications</span>
+              <span id="bell-badge" class="hide absolute top-0.5 right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-error text-white text-[10px] font-bold flex items-center justify-center"></span>
+            </button>
+            <div id="bell-panel" class="hide absolute right-0 top-full mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-xl shadow-2xl border border-outline-variant max-h-[70vh] overflow-y-auto z-50"></div>
+          </div>
           <div class="flex items-center gap-3 pl-2 border-l border-outline-variant">
             <span class="w-10 h-10 rounded-full bg-secondary/15 text-secondary flex items-center justify-center border-2 border-secondary/30"><span class="ms">person</span></span>
             <span id="current-user" class="text-label-md text-on-surface hidden sm:inline"></span>
@@ -147,10 +158,14 @@
       <div class="p-4 md:p-container-padding flex-1 bg-[#F1F5F9]">
         <div id="panel-dashboard"   class="panel"></div>
         <div id="panel-talepler"    class="panel hide"></div>
+        <div id="panel-musteriler"  class="panel hide"></div>
         <div id="panel-tedarikciler" class="panel hide"></div>
         <div id="panel-teklifler"   class="panel hide"></div>
         <div id="panel-siparisler"  class="panel hide"></div>
         <div id="panel-webbasvuru"  class="panel hide"></div>
+        <div id="panel-raporlar"    class="panel hide"></div>
+        <div id="panel-urunler"     class="panel hide"></div>
+        <div id="panel-kullanicilar" class="panel hide"></div>
       </div>
     </main>
   </div>
@@ -170,7 +185,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-  <script src="./config.js?v=4"></script>
-  <script src="./app.js?v=4"></script>
+  <script src="./config.js?v=5"></script>
+  <script src="./app.js?v=5"></script>
 </body>
 </html>
